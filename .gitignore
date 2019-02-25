@@ -1,0 +1,14 @@
+
+*.log
+.metadata/.lock
+.metadata/.plugins/*
+
+*.zip
+*.json
+.recommenders/index/http___download_eclipse_org_recommenders_models_photon_/*
+
+*.ini
+sgnt/mvnw
+*.cmd
+*.jar
+sgnt/.mvn/wrapper/maven-wrapper.jar
