@@ -2,7 +2,6 @@ package br.com.sgnt.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -28,10 +27,12 @@ public class Municipio {
 	// utilizá-los, mas é óbvio que você só
 	// utilizará esta técnica se de fato você for precisar com muita frequência dos
 	// dados carregados.
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "ID_ARLC", insertable = true, updatable = true, referencedColumnName = "ID_ARLC")
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "ID_ARLC", insertable = true, updatable = true, referencedColumnName = "ID_ARLC")
+	@ManyToOne
+	@JoinColumn(name="ID_ARLC")
 	private AreaLocal areaLocal;
-
+	
 	public Integer getIdMunicipio() {
 		return idMunicipio;
 	}
