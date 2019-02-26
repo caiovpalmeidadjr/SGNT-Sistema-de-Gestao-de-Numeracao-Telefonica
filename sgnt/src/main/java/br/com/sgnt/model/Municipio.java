@@ -17,10 +17,10 @@ public class Municipio {
 	@Column(name = "ID_MUNI")
 	private Integer idMunicipio;
 
-	@Column(name = "SIGL_MUNI")
+	@Column(name = "SIGLA")
 	private String siglaMunicipio;
 
-	@Column(name = "NOME_MUNI")
+	@Column(name = "NOME")
 	private String nomeMunicipio;
 
 	// Lazy Loading, o Eager Loading carrega os dados mesmo que você não vá

@@ -15,19 +15,19 @@ public class AreaLocal {
 	@Column(name = "ID_ARLO")
 	private Integer idAreaLocal;
 
-	@Column(name = "SIGL_ARLO")
+	@Column(name = "SIGLA")
 	private String siglaAreaLocal;
 
-	@Column(name = "NOME_ARLO")
+	@Column(name = "NOMEA")
 	private String nomeAreaLocal;
 
-	@Column(name = "UF_ARLO")
+	@Column(name = "UF")
 	private String ufAreaLocal;
 
-	@Column(name = "CN_ARLO")
+	@Column(name = "CN")
 	private Integer cnAreaLocal;
 
-	@Column(name = "NUAT_ARLO")
+	@Column(name = "NUMATENDIMENTO")
 	private Integer numAtendimentoAreaLocal;
 
 	public Integer getIdAreaLocal() {

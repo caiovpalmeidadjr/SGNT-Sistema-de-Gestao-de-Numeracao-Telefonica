@@ -15,16 +15,16 @@ public class Cliente {
 	@Column(name = "ID_CLIE")
 	private Integer idCliente;
 
-	@Column(name = "NOME_CLIE")
+	@Column(name = "NOME")
 	private String nomeClie;
 
-	@Column(name = "LOGR_CLIE")
+	@Column(name = "LOGRADOURO")
 	private String logradouroClie;
 
-	@Column(name = "MUNI_CLIE")
+	@Column(name = "MUNICIPIO")
 	private String municipioClie;
 
-	@Column(name = "CEP_CLIE")
+	@Column(name = "CEP")
 	private String cepClie;
 
 	public Integer getIdCliente() {

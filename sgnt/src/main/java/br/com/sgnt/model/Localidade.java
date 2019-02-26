@@ -18,10 +18,10 @@ public class Localidade {
 	@Column(name = "CNL_LOCA")
 	private Integer cnlLocalidade;
 
-	@Column(name = "SIGL_LOCA")
+	@Column(name = "SIGLA")
 	private String siglaLocalidade;
 
-	@Column(name = "NOME_LOCA")
+	@Column(name = "NOME")
 	private String nomeLocalidade;
 
 	// Lazy Loading, o Eager Loading carrega os dados mesmo que você não vá
