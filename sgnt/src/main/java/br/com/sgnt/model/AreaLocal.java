@@ -18,7 +18,7 @@ public class AreaLocal {
 	@Column(name = "SIGLA")
 	private String siglaAreaLocal;
 
-	@Column(name = "NOMEA")
+	@Column(name = "NOME")
 	private String nomeAreaLocal;
 
 	@Column(name = "UF")

@@ -1,9 +1,14 @@
 package br.com.sgnt.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,17 +23,17 @@ public class Usuario {
 	@Column(name = "NOME")
 	private String nome;
 
-	@Column(name = "ID_FUNC")
-	private Funcionario funcionario;
-
 	@Column(name = "EMAIL")
 	private String email;
 
-	@Column(name = "USER")
+	@Column(name = "USERNAME")
 	private String userName;
 
 	@Column(name = "PASSWORD")
 	private String senha;
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Perfil> listPerfil;
 
 	public Integer getIdUsuario() {
 		return idUsuario;
@@ -44,14 +49,6 @@ public class Usuario {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
 	}
 
 	public String getEmail() {
@@ -78,13 +75,21 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	public List<Perfil> getListPerfil() {
+		return listPerfil;
+	}
+
+	public void setListPerfil(List<Perfil> listPerfil) {
+		this.listPerfil = listPerfil;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((funcionario == null) ? 0 : funcionario.hashCode());
 		result = prime * result + ((idUsuario == null) ? 0 : idUsuario.hashCode());
+		result = prime * result + ((listPerfil == null) ? 0 : listPerfil.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
@@ -105,15 +110,15 @@ public class Usuario {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (funcionario == null) {
-			if (other.funcionario != null)
-				return false;
-		} else if (!funcionario.equals(other.funcionario))
-			return false;
 		if (idUsuario == null) {
 			if (other.idUsuario != null)
 				return false;
 		} else if (!idUsuario.equals(other.idUsuario))
+			return false;
+		if (listPerfil == null) {
+			if (other.listPerfil != null)
+				return false;
+		} else if (!listPerfil.equals(other.listPerfil))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
@@ -135,8 +140,8 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [idUsuario=" + idUsuario + ", nome=" + nome + ", funcionario=" + funcionario + ", email="
-				+ email + ", userName=" + userName + ", senha=" + senha + "]";
+		return "Usuario [idUsuario=" + idUsuario + ", nome=" + nome + ", email=" + email + ", userName=" + userName
+				+ ", senha=" + senha + ", listPerfil=" + listPerfil + "]";
 	}
 
 }

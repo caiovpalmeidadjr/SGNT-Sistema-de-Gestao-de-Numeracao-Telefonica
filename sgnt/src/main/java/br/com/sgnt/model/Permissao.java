@@ -2,8 +2,11 @@ package br.com.sgnt.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +20,10 @@ public class Permissao {
 
 	@Column(name = "NOME")
 	private String nome;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ID_PERF", insertable = false, updatable = false, referencedColumnName = "ID_PERF")
+	private Perfil perfil;
 
 	public Integer getIdPermissao() {
 		return idPermissao;
@@ -34,12 +41,21 @@ public class Permissao {
 		this.nome = nome;
 	}
 
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((idPermissao == null) ? 0 : idPermissao.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((perfil == null) ? 0 : perfil.hashCode());
 		return result;
 	}
 
@@ -62,12 +78,17 @@ public class Permissao {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
+		if (perfil == null) {
+			if (other.perfil != null)
+				return false;
+		} else if (!perfil.equals(other.perfil))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Permissao [idPermissao=" + idPermissao + ", nome=" + nome + "]";
+		return "Permissao [idPermissao=" + idPermissao + ", nome=" + nome + ", perfil=" + perfil + "]";
 	}
 
 }

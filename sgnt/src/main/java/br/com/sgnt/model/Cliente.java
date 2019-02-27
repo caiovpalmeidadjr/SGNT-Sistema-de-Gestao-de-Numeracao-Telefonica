@@ -27,6 +27,18 @@ public class Cliente {
 	@Column(name = "CEP")
 	private String cepClie;
 
+	@Column(name = "EMAIL")
+	private String email;
+
+	public Cliente() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Cliente(String nome, String email) {
+		this.nomeClie = nome;
+		this.email = email;
+	}
+
 	public Integer getIdCliente() {
 		return idCliente;
 	}
@@ -67,11 +79,20 @@ public class Cliente {
 		this.cepClie = cepClie;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cepClie == null) ? 0 : cepClie.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((idCliente == null) ? 0 : idCliente.hashCode());
 		result = prime * result + ((logradouroClie == null) ? 0 : logradouroClie.hashCode());
 		result = prime * result + ((municipioClie == null) ? 0 : municipioClie.hashCode());
@@ -92,6 +113,11 @@ public class Cliente {
 			if (other.cepClie != null)
 				return false;
 		} else if (!cepClie.equals(other.cepClie))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
 			return false;
 		if (idCliente == null) {
 			if (other.idCliente != null)
@@ -119,7 +145,7 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return "Cliente [idCliente=" + idCliente + ", nomeClie=" + nomeClie + ", logradouroClie=" + logradouroClie
-				+ ", municipioClie=" + municipioClie + ", cepClie=" + cepClie + "]";
+				+ ", municipioClie=" + municipioClie + ", cepClie=" + cepClie + ", email=" + email + "]";
 	}
 
 }
