@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -51,6 +52,10 @@ public class Funcionario {
 
 	@Column(name = "ATIVO")
 	private boolean ativo;
+	
+	@OneToOne
+	@Column(name="ID_USUA") 
+	private Usuario usuario;
 
 	public Integer getMatriculaFunc() {
 		return matriculaFunc;
