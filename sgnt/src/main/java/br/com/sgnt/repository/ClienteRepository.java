@@ -13,6 +13,7 @@ import br.com.sgnt.model.Cliente;
 @Repository // a partir dessa anotação essa class vira um bean do spring, objeto construido pelo spring 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 	
-	
+	@Query("select c from Cliente c where c.email=:email")
+	public Cliente buscarPorEmail(@Param("email")String email);
 
 }
