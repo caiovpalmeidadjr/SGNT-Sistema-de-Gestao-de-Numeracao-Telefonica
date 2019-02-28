@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,10 +48,31 @@ public class TestClienteRepository  {
 	public void testBuscarPorEmail() {
 		Cliente cli = new Cliente("Caio","caio@caio.com");
 		clienteRepository.save(cli);
+		
+		//usando o manager pois o buscar por e-mail não pode ter dependencia de um metodo para funcionar o outro, por isso usamos o entity para salvar
 		entity.persist(cli);
 		
 		Cliente cliEncontrado = clienteRepository.buscarPorEmail("caio@caio.com");
 		assertThat(cliEncontrado.getNomeClie().equals(cli.getNomeClie()));
+	}
+	
+	@Test
+	public void testBuscarTodos() {
+		Cliente cli = new Cliente("Caio","caio@caio.com");
+		
+		Cliente cli2 = new Cliente("Caio000","caio@caio000.com");
+		
+		entity.persist(cli2);
+		
+		entity.persist(cli);
+		
+		List<Cliente> listCliente = clienteRepository.listCliente();
+		
+		assertThat(listCliente.get(0).getNomeClie().equals(cli.getNomeClie()));
+		
+		assertThat(listCliente.get(1).getNomeClie().equals(cli2.getNomeClie()));
+		
+		//aula 3 parte 2 minuto 5:15
 	}
 	
 }

@@ -15,5 +15,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 	
 	@Query("select c from Cliente c where c.email=:email")
 	public Cliente buscarPorEmail(@Param("email")String email);
-
+	
+	@Query("select c from Cliente c")
+	public List<Cliente> listCliente();
 }
