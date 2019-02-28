@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,11 +26,7 @@ public class Perfil {
 	@Column(name = "NOME")
 	private String nome;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "ID_USUA", insertable = false, updatable = false, referencedColumnName = "ID_USUA")
-	private Usuario usuario;
-
-	@OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity=Permissao.class)
 	private List<Permissao> listPermissao;
 
 	public Integer getIdPerfil() {
@@ -48,14 +45,6 @@ public class Perfil {
 		this.nome = nome;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
 	public List<Permissao> getListPermissao() {
 		return listPermissao;
 	}
@@ -71,7 +60,6 @@ public class Perfil {
 		result = prime * result + ((idPerfil == null) ? 0 : idPerfil.hashCode());
 		result = prime * result + ((listPermissao == null) ? 0 : listPermissao.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 
@@ -99,17 +87,12 @@ public class Perfil {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (usuario == null) {
-			if (other.usuario != null)
-				return false;
-		} else if (!usuario.equals(other.usuario))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Perfil [idPerfil=" + idPerfil + ", nome=" + nome + ", usuario=" + usuario + ", listPermissao="
+		return "Perfil [idPerfil=" + idPerfil + ", nome=" + nome + ", listPermissao="
 				+ listPermissao + "]";
 	}
 

@@ -54,7 +54,6 @@ public class Funcionario {
 	private boolean ativo;
 	
 	@OneToOne
-	@Column(name="ID_USUA") 
 	private Usuario usuario;
 
 	public Integer getMatriculaFunc() {
