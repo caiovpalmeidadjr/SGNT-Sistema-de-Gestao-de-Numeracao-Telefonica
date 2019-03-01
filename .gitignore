@@ -12,3 +12,4 @@ sgnt/mvnw
 *.cmd
 *.jar
 sgnt/.mvn/wrapper/maven-wrapper.jar
+sgnt/.tern-project
