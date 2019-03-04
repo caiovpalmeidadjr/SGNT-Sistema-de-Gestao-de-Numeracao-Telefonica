@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<head>
+  <meta charset="utf-8"/>
+  <title>SGNT - Login</title>
+  <link rel="stylesheet" type="text/css" href="login.css"/>
+</head>
+<body>
+
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Login -->
+      <h:form id="formLogin">
+        <h:inputText id="login" styleClass="fadeIn second" p:placeholder="Usuário"/>
+        <h:inputSecret id="password" styleClass="fadeIn third" p:placeholder="Senha"/>
+        <h:commandButton id="botaoLogar" styleClass="" value="LOGIN"/>        
+      </h:form>
+      
+      <!-- Lembrar Senha -->
+      <div id="formFooter">
+      	<h:outputLink styleClass="underlineHover" value="#">Esqueci minha senha</h:outputLink>
+      	
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
