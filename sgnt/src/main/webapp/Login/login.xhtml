@@ -3,21 +3,24 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
-<head>
+      xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
   <meta charset="utf-8"/>
   <title>SGNT - Login</title>
   <link rel="stylesheet" type="text/css" href="login.css"/>
-</head>
+  
+</h:head>
 <body>
 
   <div class="wrapper fadeInDown">
     <div id="formContent">
       <!-- Login -->
+      <p:messages id="messages"></p:messages>
       <h:form id="formLogin">
-        <h:inputText id="login" styleClass="fadeIn second" p:placeholder="Usuário"/>
-        <h:inputSecret id="password" styleClass="fadeIn third" p:placeholder="Senha"/>
-        <h:commandButton id="botaoLogar" styleClass="" value="LOGIN"/>        
+        <h:inputText id="login" styleClass="fadeIn second" u:placeholder="Usuário" value="#{usuarioController.usuario.userName}"/>
+        <h:inputSecret id="password" styleClass="fadeIn third" u:placeholder="Senha" value="#{usuarioController.usuario.senha}"/>
+        <h:commandButton id="botaoLogar" styleClass="" value="LOGAR" action="#{usuarioController.testarAcesso}"/>        
       </h:form>
       
       <!-- Lembrar Senha -->
