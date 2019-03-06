@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+	<title>USUARIO</title>
+</h:head>
+
+<h:body>
+
+	<div class="topo">
+		<div class="BotaoHome">
+			<ul>
+				<li>
+				<a href="../Login/index.xhtml" style="text-decoration: none; color: white;"> MENU </a>
+				</li>
+			</ul>
+		</div>
+		<div class="nomesis">
+			<b>SGNT - Sistema de Gestão de Numeração Telefônica</b>
+		</div>
+	</div>
+	<br />
+
+	<div class="subtopo" style="">
+		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock pattern="dd/MM/yyyy" /></b>
+			<div class="nomePagina">CADASTRAR USUÁRIO</div>
+	</div>
+	<br />
+
+	<div class="linha"
+		style="margin: auto; width: 89%; height: 2px; background-color: gray;">
+	</div>
+	<br />
+
+
+
+	<div class="container">
+
+		<div class=""
+			style="width: 300px; height: 100%; text-align: left; padding-top: 5px; padding-bottom: 5px; float: left;">
+			<h4>Dados do Funcionário:</h4>
+			<br />
+			<h:form>
+				<h:outputLabel id="lblMatricula" value="Matricula: " />
+				<br />
+				<p:inputText id="textMatricula" />
+				<br />
+
+				<h:outputLabel id="lblNome" value="Nome: " />
+				<br />
+				<p:inputText id="textNome" />
+				<br />
+
+				<h:outputLabel id="lblTelefone" value="Telefone: " />
+				<br />
+				<p:inputText id="textTelefone" />
+				<br />
+
+				<h:outputLabel id="lblCargo" value="Cargo: " />
+				<br />
+				<p:inputText id="textCargo" />
+				<br />
+
+				<h:outputLabel id="lblDtAdmissao" for="dtAdmissaoButton"
+					value="Data Admissão: " />
+				<br />
+				<p:calendar id="dtAdmissaoButton" value="#{calendarView.date3}"
+					showOn="button" />
+				<br />
+
+				<h:outputLabel id="lblDtNascimento" for="dtNascimentoButton"
+					value="Data Nascimento: " />
+				<br />
+				<p:calendar id="dtNascimentoButton" value="#{calendarView.date3}"
+					showOn="button" />
+				<br />
+				<br />
+
+				<h:outputLabel id="lblRG" value="RG: " />
+				<br />
+				<p:inputText id="textRG" />
+				<br />
+
+				<h:outputLabel id="lblCPF" value="CPF: " />
+				<br />
+				<p:inputText id="textCPF" />
+				<br />
+
+			</h:form>
+		</div>
+
+		<div class=""
+			style="width: 350px; height: 100%; text-align: left; padding-top: 5px; padding-bottom: 5px; float: right;">
+			<h:form>
+				<h4>Dados do Usuário:</h4>
+				<h:outputLabel id="lblEmail" value="Email: " />
+				<br />
+				<p:inputText id="textEmail" />
+				<br />
+
+				<h:outputLabel id="lblUsername" value="Username: " />
+				<br />
+				<p:inputText id="textUsername" />
+				<br />
+
+				<h:outputLabel id="lblSenha" value="Senha Inicial: " />
+				<br />
+				<p:inputText id="textSenha" />
+				<br />
+
+				<h:outputLabel id="lblPeril" value="Perfil: " />
+				<br />
+				<h:panelGrid columns="2"
+					style="margin-bottom:10px; font-size: 12px;" cellpadding="0">
+					<p:selectOneMenu id="console" value="#{selectOneMenuView.console}"
+						style="width:125px">
+						<f:selectItem itemLabel="Tipo" itemValue="" />
+						<f:selectItem itemLabel="Gerente Contas" itemValue="GerenteContas" />
+						<f:selectItem itemLabel="Adm Numeração" itemValue="AdmNumeracao" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+
+				<i class="pi pi-home"></i>
+
+			</h:form>
+		</div>
+
+	</div>
+
+
+	<div class="rodape">
+		<div class="nomesis" id="textoRodape">
+			<b>SGNT - Todos os direitos reservados.</b>
+		</div>
+	</div>
+
+</h:body>
+</html>

@@ -3,7 +3,9 @@
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ *Alterado por andre
  */
+ 
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -72,6 +74,54 @@ html {
 .nomesis {
 	text-align: center;
 	color: white;	
+}
+
+.BotaoHome {
+	float: right;
+}
+
+.BotaoHome ul,
+.BotaoHome li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.BotaoHome li, .linkMenu {
+	float: left;
+	padding-right: 100px;
+	padding-left: 10px;
+	cursor: pointer;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;	
+}
+
+.BotaoHome li:hover {
+	color: #ECE7E6;
+}
+
+.funcionarioDiv {
+	width: 300px;
+	height: 100%;
+	text-align: left;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	float: left	
+}
+
+.usuarioDiv {
+	width: 350px;
+	height: 100%;
+	text-align: left;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	float: right;
+	
+}
+
+.nomePagina {
+	margin: auto; width: 100%; text-align: center; font-weight: bold; font-size: 24px;
 }
 
 #textoRodape {

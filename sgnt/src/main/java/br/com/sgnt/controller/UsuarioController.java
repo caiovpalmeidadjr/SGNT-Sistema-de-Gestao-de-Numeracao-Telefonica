@@ -45,7 +45,7 @@ public class UsuarioController implements Serializable {
 			permissaoUsuario = usuarioRepository.buscaPorUsername(usuario.getUserName());
 			
 			if(permissaoUsuario.getUserName().equals(usuario.getUserName()) && permissaoUsuario.getSenha().equals(usuario.getSenha())) {
-				return "index";
+				return "index?faces-redirect=true";
 			} else if (permissaoUsuario.getUserName().equals(usuario.getUserName()) && usuario.getSenha()=="") {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Informe a senha", "Erro no login"));
 			} else if (permissaoUsuario.getUserName().equals(usuario.getUserName()) && !permissaoUsuario.getSenha().equals(usuario.getSenha())) {

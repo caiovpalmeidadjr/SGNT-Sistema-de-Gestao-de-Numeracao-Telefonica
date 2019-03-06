@@ -1,30 +1,33 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 
-	<meta charset="utf-8"/>
+	<meta charset="utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<link rel="stylesheet" type="text/css" href="bootstrap.css" />
+	<h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+	
 </h:head>
 
 <h:body>
 
-	<div class="topo"
-		style="margin: auto; width: 90%; background: #607d8b; padding: 20px;">
-		<div class="nomesis" style="color: white;">
+	<div class="topo">
+		<div class="nomesis">
 			<b>SGNT - Sistema de Gestão de Numeração Telefônica</b>
 		</div>
 	</div>
 	<br />
 
 	<div class="subtopo" style="">
-		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><h:outputText value="#{now}"><f:convertDateTime pattern="dd/MM/yyyy" typer="date"></f:convertDateTime>  </h:outputText>  </b>
+		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><h:outputText
+				value="#{now}">
+				<f:convertDateTime pattern="dd/MM/yyyy" typer="date"></f:convertDateTime>
+			</h:outputText> </b>
 	</div>
 	<br />
 
@@ -37,52 +40,63 @@
 
 	<div class="container">
 
-
 		<div class="dropdown btn-group">
-			<button class="btn btn-secundary dropdown-toggle"
-				data-toggle="dropdown">Numeração STFC Corporativa</button>
+			<h:form>
+				<p:growl id="messages" showDetail="true" />
+				<p:menuButton value="Numeração STFC Corporativa">
 
-			<div class="dropdown-menu">
-				<a class="dropdown-item" href="">Consultar</a> <a
-					class="dropdown-item" href="">Reservar</a> <a class="dropdown-item"
-					href="">Alterar Reserva</a> <a class="dropdown-item" href="">Cancelar
-					Reserva</a> <a class="dropdown-item" href="">Cadastrar Numeração</a>
-			</div>
+					<p:menuitem value="Consultar" />
+					<p:menuitem value="Reservar" />
+					<p:menuitem value="Alterar Reserva" />
+					<p:menuitem value="Cancelar Reserva" />
+					<p:menuitem value="Cadastrar Numeração" />
+
+				</p:menuButton>
+			</h:form>
+
 		</div>
 
 		<div class="dropdown btn-group">
-			<button class="btn btn-secundary dropdown-toggle"
-				data-toggle="dropdown">Numeração STFC Residencial</button>
+			<h:form>
+				<p:growl id="messages" showDetail="true" />
+				<p:menuButton value="Numeração STFC Residencial">
 
-			<div class="dropdown-menu">
-				<a class="dropdown-item" href="">Consultar</a> <a
-					class="dropdown-item" href="">Reservar</a> <a class="dropdown-item"
-					href="">Alterar Reserva</a> <a class="dropdown-item" href="">Cancelar
-					Reserva</a> <a class="dropdown-item" href="">Cadastrar Numeração</a>
-			</div>
+					<p:menuitem value="Consultar" />
+					<p:menuitem value="Reservar" />
+					<p:menuitem value="Alterar Reserva" />
+					<p:menuitem value="Cancelar Reserva" />
+					<p:menuitem value="Cadastrar Numeração" />
+
+				</p:menuButton>
+			</h:form>
 		</div>
 
 		<div class="dropdown btn-group">
-			<button class="btn btn-secundary dropdown-toggle"
-				data-toggle="dropdown">CNG (Código Não Geográfico)</button>
+			<h:form>
+				<p:growl id="messages" showDetail="true" />
+				<p:menuButton value="CNG (Código Não Geográfico)">
 
-			<div class="dropdown-menu">
-				<a class="dropdown-item" href="">Consultar</a> <a
-					class="dropdown-item" href="">Reservar</a> <a class="dropdown-item"
-					href="">Alterar Reserva</a> <a class="dropdown-item" href="">Cancelar
-					Reserva</a> <a class="dropdown-item" href="">Cadastrar Numeração</a>
-			</div>
+					<p:menuitem value="Consultar" />
+					<p:menuitem value="Reservar" />
+					<p:menuitem value="Alterar Reserva" />
+					<p:menuitem value="Cancelar Reserva" />
+					<p:menuitem value="Cadastrar Numeração" />
+
+				</p:menuButton>
+			</h:form>
 		</div>
 
 		<div class="dropdown btn-group">
-			<button class="btn btn-secundary dropdown-toggle"
-				data-toggle="dropdown">Relatórios</button>
+			<h:form styleClass="inlineBlockHack">
 
-			<div class="dropdown-menu">
-				<a class="dropdown-item" href="">STFC Corporativo</a> <a
-					class="dropdown-item" href="">STFC Residencial</a> <a
-					class="dropdown-item" href="">CNG</a>
-			</div>
+				<p:menuButton styleClass="inlineBlockHack" value="Relatórios">
+
+					<p:menuitem styleClass="inlineBlockHack" value="STFC Corporativo" />
+					<p:menuitem styleClass="inlineBlockHack " value="STFC Residencial" />
+					<p:menuitem styleClass="inlineBlockHack" value="CNG" />
+
+				</p:menuButton>
+			</h:form>
 		</div>
 
 	</div>
@@ -104,14 +118,11 @@
 	<br />
 	<br />
 
-	<div class="topo"
-		style="margin: auto; width: 90%; background: #607d8b; padding: 10px;">
-		<div class="nomesis" style="text-align: center; color: white;">
+	<div class="rodape">
+		<div class="nomesis" id="textoRodape">
 			<b>SGNT - Todos os direitos reservados.</b>
 		</div>
 	</div>
 
-	<script type="text/javascript" src="jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="bootstrap.bundle.js"></script>
 </h:body>
 </html>
