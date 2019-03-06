@@ -1,5 +1,6 @@
 package br.com.sgnt.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
@@ -9,9 +10,7 @@ import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.sgnt.model.Cliente;
 import br.com.sgnt.model.Usuario;
-import br.com.sgnt.repository.ClienteRepository;
 import br.com.sgnt.repository.UsuarioRepository;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
@@ -29,6 +28,35 @@ public class UsuarioController implements Serializable {
 
 	private Usuario usuario = new Usuario();
 
+	public String envia() {
+
+		usuario = usuarioRepository.getUsuario(usuario.getUserName(), usuario.getSenha());
+		if (usuario == null) {
+			usuario = new Usuario();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não encontrado!", "Erro no Login!"));
+			return null;
+		} else {
+			
+			try {
+				//redirecionando para a tela index.xhtml
+				redirecionar();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return null;
+			
+			
+		}
+
+	}
+	
+	public void redirecionar() throws IOException {
+		
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/Login/index.xhtml");  
+	}
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -36,32 +64,37 @@ public class UsuarioController implements Serializable {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
 	public void cadastrar() {
 		usuarioRepository.save(usuario);
 	}
-	
+
 	public String testarAcesso() {
-		
+
 		Usuario permissaoUsuario = new Usuario();
-		
+
 		try {
 			permissaoUsuario = usuarioRepository.buscaPorUsername(usuario.getUserName());
-			
-			if(permissaoUsuario.getUserName().equals(usuario.getUserName()) && permissaoUsuario.getSenha().equals(usuario.getSenha())) {
+
+			if (permissaoUsuario.getUserName().equals(usuario.getUserName())
+					&& permissaoUsuario.getSenha().equals(usuario.getSenha())) {
 				return "index?faces-redirect=true";
-			} else if (permissaoUsuario.getUserName().equals(usuario.getUserName()) && usuario.getSenha()=="") {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Informe a senha", "Erro no login"));
-			} else if (permissaoUsuario.getUserName().equals(usuario.getUserName()) && !permissaoUsuario.getSenha().equals(usuario.getSenha())) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Senha incorreta", "Erro no login"));
+			} else if (permissaoUsuario.getUserName().equals(usuario.getUserName()) && usuario.getSenha() == "") {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Informe a senha", "Erro no login"));
+			} else if (permissaoUsuario.getUserName().equals(usuario.getUserName())
+					&& !permissaoUsuario.getSenha().equals(usuario.getSenha())) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Senha incorreta", "Erro no login"));
 			}
-						
+
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario não encontrado", "Erro no Login"));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario não encontrado", "Erro no Login"));
 			e.printStackTrace();
 		}
-		
+
 		return "";
 	}
-	
+
 }

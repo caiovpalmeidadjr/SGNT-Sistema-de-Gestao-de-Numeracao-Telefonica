@@ -20,7 +20,7 @@
       <h:form id="formLogin">
         <h:inputText id="login" styleClass="fadeIn second" u:placeholder="Usuário" value="#{usuarioController.usuario.userName}"/>
         <h:inputSecret id="password" styleClass="fadeIn third" u:placeholder="Senha" value="#{usuarioController.usuario.senha}"/>
-        <h:commandButton id="botaoLogar" styleClass="" value="LOGAR" action="#{usuarioController.testarAcesso}"/>        
+        <h:commandButton id="botaoLogar" styleClass="" value="LOGAR" action="#{usuarioController.envia}"/>        
       </h:form>
       
       <!-- Lembrar Senha -->
