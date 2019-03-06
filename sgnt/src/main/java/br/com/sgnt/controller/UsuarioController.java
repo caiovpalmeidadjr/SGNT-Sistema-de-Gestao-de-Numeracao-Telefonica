@@ -36,7 +36,11 @@ public class UsuarioController implements Serializable {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
+	
+	public void cadastrar() {
+		usuarioRepository.save(usuario);
+	}
+	
 	public String testarAcesso() {
 		
 		Usuario permissaoUsuario = new Usuario();

@@ -19,8 +19,7 @@
 	<div class="topo">
 		<div class="BotaoHome">
 			<ul>
-				<li>
-				<a href="../Login/index.xhtml" style="text-decoration: none; color: white;"> MENU </a>
+				<li><a href="../Login/index.xhtml" class="linkMenu"> MENU </a>
 				</li>
 			</ul>
 		</div>
@@ -31,8 +30,9 @@
 	<br />
 
 	<div class="subtopo" style="">
-		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock pattern="dd/MM/yyyy" /></b>
-			<div class="nomePagina">CADASTRAR USUÁRIO</div>
+		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
+				pattern="dd/MM/yyyy" /></b>
+		<div class="nomePagina">CADASTRAR USUÁRIO</div>
 	</div>
 	<br />
 
@@ -45,11 +45,11 @@
 
 	<div class="container">
 
-		<div class=""
+		<div
 			style="width: 300px; height: 100%; text-align: left; padding-top: 5px; padding-bottom: 5px; float: left;">
 			<h4>Dados do Funcionário:</h4>
 			<br />
-			<h:form>
+			<h:form id="funcionarioForm">
 				<h:outputLabel id="lblMatricula" value="Matricula: " />
 				<br />
 				<p:inputText id="textMatricula" />
@@ -98,44 +98,58 @@
 			</h:form>
 		</div>
 
-		<div class=""
+		<div
 			style="width: 350px; height: 100%; text-align: left; padding-top: 5px; padding-bottom: 5px; float: right;">
-			<h:form>
-				<h4>Dados do Usuário:</h4>
+
+			<h4>Dados do Usuário:</h4>
+			<h:form id="usuarioForm">
+
+				<h:outputLabel id="lblNome" value="Nome: " />
+				<br />
+				<p:inputText id="textNome" value="#{usuarioController.usuario.nome}" />
+				<br />
+
 				<h:outputLabel id="lblEmail" value="Email: " />
 				<br />
-				<p:inputText id="textEmail" />
+				<p:inputText id="textEmail"
+					value="#{usuarioController.usuario.email}" />
 				<br />
 
 				<h:outputLabel id="lblUsername" value="Username: " />
 				<br />
-				<p:inputText id="textUsername" />
+				<p:inputText id="textUsername"
+					value="#{usuarioController.usuario.userName}" />
 				<br />
 
 				<h:outputLabel id="lblSenha" value="Senha Inicial: " />
 				<br />
-				<p:inputText id="textSenha" />
+				<p:inputText id="textSenha"
+					value="#{usuarioController.usuario.senha}" />
 				<br />
 
 				<h:outputLabel id="lblPeril" value="Perfil: " />
 				<br />
 				<h:panelGrid columns="2"
 					style="margin-bottom:10px; font-size: 12px;" cellpadding="0">
-					<p:selectOneMenu id="console" value="#{selectOneMenuView.console}"
-						style="width:125px">
+					<p:selectOneMenu id="console" style="width:125px">
 						<f:selectItem itemLabel="Tipo" itemValue="" />
 						<f:selectItem itemLabel="Gerente Contas" itemValue="GerenteContas" />
 						<f:selectItem itemLabel="Adm Numeração" itemValue="AdmNumeracao" />
 					</p:selectOneMenu>
 				</h:panelGrid>
-
-				<i class="pi pi-home"></i>
+				<br />
+				<br />
+				<br />
+				<br />
+				<h:commandButton value="Cadastrar"
+					action="#{usuarioController.cadastrar}"></h:commandButton>
 
 			</h:form>
 		</div>
 
-	</div>
 
+
+	</div>
 
 	<div class="rodape">
 		<div class="nomesis" id="textoRodape">
