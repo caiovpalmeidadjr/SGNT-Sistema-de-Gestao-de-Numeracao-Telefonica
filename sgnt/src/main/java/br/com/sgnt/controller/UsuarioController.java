@@ -10,7 +10,11 @@ import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.com.sgnt.model.Funcionario;
+import br.com.sgnt.model.Perfil;
 import br.com.sgnt.model.Usuario;
+import br.com.sgnt.repository.FuncionarioRepository;
+import br.com.sgnt.repository.PerfilRepository;
 import br.com.sgnt.repository.UsuarioRepository;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
@@ -25,8 +29,41 @@ public class UsuarioController implements Serializable {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
+	
+	@Autowired
+	private FuncionarioRepository funcionarioRepository;
+	
+	@Autowired
+	private PerfilRepository perfilRepository;
+	
+	private Perfil perfil = new Perfil();
 	private Usuario usuario = new Usuario();
+	private Funcionario funcionario = new Funcionario();
+	
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
+	
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
 
 	public String envia() {
 
@@ -54,19 +91,19 @@ public class UsuarioController implements Serializable {
 	
 	public void redirecionar() throws IOException {
 		
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/Login/index.xhtml");  
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/sgnt/index/index.xhtml");  
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 
 	public void cadastrar() {
+		usuario.setNome(funcionario.getNomeFunc());
+		
+		usuario.setPerfil(perfil);
 		usuarioRepository.save(usuario);
+		funcionario.setAtivo(true);
+		funcionario.setEmailFunc(usuario.getEmail());
+		funcionario.setUsuario(usuario);
+		funcionarioRepository.save(funcionario);
 	}
 
 	public String testarAcesso() {

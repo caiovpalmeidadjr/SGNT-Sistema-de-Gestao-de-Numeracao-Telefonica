@@ -11,7 +11,7 @@
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
-	<title>USUARIO</title>
+	<title>SGNT - CADASTRAR USUARIO</title>
 </h:head>
 
 <h:body>
@@ -19,7 +19,7 @@
 	<div class="topo">
 		<div class="BotaoHome">
 			<ul>
-				<li><a href="../Login/index.xhtml" class="linkMenu"> MENU </a>
+				<li><a href="../index/index.xhtml" class="linkMenu"> MENU </a>
 				</li>
 			</ul>
 		</div>
@@ -44,70 +44,68 @@
 
 
 	<div class="container">
+		
+		<h:form id="formCadastro">
 
-		<div
-			style="width: 300px; height: 100%; text-align: left; padding-top: 5px; padding-bottom: 5px; float: left;">
-			<h4>Dados do Funcionário:</h4>
-			<br />
-			<h:form id="funcionarioForm">
+			<div
+				style="width: 300px; text-align: left; padding-top: 5px; padding-bottom: 5px; float: left;">
+
+				<h4>Dados do Funcionário:</h4>
+				<br />
+
 				<h:outputLabel id="lblMatricula" value="Matricula: " />
 				<br />
-				<p:inputText id="textMatricula" />
+				<p:inputText id="textMatricula"
+					value="#{usuarioController.funcionario.matriculaFunc}" />
 				<br />
 
 				<h:outputLabel id="lblNome" value="Nome: " />
 				<br />
-				<p:inputText id="textNome" />
+				<p:inputText id="textNome"
+					value="#{usuarioController.funcionario.nomeFunc}" />
 				<br />
 
 				<h:outputLabel id="lblTelefone" value="Telefone: " />
 				<br />
-				<p:inputText id="textTelefone" />
+				<p:inputText id="textTelefone"
+					value="#{usuarioController.funcionario.telefoneFunc}" />
 				<br />
 
 				<h:outputLabel id="lblCargo" value="Cargo: " />
 				<br />
-				<p:inputText id="textCargo" />
+				<p:inputText id="textCargo"
+					value="#{usuarioController.funcionario.cargo}" />
 				<br />
 
 				<h:outputLabel id="lblDtAdmissao" for="dtAdmissaoButton"
 					value="Data Admissão: " />
 				<br />
-				<p:calendar id="dtAdmissaoButton" value="#{calendarView.date3}"
-					showOn="button" />
+				<p:calendar id="dtAdmissaoButton" showOn="button" value="#{usuarioController.funcionario.dtAdmissao}"/>
 				<br />
 
 				<h:outputLabel id="lblDtNascimento" for="dtNascimentoButton"
 					value="Data Nascimento: " />
 				<br />
-				<p:calendar id="dtNascimentoButton" value="#{calendarView.date3}"
-					showOn="button" />
-				<br />
-				<br />
+				<p:calendar id="dtNascimentoButton" showOn="button" value="#{usuarioController.funcionario.dtNascimento}"/>
+				<br /> <br />
 
 				<h:outputLabel id="lblRG" value="RG: " />
 				<br />
-				<p:inputText id="textRG" />
+				<p:inputText id="textRG" value="#{usuarioController.funcionario.rg}"/>
 				<br />
 
 				<h:outputLabel id="lblCPF" value="CPF: " />
 				<br />
-				<p:inputText id="textCPF" />
+				<p:inputText id="textCPF" value="#{usuarioController.funcionario.cpf}"/>
 				<br />
 
-			</h:form>
-		</div>
 
-		<div
-			style="width: 350px; height: 100%; text-align: left; padding-top: 5px; padding-bottom: 5px; float: right;">
+			</div>
 
-			<h4>Dados do Usuário:</h4>
-			<h:form id="usuarioForm">
+			<div
+				style="width: 350px; text-align: left; padding-top: 5px; padding-bottom: 5px; float: right;">
 
-				<h:outputLabel id="lblNome" value="Nome: " />
-				<br />
-				<p:inputText id="textNome" value="#{usuarioController.usuario.nome}" />
-				<br />
+				<h4>Dados do Usuário:</h4>
 
 				<h:outputLabel id="lblEmail" value="Email: " />
 				<br />
@@ -131,24 +129,17 @@
 				<br />
 				<h:panelGrid columns="2"
 					style="margin-bottom:10px; font-size: 12px;" cellpadding="0">
-					<p:selectOneMenu id="console" style="width:125px">
+					<p:selectOneMenu id="console" style="width:125px" value="#{usuarioController.perfil.idPerfil}">
 						<f:selectItem itemLabel="Tipo" itemValue="" />
-						<f:selectItem itemLabel="Gerente Contas" itemValue="GerenteContas" />
-						<f:selectItem itemLabel="Adm Numeração" itemValue="AdmNumeracao" />
+						<f:selectItem itemLabel="Gerente Contas" itemValue="3" />
+						<f:selectItem itemLabel="Adm Numeração" itemValue="2" />
+						<f:selectItem itemLabel="Adm Sistema" itemValue="1" />
 					</p:selectOneMenu>
 				</h:panelGrid>
-				<br />
-				<br />
-				<br />
-				<br />
-				<h:commandButton value="Cadastrar"
-					action="#{usuarioController.cadastrar}"></h:commandButton>
-
-			</h:form>
-		</div>
-
-
-
+				
+				<h:commandButton value="Cadastrar" action="#{usuarioController.cadastrar}" update="formCadastro"/>
+			</div>
+		</h:form>
 	</div>
 
 	<div class="rodape">

@@ -45,14 +45,14 @@ public class Funcionario {
 	private Date dtNascimento;
 
 	@Column(name = "RG")
-	private Integer rg;
+	private String rg;
 
 	@Column(name = "CPF")
-	private Integer cpf;
+	private String cpf;
 
 	@Column(name = "ATIVO")
 	private boolean ativo;
-	
+
 	@OneToOne
 	private Usuario usuario;
 
@@ -128,19 +128,19 @@ public class Funcionario {
 		this.dtNascimento = dtNascimento;
 	}
 
-	public Integer getRg() {
+	public String getRg() {
 		return rg;
 	}
 
-	public void setRg(Integer rg) {
+	public void setRg(String rg) {
 		this.rg = rg;
 	}
 
-	public Integer getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Integer cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
@@ -150,6 +150,14 @@ public class Funcionario {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override
