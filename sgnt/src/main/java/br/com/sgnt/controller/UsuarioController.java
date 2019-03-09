@@ -95,13 +95,10 @@ public class UsuarioController implements Serializable {
 	}
 
 
-	public void cadastrar() {
-		usuario.setNome(funcionario.getNomeFunc());
-		
+	public void cadastrar() {	
 		usuario.setPerfil(perfil);
 		usuarioRepository.save(usuario);
 		funcionario.setAtivo(true);
-		funcionario.setEmailFunc(usuario.getEmail());
 		funcionario.setUsuario(usuario);
 		funcionarioRepository.save(funcionario);
 	}

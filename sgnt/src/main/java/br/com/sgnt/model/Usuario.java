@@ -21,12 +21,6 @@ public class Usuario {
 	@Column(name = "ID_USUA")
 	private Integer idUsuario;
 
-	@Column(name = "NOME")
-	private String nome;
-
-	@Column(name = "EMAIL")
-	private String email;
-
 	@Column(name = "USERNAME")
 	private String userName;
 
@@ -36,29 +30,12 @@ public class Usuario {
 	@OneToOne
 	private Perfil perfil;
 
-
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}
 
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getUserName() {
@@ -85,14 +62,11 @@ public class Usuario {
 		this.perfil = perfil;
 	}
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((idUsuario == null) ? 0 : idUsuario.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((perfil == null) ? 0 : perfil.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
@@ -108,20 +82,10 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
 		if (idUsuario == null) {
 			if (other.idUsuario != null)
 				return false;
 		} else if (!idUsuario.equals(other.idUsuario))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
 			return false;
 		if (perfil == null) {
 			if (other.perfil != null)
@@ -143,8 +107,8 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [idUsuario=" + idUsuario + ", nome=" + nome + ", email=" + email + ", userName=" + userName
-				+ ", senha=" + senha + ", perfil=" + perfil + "]";
+		return "Usuario [idUsuario=" + idUsuario + ", userName=" + userName + ", senha=" + senha + ", perfil=" + perfil
+				+ "]";
 	}
 
 }
