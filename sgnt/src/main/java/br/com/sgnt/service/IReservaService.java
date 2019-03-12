@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.Reserva;
 
-public interface ReservaService {
+public interface IReservaService {
 	
 	public void salvar(Reserva vo) ;
 	

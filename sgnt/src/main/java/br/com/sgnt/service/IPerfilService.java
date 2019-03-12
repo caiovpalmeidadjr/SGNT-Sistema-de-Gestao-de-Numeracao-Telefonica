@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.Perfil;
 
-public interface MunicipioService {
+public interface IPerfilService {
 	
 	public void salvar(Perfil vo) ;
 	
@@ -12,8 +12,8 @@ public interface MunicipioService {
 	
 	public void excluir(Perfil vo);
 	
-	public List<Perfil> listMunicipios(String query);
+	public List<Perfil> listPerfis(String query);
 	
-	public List<Perfil> listMunicipios();
+	public List<Perfil> listPerfis();
 
 }

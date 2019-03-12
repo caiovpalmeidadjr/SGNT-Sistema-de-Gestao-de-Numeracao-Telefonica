@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.Status;
 
-public interface StatusService {
+public interface IStatusService {
 	
 	public void salvar(Status vo) ;
 	

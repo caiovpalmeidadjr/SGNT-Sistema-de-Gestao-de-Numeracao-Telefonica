@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.Permissao;
 
-public interface PermissaoService {
+public interface IPermissaoService {
 	
 	public void salvar(Permissao vo) ;
 	

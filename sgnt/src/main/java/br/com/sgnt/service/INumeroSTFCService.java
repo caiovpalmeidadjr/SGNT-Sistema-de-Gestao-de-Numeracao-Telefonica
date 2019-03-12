@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.NumeroSTFC;
 
-public interface NumeroCNGService {
+public interface INumeroSTFCService {
 	
 	public void salvar(NumeroSTFC vo) ;
 	

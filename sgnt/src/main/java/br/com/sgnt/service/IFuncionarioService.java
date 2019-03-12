@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.Funcionario;
 
-public interface FuncionarioService {
+public interface IFuncionarioService {
 	
 	public void salvar(Funcionario vo) ;
 	

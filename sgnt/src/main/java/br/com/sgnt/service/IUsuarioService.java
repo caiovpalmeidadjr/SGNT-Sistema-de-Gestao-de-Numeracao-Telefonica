@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.Usuario;
 
-public interface UsuarioService {
+public interface IUsuarioService {
 	
 	public void salvar(Usuario vo) ;
 	

@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.Cliente;
 
-public interface ClienteService {
+public interface IClienteService {
 	
 	public void salvar(Cliente vo) ;
 	

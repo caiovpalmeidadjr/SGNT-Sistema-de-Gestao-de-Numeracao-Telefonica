@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.AreaLocal;
 
-public interface AreaLocalService {
+public interface IAreaLocalService {
 	
 	public void salvar(AreaLocal vo) ;
 	

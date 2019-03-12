@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.sgnt.model.Localidade;
 
-public interface LocalidadeService {
+public interface ILocalidadeService {
 	
 	public void salvar(Localidade vo) ;
 	
