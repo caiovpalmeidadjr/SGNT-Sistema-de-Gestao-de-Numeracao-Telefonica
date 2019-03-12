@@ -1,30 +1,57 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"> 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
 
-<h:head></h:head> 
-	<body> 
-		<h1>Cadastro de Cliente</h1>	
-		
-		<h:form id="frmCliente">
+<h:head></h:head>
+<body>
+	<h1>Cadastro de Cliente</h1>
+
+	<h:form id="frmCliente">
 			Nome:   <h:inputText value="#{clienteController.cliente.nomeClie}" />
 			E-mail: <h:inputText value="#{clienteController.cliente.email}" />
-			<h:commandButton action="#{clienteController.salvar}" value="Salvar">
+		<h:commandButton action="#{clienteController.salvar}" value="Salvar">
 			<!-- criando uma requisição ajax, ao clicar em salvar ele vai executar no formulario  frmCliente, uma atualização da lista com o render="clienteDT"
 			assim ao salvar, sempre vai atualizar a tabela-->
-				<f:ajax execute="frmCliente" render="clienteDT"/>
-			</h:commandButton>
+			<f:ajax execute="frmCliente" render="clienteDT" />
+		</h:commandButton>
+
+		<h:dataTable id="clienteDT" value="#{clienteController.listClientes}"
+					 var="cliente">
+
+			<h:column>
+				<f:facet name="header">ID</f:facet>	
+					#{cliente.idCliente}
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+					#{cliente.nomeClie}
+			</h:column>
 			
-			<h:dataTable id="clienteDT"
-						 value="#{clienteController.listClientes}"
-						 var="cliente">
-				<h:column>#{cliente.nomeClie}</h:column>
-				<h:column>#{cliente.email}</h:column>			 
-			 
+			<h:column>
+				<f:facet name="header">E-mail</f:facet>	
+					#{cliente.email}
+			</h:column>
 			
-			</h:dataTable>
-		</h:form>
-	</body> 
+			<h:column>
+				<f:facet name="header">Ação</f:facet>	
+				<h:commandButton action="#{clienteController.excluir(cliente)}" value="Excluir" onclick="return window.confirm('Certeza?')">
+				<!-- Após excluir ele vai atualizar a tabela -->
+					<f:ajax render="frmCliente:clienteDT"></f:ajax>
+				</h:commandButton>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Ação</f:facet>	
+				<h:commandButton action="#{clienteController.editar(cliente)}" value="Editar">
+				<!-- com o click ele vai atualizar os campos de input do formulario -->
+					<f:ajax render="frmCliente"></f:ajax>
+				</h:commandButton>
+			</h:column>
+
+		</h:dataTable>
+	</h:form>
+</body>
 </html>

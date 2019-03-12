@@ -24,6 +24,8 @@ public class ClienteController {
 	
 	private List<Cliente> listClientes;
 	
+	private boolean isAlteracao;
+	
 	//usada nos metodos com relação de injeção de dependencia, apos a injeção de dependencia do spring, eu acesso esse metodo
 	@PostConstruct
 	private void init() {
@@ -36,14 +38,36 @@ public class ClienteController {
 		//salvando no banco
 		repository.save(cliente);
 		
-		//adicionando na lista que vai atualizar a tabela 
-		listClientes.add(cliente);
+		if(!isAlteracao) {
+			//adicionando na lista que vai atualizar a tabela 
+			listClientes.add(cliente);
+		}
+		
+		//após salvar coloco o meu alteracao para false
+		setAlteracao(false);
 		
 		//instanciando pois o proximo a ser adicionada é um novo cliente
 		cliente = new Cliente();
 	}
+	
+	//Java Web Frameworks com Spring Boot - Aula 04 parte 02 19:25 seg
+	
+	public void excluir(Cliente cliente) {
+		//removendo do banco
+		repository.delete(cliente);
+		
+		//removendo da lista
+		listClientes.remove(cliente);
+		
+	}
+	
+	public void editar(Cliente cliente) {
+		setCliente(cliente);
+		setAlteracao(true);
+	}
 
 	public Cliente getCliente() {
+		//o botão de salvar que vai atualizar, ele sabe se o objeto tem id ou não caso tenha ele realiza o update
 		return cliente;
 	}
 
@@ -57,6 +81,16 @@ public class ClienteController {
 
 	public void setListClientes(List<Cliente> listClientes) {
 		this.listClientes = listClientes;
+	}
+
+
+	public boolean isAlteracao() {
+		return isAlteracao;
+	}
+
+
+	public void setAlteracao(boolean isAlteracao) {
+		this.isAlteracao = isAlteracao;
 	}
 	
 	
