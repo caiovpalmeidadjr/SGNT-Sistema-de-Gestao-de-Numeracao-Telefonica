@@ -8,10 +8,23 @@
 	<body> 
 		<h1>Cadastro de Cliente</h1>	
 		
-		<h:form>
+		<h:form id="frmCliente">
 			Nome:   <h:inputText value="#{clienteController.cliente.nomeClie}" />
 			E-mail: <h:inputText value="#{clienteController.cliente.email}" />
-			<h:commandButton action="#{clienteController.salvar}" value="Salvar"/>
+			<h:commandButton action="#{clienteController.salvar}" value="Salvar">
+			<!-- criando uma requisição ajax, ao clicar em salvar ele vai executar no formulario  frmCliente, uma atualização da lista com o render="clienteDT"
+			assim ao salvar, sempre vai atualizar a tabela-->
+				<f:ajax execute="frmCliente" render="clienteDT"/>
+			</h:commandButton>
+			
+			<h:dataTable id="clienteDT"
+						 value="#{clienteController.listClientes}"
+						 var="cliente">
+				<h:column>#{cliente.nomeClie}</h:column>
+				<h:column>#{cliente.email}</h:column>			 
+			 
+			
+			</h:dataTable>
 		</h:form>
 	</body> 
 </html>
