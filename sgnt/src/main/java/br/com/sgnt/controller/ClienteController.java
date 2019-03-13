@@ -24,7 +24,7 @@ public class ClienteController {
 	
 	private List<Cliente> listClientes;
 	
-	private boolean isAlteracao;
+	private boolean alteracao;
 	
 	//usada nos metodos com relação de injeção de dependencia, apos a injeção de dependencia do spring, eu acesso esse metodo
 	@PostConstruct
@@ -38,7 +38,7 @@ public class ClienteController {
 		//salvando no banco
 		repository.save(cliente);
 		
-		if(!isAlteracao) {
+		if(!alteracao) {
 			//adicionando na lista que vai atualizar a tabela 
 			listClientes.add(cliente);
 		}
@@ -65,6 +65,11 @@ public class ClienteController {
 		setCliente(cliente);
 		setAlteracao(true);
 	}
+	
+	public void cancelar() {
+		cliente = new Cliente();
+		setAlteracao(false);
+	}
 
 	public Cliente getCliente() {
 		//o botão de salvar que vai atualizar, ele sabe se o objeto tem id ou não caso tenha ele realiza o update
@@ -85,12 +90,12 @@ public class ClienteController {
 
 
 	public boolean isAlteracao() {
-		return isAlteracao;
+		return alteracao;
 	}
 
 
-	public void setAlteracao(boolean isAlteracao) {
-		this.isAlteracao = isAlteracao;
+	public void setAlteracao(boolean alteracao) {
+		this.alteracao = alteracao;
 	}
 	
 	

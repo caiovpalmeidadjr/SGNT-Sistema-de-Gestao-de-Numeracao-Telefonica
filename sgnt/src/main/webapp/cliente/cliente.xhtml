@@ -16,6 +16,11 @@
 			assim ao salvar, sempre vai atualizar a tabela-->
 			<f:ajax execute="frmCliente" render="clienteDT" />
 		</h:commandButton>
+		
+		<h:commandButton action="#{clienteController.cancelar}" value="Cancelar"
+						 rendered="#{clienteController.alteracao}">
+			<f:ajax render="frmCliente" />
+		</h:commandButton>
 
 		<h:dataTable id="clienteDT" value="#{clienteController.listClientes}"
 					 var="cliente">
