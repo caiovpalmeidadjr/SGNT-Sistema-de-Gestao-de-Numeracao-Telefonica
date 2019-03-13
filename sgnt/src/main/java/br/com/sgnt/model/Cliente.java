@@ -16,19 +16,19 @@ public class Cliente {
 	@Id
 	@GeneratedValue
 	@Column(name = "ID_CLIE")
-	private Integer idCliente;
+	private Integer id;
 
 	@Column(name = "NOME")
-	private String nomeClie;
+	private String nome;
 
 	@Column(name = "LOGRADOURO")
-	private String logradouroClie;
+	private String logradouro;
 
 	@Column(name = "MUNICIPIO")
-	private String municipioClie;
+	private String municipio;
 
 	@Column(name = "CEP")
-	private String cepClie;
+	private String cep;
 
 	@Column(name = "EMAIL")
 	private String email;
@@ -38,48 +38,48 @@ public class Cliente {
 	}
 	
 	public Cliente(String nome, String email) {
-		this.nomeClie = nome;
+		this.nome = nome;
 		this.email = email;
 	}
 
 	public Integer getIdCliente() {
-		return idCliente;
+		return id;
 	}
 
-	public void setIdCliente(Integer idCliente) {
-		this.idCliente = idCliente;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public String getNomeClie() {
-		return nomeClie;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNomeClie(String nomeClie) {
-		this.nomeClie = nomeClie;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public String getLogradouroClie() {
-		return logradouroClie;
+	public String getLogradouro() {
+		return logradouro;
 	}
 
-	public void setLogradouroClie(String logradouroClie) {
-		this.logradouroClie = logradouroClie;
+	public void setLogradouroClie(String logradouro) {
+		this.logradouro = logradouro;
 	}
 
-	public String getMunicipioClie() {
-		return municipioClie;
+	public String getMunicipio() {
+		return municipio;
 	}
 
-	public void setMunicipioClie(String municipioClie) {
-		this.municipioClie = municipioClie;
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
 	}
 
-	public String getCepClie() {
-		return cepClie;
+	public String getCep() {
+		return cep;
 	}
 
-	public void setCepClie(String cepClie) {
-		this.cepClie = cepClie;
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
 
 	public String getEmail() {
@@ -94,12 +94,12 @@ public class Cliente {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cepClie == null) ? 0 : cepClie.hashCode());
+		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((idCliente == null) ? 0 : idCliente.hashCode());
-		result = prime * result + ((logradouroClie == null) ? 0 : logradouroClie.hashCode());
-		result = prime * result + ((municipioClie == null) ? 0 : municipioClie.hashCode());
-		result = prime * result + ((nomeClie == null) ? 0 : nomeClie.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((logradouro == null) ? 0 : logradouro.hashCode());
+		result = prime * result + ((municipio == null) ? 0 : municipio.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
 
@@ -112,43 +112,43 @@ public class Cliente {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		if (cepClie == null) {
-			if (other.cepClie != null)
+		if (cep == null) {
+			if (other.cep != null)
 				return false;
-		} else if (!cepClie.equals(other.cepClie))
+		} else if (!cep.equals(other.cep))
 			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (idCliente == null) {
-			if (other.idCliente != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idCliente.equals(other.idCliente))
+		} else if (!id.equals(other.id))
 			return false;
-		if (logradouroClie == null) {
-			if (other.logradouroClie != null)
+		if (logradouro == null) {
+			if (other.logradouro != null)
 				return false;
-		} else if (!logradouroClie.equals(other.logradouroClie))
+		} else if (!logradouro.equals(other.logradouro))
 			return false;
-		if (municipioClie == null) {
-			if (other.municipioClie != null)
+		if (municipio == null) {
+			if (other.municipio != null)
 				return false;
-		} else if (!municipioClie.equals(other.municipioClie))
+		} else if (!municipio.equals(other.municipio))
 			return false;
-		if (nomeClie == null) {
-			if (other.nomeClie != null)
+		if (nome == null) {
+			if (other.nome != null)
 				return false;
-		} else if (!nomeClie.equals(other.nomeClie))
+		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Cliente [idCliente=" + idCliente + ", nomeClie=" + nomeClie + ", logradouroClie=" + logradouroClie
-				+ ", municipioClie=" + municipioClie + ", cepClie=" + cepClie + ", email=" + email + "]";
+		return "Cliente [idCliente=" + id + ", nomeClie=" + nome + ", logradouroClie=" + logradouro
+				+ ", municipioClie=" + municipio + ", cepClie=" + cep + ", email=" + email + "]";
 	}
 
 }
