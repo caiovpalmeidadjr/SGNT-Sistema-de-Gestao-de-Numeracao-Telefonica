@@ -41,13 +41,17 @@ public class Cliente {
 		this.nome = nome;
 		this.email = email;
 	}
-
-	public Integer getIdCliente() {
+	
+	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
 	}
 
 	public String getNome() {

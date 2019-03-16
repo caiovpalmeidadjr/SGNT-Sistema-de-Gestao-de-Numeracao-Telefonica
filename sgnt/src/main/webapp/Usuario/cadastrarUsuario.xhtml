@@ -70,7 +70,13 @@
 				<p:inputText id="textTelefone"
 					value="#{usuarioController.funcionario.telefoneFunc}" />
 				<br />
-
+				
+				<h:outputLabel id="lblEmail" value="Email: " />
+				<br />
+				<p:inputText id="textEmail"
+					value="#{funcionarioController.funcionario.emailFunc}" />
+				<br />
+				
 				<h:outputLabel id="lblCargo" value="Cargo: " />
 				<br />
 				<p:inputText id="textCargo"
@@ -107,13 +113,7 @@
 
 				<h4>Dados do Usuário:</h4>
 
-				<h:outputLabel id="lblEmail" value="Email: " />
-				<br />
-				<p:inputText id="textEmail"
-					value="#{usuarioController.usuario.email}" />
-				<br />
-
-				<h:outputLabel id="lblUsername" value="Username: " />
+								<h:outputLabel id="lblUsername" value="Username: " />
 				<br />
 				<p:inputText id="textUsername"
 					value="#{usuarioController.usuario.userName}" />
@@ -129,7 +129,7 @@
 				<br />
 				<h:panelGrid columns="2"
 					style="margin-bottom:10px; font-size: 12px;" cellpadding="0">
-					<p:selectOneMenu id="console" style="width:125px" value="#{usuarioController.perfil.idPerfil}">
+					<p:selectOneMenu id="perfil" style="width:125px" value="#{usuarioController.perfil.idPerfil}">
 						<f:selectItem itemLabel="Tipo" itemValue="" />
 						<f:selectItem itemLabel="Gerente Contas" itemValue="3" />
 						<f:selectItem itemLabel="Adm Numeração" itemValue="2" />

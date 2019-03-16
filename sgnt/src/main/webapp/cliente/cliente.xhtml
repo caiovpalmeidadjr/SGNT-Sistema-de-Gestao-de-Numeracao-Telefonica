@@ -9,7 +9,7 @@
 	<h1>Cadastro de Cliente</h1>
 
 	<h:form id="frmCliente">
-			Nome:   <h:inputText value="#{clienteController.cliente.nomeClie}" />
+			Nome:   <h:inputText value="#{clienteController.cliente.nome}" />
 			E-mail: <h:inputText value="#{clienteController.cliente.email}" />
 		<h:commandButton action="#{clienteController.salvar}" value="Salvar">
 			<!-- criando uma requisição ajax, ao clicar em salvar ele vai executar no formulario  frmCliente, uma atualização da lista com o render="clienteDT"
@@ -27,12 +27,12 @@
 
 			<h:column>
 				<f:facet name="header">ID</f:facet>	
-					#{cliente.idCliente}
+					#{cliente.id}
 			</h:column>
 
 			<h:column>
 				<f:facet name="header">Nome</f:facet>
-					#{cliente.nomeClie}
+					#{cliente.nome}
 			</h:column>
 			
 			<h:column>
