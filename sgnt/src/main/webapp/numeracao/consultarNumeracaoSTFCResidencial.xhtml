@@ -11,7 +11,7 @@
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
-	<title>SGNT - CADASTRAR NUMERAÇÃO CNG</title>
+	<title>SGNT - CONSULTAR NUMERAÇÃO STFC</title>
 </h:head>
 
 <h:body>
@@ -32,7 +32,7 @@
 	<div class="subtopo" style="">
 		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
 				pattern="dd/MM/yyyy" /></b>
-		<div class="nomePagina">CADASTRAR NUMERAÇÃO CNG</div>
+		<div class="nomePagina">CONSULTAR NUMERAÇÃO STFC RESIDENCIAL</div>
 	</div>
 	<br />
 
@@ -45,31 +45,39 @@
 
 	<div class="container">
 
-		<h:form id="frmNumeroCNG">
+		<h:form id="frmNumero">
 			<div
-				style="width: 300px; text-align: left; height: 100%; padding-top: 5px; padding-bottom: 50px; float: left;">
+				style="width: 500px; text-align: left; height: 100%; padding-top: 5px; padding-bottom: 50px; float: left;">
 
-				<h4>Dados do CNG:</h4>
+				<h4>Lista de números cadastrados:</h4>
 				<br />
+
+
+				<p:dataTable id="numeroDT" value="#{numeroSTFCController.listNumeroSTFCResidencial}"
+					 var="numero" paginator="true" rows="100" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="100,500,1000" reflow="true">
+					
+					
+					<p:column headerText="CN" filterBy="#{numero.areaLocal.cnAreaLocal}">
+						<h:outputText value="#{numero.areaLocal.cnAreaLocal}"/>
+					</p:column>
+					
+					<p:column headerText="Prefixo" filterBy="#{numero.prefixoNumeroSTFC}">
+						<h:outputText value="#{numero.prefixoNumeroSTFC}"/>
+					</p:column>
+					<p:column headerText="MCDU" filterBy="#{numero.mcduNumeroSTFC}">
+						<h:outputText value="#{numero.mcduNumeroSTFC}"/>
+					</p:column>
+					
+					<p:column headerText="Area Local" filterBy="#{numero.areaLocal.nomeAreaLocal}">
+						<h:outputText value="#{numero.areaLocal.nomeAreaLocal}"/>
+					</p:column>
+
+				</p:dataTable>
+						
 				
-				<p:messages id="messages"></p:messages>
-				<p:outputLabel id="lblPrefixo" value="Prefixo: "/> <br/>
-				<p:inputText id="txtPrefixo" value="#{numeroCNGController.numeroCNG.prefixoNumeroCNG}" maxlength="4" size="4" />
-				<br/>
-				
-				<p:outputLabel id="lblSerie" value="Série: "/> <br/>
-				<p:inputText id="txtxFSerie" value="#{numeroCNGController.numeroCNG.serieNumeroCNG}" maxlength="3" size="3"/>
-				<br/>
-				<p:outputLabel id="lblMcdu" value="MCDU: "/> <br/>
-				<p:inputText id="txtFMcdu" value="#{numeroCNGController.numeroCNG.mcduNumeroCNG}" maxlength="4" size="4"/>
-				
-				<br/><br/>
-				
-				<p:commandButton value="Cadastrar" action="#{numeroCNGController.cadastrar}" update="frmNumeroCNG"/>
-				
-				</div>
+			</div>
 		</h:form>
-		
+
 	</div>
 
 	<div class="rodape">

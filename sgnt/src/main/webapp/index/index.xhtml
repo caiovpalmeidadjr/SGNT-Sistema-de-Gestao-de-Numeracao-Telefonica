@@ -45,7 +45,7 @@
 				<p:growl id="messages" showDetail="true" />
 				<p:menuButton value="Numeração STFC Corporativa">
 
-					<p:menuitem value="Consultar" />
+					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoSTFCCorporativa.xhtml"/>
 					<p:menuitem value="Reservar" />
 					<p:menuitem value="Alterar Reserva" />
 					<p:menuitem value="Cancelar Reserva" />
@@ -61,7 +61,7 @@
 				<p:growl id="messages" showDetail="true" />
 				<p:menuButton value="Numeração STFC Residencial">
 
-					<p:menuitem value="Consultar" />
+					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoSTFCResidencial.xhtml"/>
 					<p:menuitem value="Reservar" />
 					<p:menuitem value="Alterar Reserva" />
 					<p:menuitem value="Cancelar Reserva" />
@@ -76,7 +76,7 @@
 				<p:growl id="messages" showDetail="true" />
 				<p:menuButton value="CNG (Código Não Geográfico)">
 
-					<p:menuitem value="Consultar" />
+					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoCNG.xhtml"/>
 					<p:menuitem value="Reservar" />
 					<p:menuitem value="Alterar Reserva" />
 					<p:menuitem value="Cancelar Reserva" />
@@ -94,6 +94,17 @@
 					<p:menuitem value="STFC Corporativo" />
 					<p:menuitem value="STFC Residencial" />
 					<p:menuitem value="CNG" />
+
+				</p:menuButton>
+			</h:form>
+		</div>
+		
+		<div class="dropdown btn-group">
+			<h:form>
+
+				<p:menuButton value="Cliente">
+					<p:menuitem value="Corporativo" url="/cliente/clienteCorporativo.xhtml" />
+					<p:menuitem value="Residencial" url="/cliente/clienteResidencial.xhtml" />
 
 				</p:menuButton>
 			</h:form>

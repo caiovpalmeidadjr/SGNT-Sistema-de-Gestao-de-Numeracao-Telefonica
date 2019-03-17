@@ -19,4 +19,7 @@ public interface NumeroSTFCRepository extends JpaRepository<NumeroSTFC, Integer>
 	@Query("select n from NumeroSTFC n where n.prefixoNumeroSTFC=:prefixoNumeroSTFC")
 	public List<NumeroSTFC> getListaAreaLocal(@Param("prefixoNumeroSTFC")Integer prefixoNumeroSTFC);
 	
+	@Query("select n from NumeroSTFC n")
+	public List<NumeroSTFC> listNumeroCorporativo();
+	
 }

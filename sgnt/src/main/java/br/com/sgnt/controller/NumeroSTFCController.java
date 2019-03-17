@@ -39,15 +39,20 @@ public class NumeroSTFCController {
 
 	private List<AreaLocal> listCN;
 	private List<AreaLocal> listAreaLocal;
+	private List<NumeroSTFC> listNumeroSTFC;
+	private List<NumeroSTFC> listNumeroSTFCCorporativo = new ArrayList<NumeroSTFC>();
+	private List<NumeroSTFC> listNumeroSTFCResidencial = new ArrayList<NumeroSTFC>();
 	private Integer cnSelecionado;
 	private String area;
 	private Integer faixaInicial, faixaFinal;
 	private List<NumeroSTFC> lista = new ArrayList<NumeroSTFC>();
-	
+
 	@PostConstruct
 	private void init() {
 		listCN = areaLocalRepository.listDistinctCN();
 		Collections.sort(listCN);
+		listNumeroSTFC = numeroSTFCRepository.listNumeroCorporativo();	
+		carregaListaNumeros();
 	}
 
 	public void cadastrar(String nomeTipo) {
@@ -63,14 +68,22 @@ public class NumeroSTFCController {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 					"Prefixo cadastrado para outra área local", "Erro no cadastro!"));
 		}
-		
+
 	}
 	
-	
-	
+	public void carregaListaNumeros() {
+		for (NumeroSTFC numeroSTFC : listNumeroSTFC) {
+			if(numeroSTFC.getTipoNumero().getIdTipoNumero() == 1) {
+				listNumeroSTFCCorporativo.add(numeroSTFC);
+			} else {
+				listNumeroSTFCResidencial.add(numeroSTFC);
+			}
+		}
+	}
+
 	public boolean verificaAL() {
 		lista = numeroSTFCRepository.getListaAreaLocal(numeroSTFC.getPrefixoNumeroSTFC());
-		
+
 		try {
 			if (numeroSTFC.getAreaLocal().getCnAreaLocal().equals(lista.get(0).getAreaLocal().getCnAreaLocal())) {
 				if (numeroSTFC.getAreaLocal().equals(lista.get(0).getAreaLocal())) {
@@ -84,42 +97,41 @@ public class NumeroSTFCController {
 		} catch (Exception e) {
 			return true;
 		}
-		
+
 	}
-		
-	public void cadastraMCDU(Integer prefixo) {	
+
+	public void cadastraMCDU(Integer prefixo) {
 		List<Integer> mcdu = new ArrayList<Integer>();
 		int quantidade = (faixaFinal - faixaInicial) + 1;
-		while(faixaInicial <= faixaFinal) {
+		while (faixaInicial <= faixaFinal) {
 			numeroSTFC = new NumeroSTFC();
 			numeroSTFC.setAreaLocal(areaLocal);
 			numeroSTFC.setTipoNumero(tipo);
 			numeroSTFC.setPrefixoNumeroSTFC(prefixo);
 			numeroSTFC.setMcduNumeroSTFC(faixaInicial);
-			
+
 			try {
 				numeroSTFCRepository.save(numeroSTFC);
 			} catch (Exception e) {
 				mcdu.add(faixaInicial);
 			}
-			
-			
-			faixaInicial++;			
+
+			faixaInicial++;
 		}
-		
-		if(mcdu.size() == 0) {
+
+		if (mcdu.size() == 0) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Prefixo cadastrado!", "Cadastro com sucesso"));
-		} else if (mcdu.size() < quantidade){
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Alguns números já estavam cadastrados. Demais cadastrados com sucesso", "Cadastro com sucesso"));
-		} else if(mcdu.size() == quantidade) {
+		} else if (mcdu.size() < quantidade) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Alguns números já estavam cadastrados. Demais cadastrados com sucesso", "Cadastro com sucesso"));
+		} else if (mcdu.size() == quantidade) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Faixa já cadastrada", "Erro de cadastro"));
 		}
-		
+
 	}
-	
+
 	public void teste() {
 		System.out.println(area);
 	}
@@ -231,6 +243,30 @@ public class NumeroSTFCController {
 
 	public void setTipo(TipoNumero tipo) {
 		this.tipo = tipo;
+	}
+
+	public List<NumeroSTFC> getListNumeroSTFCCorporativo() {
+		return listNumeroSTFCCorporativo;
+	}
+
+	public void setListNumeroSTFCCorporativo(List<NumeroSTFC> listNumeroSTFCCorporativo) {
+		this.listNumeroSTFCCorporativo = listNumeroSTFCCorporativo;
+	}
+
+	public List<NumeroSTFC> getListNumeroSTFC() {
+		return listNumeroSTFC;
+	}
+
+	public void setListNumeroSTFC(List<NumeroSTFC> listNumeroSTFC) {
+		this.listNumeroSTFC = listNumeroSTFC;
+	}
+
+	public List<NumeroSTFC> getListNumeroSTFCResidencial() {
+		return listNumeroSTFCResidencial;
+	}
+
+	public void setListNumeroSTFCResidencial(List<NumeroSTFC> listNumeroSTFCResidencial) {
+		this.listNumeroSTFCResidencial = listNumeroSTFCResidencial;
 	}
 
 }

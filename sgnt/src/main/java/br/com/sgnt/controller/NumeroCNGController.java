@@ -1,5 +1,8 @@
 package br.com.sgnt.controller;
 
+import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -18,6 +21,12 @@ public class NumeroCNGController {
 	@Autowired
 	private NumeroCNGRepository numeroCNGRepository;
 	private NumeroCNG numeroCNG = new NumeroCNG();
+	private List<NumeroCNG> listNumeroCNG;
+	
+	@PostConstruct
+	public void init() {
+		listNumeroCNG = numeroCNGRepository.findAll();
+	}
 	
 	public void cadastrar() {
 		
@@ -55,5 +64,15 @@ public class NumeroCNGController {
 	public void setNumeroCNG(NumeroCNG numeroCNG) {
 		this.numeroCNG = numeroCNG;
 	}
+
+	public List<NumeroCNG> getListNumeroCNG() {
+		return listNumeroCNG;
+	}
+
+	public void setListNumeroCNG(List<NumeroCNG> listNumeroCNG) {
+		this.listNumeroCNG = listNumeroCNG;
+	}
+	
+	
 
 }

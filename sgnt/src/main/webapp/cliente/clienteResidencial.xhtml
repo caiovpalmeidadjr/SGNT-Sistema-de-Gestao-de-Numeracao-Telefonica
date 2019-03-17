@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+	<title>SGNT - CADASTRO DE CLIENTE</title>
+</h:head>
+<body>
+
+<div class="topo">
+		<div class="BotaoHome">
+			<ul>
+				<li><a href="../index/index.xhtml" class="linkMenu"> MENU </a>
+				</li>
+			</ul>
+		</div>
+		<div class="nomesis">
+			<b>SGNT - Sistema de Gestão de Numeração Telefônica</b>
+		</div>
+	</div>
+	<br />
+	
+	<div class="subtopo" style="">
+		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
+				pattern="dd/MM/yyyy" /></b>
+		<div class="nomePagina">CADASTRO DE CLIENTE RESIDENCIAL</div>
+	</div>
+	<br />
+
+	<div class="linha"
+		style="margin: auto; width: 89%; height: 2px; background-color: gray;">
+	</div>
+	<br />
+	
+		<div class="container">
+
+	<h:form id="frmCliente">
+			Nome:   <h:inputText value="#{clienteController.clienteResidencial.nome}" />
+			E-mail: <h:inputText value="#{clienteController.clienteResidencial.email}" /><br/>
+			Logradouro: <h:inputText value="#{clienteController.clienteResidencial.logradouro}" />
+			Municipio: <h:inputText value="#{clienteController.clienteResidencial.municipio}" />
+			CEP: <h:inputText value="#{clienteController.clienteResidencial.cep}" /><br/>
+			CPF: <h:inputText value="#{clienteController.clienteResidencial.cpf}" />
+		
+		<p:commandButton action="#{clienteController.salvarResidencial}" value="Salvar" update="frmCliente" />
+		
+		<p:messages id="messages"></p:messages>
+				
+		<p:commandButton action="#{clienteController.cancelar}" value="Cancelar"
+						 rendered="#{clienteController.alteracao}">
+			<f:ajax render="frmCliente" />
+		</p:commandButton>
+		<br/><br/>
+		
+		<p:dataTable id="clienteDT" value="#{clienteController.listClientesResidencial}"
+					 var="cliente" paginator="true" rows="100" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="10,20,50" reflow="true" style="padding-bottom:40px;">
+
+			<p:column headerText="Nome">
+					#{cliente.nome}
+			</p:column>
+			
+			<p:column headerText="CPF">
+					#{cliente.cpf}
+			</p:column>
+						
+			<p:column headerText="E-mail">	
+					#{cliente.email}
+			</p:column>
+			
+			<p:column headerText="Municipio">
+					#{cliente.municipio}
+			</p:column>
+			
+			<p:column headerText="Logradouro">	
+					#{cliente.logradouro}
+			</p:column>
+			
+			<p:column headerText="CEP">	
+					#{cliente.cep}
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">Ação</f:facet>	
+				<p:commandButton action="#{clienteController.excluir(cliente)}" value="Excluir" onclick="return window.confirm('Certeza?')" update="frmCliente:clienteDT" />
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">Ação</f:facet>	
+				<p:commandButton action="#{clienteController.editar(cliente)}" value="Editar" update="frmCliente">
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+	</div>
+		<div class="rodape">
+		<div class="nomesis" id="textoRodape">
+			<b>SGNT - Todos os direitos reservados.</b>
+		</div>
+	</div>
+	
+</body>
+</html>
