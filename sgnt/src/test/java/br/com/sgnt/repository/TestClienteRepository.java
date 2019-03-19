@@ -41,7 +41,7 @@ public class TestClienteRepository  {
 		Cliente cli = new Cliente("Caio","caio@caio.com");
 		clienteRepository.save(cli);
 		
-		Assert.assertNotNull(cli.getIdCliente());
+		Assert.assertNotNull(cli.getId());
 	}
 	
 	@Test

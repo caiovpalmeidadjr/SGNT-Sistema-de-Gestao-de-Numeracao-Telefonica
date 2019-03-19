@@ -96,11 +96,28 @@ public class UsuarioController implements Serializable {
 
 
 	public void cadastrar() {	
-		usuario.setPerfil(perfil);
-		usuarioRepository.save(usuario);
-		funcionario.setAtivo(true);
-		funcionario.setUsuario(usuario);
-		funcionarioRepository.save(funcionario);
+		
+		Usuario u = usuarioRepository.buscaPorUsername(usuario.getUserName());
+		
+		if(u == null) {
+			usuario.setPerfil(perfil);
+			usuarioRepository.save(usuario);
+			funcionario.setAtivo(true);
+			funcionario.setUsuario(usuario);
+			funcionarioRepository.save(funcionario);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Usuário cadastrado!", "Cadastro efetuado"));
+			funcionario = new Funcionario();
+			usuario = new Usuario();
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Usuário já existe no banco", "Cadastro não efetuado"));
+		}
+			
+		
+		/*
+
+		*/
 	}
 
 	public String testarAcesso() {

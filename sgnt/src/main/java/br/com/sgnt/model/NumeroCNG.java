@@ -17,6 +17,9 @@ public class NumeroCNG {
 	@Column(name = "ID_NCNG")
 	private Integer idNumeroCNG;
 
+	@Column(name = "PREFIXO")
+	private Integer prefixoNumeroCNG;
+
 	@Column(name = "SERIE")
 	private Integer serieNumeroCNG;
 
@@ -57,6 +60,14 @@ public class NumeroCNG {
 
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
+	}
+
+	public Integer getPrefixoNumeroCNG() {
+		return prefixoNumeroCNG;
+	}
+
+	public void setPrefixoNumeroCNG(Integer prefixoNumeroCNG) {
+		this.prefixoNumeroCNG = prefixoNumeroCNG;
 	}
 
 	@Override
