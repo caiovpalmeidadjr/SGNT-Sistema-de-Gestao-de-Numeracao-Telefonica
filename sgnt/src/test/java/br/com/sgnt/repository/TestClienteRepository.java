@@ -53,7 +53,7 @@ public class TestClienteRepository  {
 		entity.persist(cli);
 		
 		Cliente cliEncontrado = clienteRepository.buscarPorEmail("caio@caio.com");
-		assertThat(cliEncontrado.getNomeClie().equals(cli.getNomeClie()));
+		assertThat(cliEncontrado.getNome().equals(cli.getNome()));
 	}
 	
 	@Test
@@ -68,9 +68,9 @@ public class TestClienteRepository  {
 		
 		List<Cliente> listCliente = clienteRepository.listCliente();
 		
-		assertThat(listCliente.get(0).getNomeClie().equals(cli.getNomeClie()));
+		assertThat(listCliente.get(0).getNome().equals(cli.getNome()));
 		
-		assertThat(listCliente.get(1).getNomeClie().equals(cli2.getNomeClie()));
+		assertThat(listCliente.get(1).getNome().equals(cli2.getNome()));
 		
 		//aula 3 parte 2 minuto 5:15
 	}
