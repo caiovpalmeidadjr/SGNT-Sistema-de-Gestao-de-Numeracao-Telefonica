@@ -10,7 +10,8 @@
 	<meta charset="utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
+	
 	<title>SGNT - CADASTRAR USUARIO</title>
 </h:head>
 
@@ -65,44 +66,54 @@
 					value="#{usuarioController.funcionario.nomeFunc}" />
 				<br />
 
-				<h:outputLabel id="lblTelefone" value="Telefone: " />
+				<h:outputLabel id="lblTelefone" value="Telefone: "  />
 				<br />
-				<p:inputText id="textTelefone"
-					value="#{usuarioController.funcionario.telefoneFunc}" />
+				<p:inputMask id="textTelefone"
+					value="#{usuarioController.funcionario.telefoneFunc}" mask="(99) 9999-9999"/>
 				<br />
 				
 				<h:outputLabel id="lblEmail" value="Email: " />
 				<br />
 				<p:inputText id="textEmail"
-					value="#{funcionarioController.funcionario.emailFunc}" />
+					value="#{usuarioController.funcionario.emailFunc}" />
 				<br />
 				
 				<h:outputLabel id="lblCargo" value="Cargo: " />
 				<br />
-				<p:inputText id="textCargo"
-					value="#{usuarioController.funcionario.cargo}" />
-				<br />
-
+				
+				<h:panelGrid columns="2"
+					style="margin-bottom:10px; font-size: 12px;" cellpadding="0">
+					<p:selectOneMenu id="cargo" style="width:125px" value="#{usuarioController.funcionario.cargo}">
+						<f:selectItem itemLabel="Cargo" itemValue="" />
+						<f:selectItem itemLabel="Técnico I" itemValue="Técnico I" />
+						<f:selectItem itemLabel="Técnico II" itemValue="Técnico II" />
+						<f:selectItem itemLabel="Analista" itemValue="Analista" />
+						<f:selectItem itemLabel="Especialista I" itemValue="Especialista I" />
+						<f:selectItem itemLabel="Especialista II" itemValue="Especialista II" />
+						<f:selectItem itemLabel="Consultor" itemValue="Consultor" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				
 				<h:outputLabel id="lblDtAdmissao" for="dtAdmissaoButton"
 					value="Data Admissão: " />
 				<br />
-				<p:calendar id="dtAdmissaoButton" showOn="button" value="#{usuarioController.funcionario.dtAdmissao}"/>
+				<p:calendar id="dtAdmissaoButton" showOn="button" value="#{usuarioController.funcionario.dtAdmissao}" mask="99/99/99"/>
 				<br />
 
 				<h:outputLabel id="lblDtNascimento" for="dtNascimentoButton"
 					value="Data Nascimento: " />
 				<br />
-				<p:calendar id="dtNascimentoButton" showOn="button" value="#{usuarioController.funcionario.dtNascimento}"/>
+				<p:calendar id="dtNascimentoButton" showOn="button" value="#{usuarioController.funcionario.dtNascimento}" mask="99/99/99"/>
 				<br /> <br />
 
 				<h:outputLabel id="lblRG" value="RG: " />
 				<br />
-				<p:inputText id="textRG" value="#{usuarioController.funcionario.rg}"/>
+				<p:inputMask id="textRG" value="#{usuarioController.funcionario.rg}" mask="99.999.999-9"/>
 				<br />
 
 				<h:outputLabel id="lblCPF" value="CPF: " />
 				<br />
-				<p:inputText id="textCPF" value="#{usuarioController.funcionario.cpf}"/>
+				<p:inputMask id="textCPF" value="#{usuarioController.funcionario.cpf}" mask="999.999.999-99"/>
 				<br />
 
 
