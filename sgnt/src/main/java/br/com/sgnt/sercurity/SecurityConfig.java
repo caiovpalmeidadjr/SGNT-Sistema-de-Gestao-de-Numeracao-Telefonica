@@ -2,6 +2,10 @@ package br.com.sgnt.sercurity;
 
 import java.util.Arrays;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -9,36 +13,41 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+		
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		//configurando pagina a ser redirecionada após o login
 		http.userDetailsService(userDetailsService())
 			.formLogin()
-			.defaultSuccessUrl("/index.xhtml").and()
+			.defaultSuccessUrl("/index/index.xhtml").and()
 			.csrf()
 			.disable()
 			.authorizeRequests()
-			.antMatchers("/index.xhtml")
-			.hasAnyRole("ADMIN")
+			.antMatchers("/index/index.xhtml")
+			.hasAnyRole("ADMIN, USER, GERENTE_CONTA, ADM_TI, ADM_NUMERACAO")
 			.anyRequest().authenticated();
 		
+		
 	}
-	
+
 	@Override
 	protected UserDetailsService userDetailsService() {
 		
 		UserDetails user1 = new User("caio","1234", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN"));
 		UserDetails user2 = new User("admin","1234", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
-		
+		UserDetails user3 = new User("admTI","1234", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADM_TI"));
+		UserDetails user4 = new User("admNumeracao","1234", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADM_NUMERACAO"));
+		UserDetails user5 = new User("gerenteConta","1234", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_GERENTE_CONTA"));
+				
 		//passando um array com os dois usuarios
-		return new InMemoryUserDetailsManager(Arrays.asList(user1, user2));
+		return new InMemoryUserDetailsManager(Arrays.asList(user1, user2, user3, user4, user5));
 	}
 	
 	@Override

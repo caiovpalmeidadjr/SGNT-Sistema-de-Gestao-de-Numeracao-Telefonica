@@ -8,6 +8,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.sgnt.model.Cliente;
@@ -146,6 +148,20 @@ public class ClienteController {
 		}
 		
 	}
+	
+	
+	public void onRowEdit(RowEditEvent event) {
+        Cliente c = ((Cliente) event.getObject());
+		FacesMessage msg = new FacesMessage("Cliente alterado!", c.getNome());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        repository.save(c);
+    }
+	
+	public void onRowCancel(RowEditEvent event) {
+		Cliente c = ((Cliente) event.getObject());
+		FacesMessage msg = new FacesMessage("Alteração cancelada", c.getNome());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 	
 	public Cliente getCliente() {
 		//o botão de salvar que vai atualizar, ele sabe se o objeto tem id ou não caso tenha ele realiza o update

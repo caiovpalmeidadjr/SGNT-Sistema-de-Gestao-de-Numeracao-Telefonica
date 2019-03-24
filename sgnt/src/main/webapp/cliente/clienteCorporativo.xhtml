@@ -11,7 +11,6 @@
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
-	<!-- h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet-->
 	<title>SGNT - CADASTRO DE CLIENTE</title>
 </h:head>
 <body>
@@ -44,59 +43,106 @@
 		<div class="container">
 
 	<h:form id="frmCliente">
-			Nome:   <h:inputText value="#{clienteController.clienteCorporativo.nome}" />
-			E-mail: <h:inputText value="#{clienteController.clienteCorporativo.email}" /><br/>
-			Logradouro: <h:inputText value="#{clienteController.clienteCorporativo.logradouro}" />
-			Municipio: <h:inputText value="#{clienteController.clienteCorporativo.municipio}" />
-			CEP: <h:inputText value="#{clienteController.clienteCorporativo.cep}" /><br/>
-			CNPJ: <h:inputText value="#{clienteController.clienteCorporativo.cnpj}" />
+	<p:growl id="testeMSG" showDetail="true"/>
+	        <div>				
+
+				<h4>Dados do Cliente:</h4>
+				<br />
+	
+				<h:outputLabel id="lblNome" value="Nome: " />
+				<br />
+				<p:inputText id="textNome"
+					value="#{clienteController.clienteCorporativo.nome}" />
+				<br />				
+				
+				<h:outputLabel id="lblEmail" value="Email: " />
+				<br />
+				<p:inputText id="textEmail"
+					value="#{clienteController.clienteCorporativo.email}" />
+				<br />				
+					
+
+				<h:outputLabel id="lblLogradouro" value="Logradouro: " />
+				<br />
+				<p:inputText id="textLogradouro" value="#{clienteController.clienteCorporativo.logradouro}"/>
+				<br />
+				
+				<h:outputLabel id="lblMunicipio" value="Municipio: " />
+				<br />
+				<p:inputText id="textMunicipio" value="#{clienteController.clienteCorporativo.municipio}"/>
+				<br />
+				
+				<h:outputLabel id="lblCEP" value="CEP: " />
+				<br />
+				<p:inputMask id="textCEP" value="#{clienteController.clienteCorporativo.cep}" mask="99.999.999"/>
+				<br />
+
+				<h:outputLabel id="lblCNPJ" value="CNPJ: " />
+				<br />
+				<p:inputMask id="textCNPJ" value="#{clienteController.clienteCorporativo.cnpj}" mask="99.999.999/9999-99"/>
+				<br />
+				
+			</div>
 		
 		<p:commandButton action="#{clienteController.salvarCorporativo}" value="Salvar" update="frmCliente" />
 		
-		<p:messages id="messages"></p:messages>
-				
-		<p:commandButton action="#{clienteController.cancelar}" value="Cancelar"
+		<h:commandButton action="#{clienteController.cancelar}" value="Cancelar"
 						 rendered="#{clienteController.alteracao}">
 			<f:ajax render="frmCliente" />
-		</p:commandButton>
+		</h:commandButton>
 		<br/><br/>
 		
 		<p:dataTable id="clienteDT" value="#{clienteController.listClientesCorporativo}"
-					 var="cliente" paginator="true" rows="100" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="10,20,50" reflow="true" style="padding-bottom:40px;">
-
-			<p:column headerText="Nome">
-					#{cliente.nome}
+					 var="cliente" paginator="true" rows="100" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="10,20,50" reflow="true" 
+					 style="padding-bottom:40px;" editable="true">
+		
+		<p:ajax event="rowEdit" listener="#{clienteController.onRowEdit}" update=":frmCliente:testeMSG" />
+		<p:ajax event="rowEditCancel" listener="#{clienteController.onRowCancel}" update=":frmCliente:testeMSG" />
+		
+			<p:column headerText="Nome" filterable="true" filterBy="#{cliente.nome}">
+				<p:cellEditor>
+					<f:facet name="output"> <h:outputText value="#{cliente.nome}"/> </f:facet>
+					<f:facet name="input"><p:inputText value="#{cliente.nome}"/> </f:facet>
+				</p:cellEditor>
 			</p:column>
 			
-			<p:column headerText="CNPJ">
-					#{cliente.cnpj}
+			<p:column headerText="CNPJ" style="width:200px;" filterable="true" filterBy="#{cliente.cnpj}">
+				<p:cellEditor>
+					<f:facet name="output"> <h:outputText value="#{cliente.cnpj}"/> </f:facet>
+					<f:facet name="input"><p:inputMask mask="99.999.999/9999-99" value="#{cliente.cnpj}"/> </f:facet>
+				</p:cellEditor>
 			</p:column>
 						
-			<p:column headerText="E-mail">	
-					#{cliente.email}
+			<p:column headerText="E-mail" filterable="true" filterBy="#{cliente.email}">	
+				<p:cellEditor>
+					<f:facet name="output"> <h:outputText value="#{cliente.email}"/> </f:facet>
+					<f:facet name="input"><p:inputText value="#{cliente.email}"/> </f:facet>
+				</p:cellEditor>
 			</p:column>
 			
-			<p:column headerText="Municipio">
-					#{cliente.municipio}
+			<p:column headerText="Municipio" filterable="true" filterBy="#{cliente.municipio}">
+				<p:cellEditor>
+					<f:facet name="output"> <h:outputText value="#{cliente.municipio}"/> </f:facet>
+					<f:facet name="input"><p:inputText value="#{cliente.municipio}"/> </f:facet>
+				</p:cellEditor>
 			</p:column>
 			
-			<p:column headerText="Logradouro">	
-					#{cliente.logradouro}
+			<p:column headerText="Logradouro" filterable="true" filterBy="#{cliente.logradouro}">	
+				<p:cellEditor>
+					<f:facet name="output"> <h:outputText value="#{cliente.logradouro}"/> </f:facet>
+					<f:facet name="input"><p:inputText value="#{cliente.logradouro}"/> </f:facet>
+				</p:cellEditor>
 			</p:column>
 			
-			<p:column headerText="CEP">	
-					#{cliente.cep}
+			<p:column headerText="CEP" filterable="true" filterBy="#{cliente.cep}">	
+				<p:cellEditor>
+					<f:facet name="output"> <h:outputText value="#{cliente.cep}"/> </f:facet>
+					<f:facet name="input"><p:inputMask mask="99.999-999" value="#{cliente.cep}"/> </f:facet>
+				</p:cellEditor>
 			</p:column>
 			
-			<p:column>
-				<f:facet name="header">Ação</f:facet>	
-				<p:commandButton action="#{clienteController.excluir(cliente)}" value="Excluir" onclick="return window.confirm('Certeza?')" update="frmCliente:clienteDT" />
-			</p:column>
-			
-			<p:column>
-				<f:facet name="header">Ação</f:facet>	
-				<p:commandButton action="#{clienteController.editar(cliente)}" value="Editar" update="frmCliente">
-				</p:commandButton>
+			<p:column  style="width:55px; margin-left:8px;">
+				<p:rowEditor/>
 			</p:column>
 
 		</p:dataTable>
