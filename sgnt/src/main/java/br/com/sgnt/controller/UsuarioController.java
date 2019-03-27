@@ -91,7 +91,7 @@ public class UsuarioController implements Serializable {
 	
 	public void redirecionar() throws IOException {
 		
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/sgnt/index/index.xhtml");  
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/index/index.xhtml");  
 	}
 
 
