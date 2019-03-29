@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.sgnt.model.Funcionario;
 import br.com.sgnt.model.Perfil;
@@ -29,18 +30,19 @@ public class UsuarioController implements Serializable {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
-	
+
 	@Autowired
 	private PerfilRepository perfilRepository;
-	
+
 	private Perfil perfil = new Perfil();
 	private Usuario usuario = new Usuario();
 	private Funcionario funcionario = new Funcionario();
-	
-	
+
+	final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -56,7 +58,7 @@ public class UsuarioController implements Serializable {
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
-	
+
 	public Perfil getPerfil() {
 		return perfil;
 	}
@@ -74,49 +76,50 @@ public class UsuarioController implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não encontrado!", "Erro no Login!"));
 			return null;
 		} else {
-			
+
 			try {
-				//redirecionando para a tela index.xhtml
+				// redirecionando para a tela index.xhtml
 				redirecionar();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			return null;
-			
-			
+
 		}
 
 	}
-	
+
 	public void redirecionar() throws IOException {
-		
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/sgnt/index/index.xhtml");  
+
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/index/index.xhtml");
 	}
 
+	public void onPageLoad() throws IOException {
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/erro/acessoNegado.xhtml");
+	}
 
-	public void cadastrar() {	
-		
+	public void cadastrar() {
+
 		Usuario u = usuarioRepository.buscaPorUsername(usuario.getUserName());
-		
-		if(u == null) {
+
+		if (u == null) {
 			usuario.setPerfil(perfil);
 			usuarioRepository.save(usuario);
 			funcionario.setAtivo(true);
 			funcionario.setUsuario(usuario);
 			funcionarioRepository.save(funcionario);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Usuário cadastrado!", "Cadastro efetuado"));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário cadastrado!", "Cadastro efetuado"));
 			funcionario = new Funcionario();
 			usuario = new Usuario();
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 					"Usuário já existe no banco", "Cadastro não efetuado"));
 		}
-			
-		
-		/*
 
+		/*
+		
 		*/
 	}
 
@@ -146,6 +149,10 @@ public class UsuarioController implements Serializable {
 		}
 
 		return "";
+	}
+
+	public String getCurrentUserName() {
+		return currentUserName;
 	}
 
 }

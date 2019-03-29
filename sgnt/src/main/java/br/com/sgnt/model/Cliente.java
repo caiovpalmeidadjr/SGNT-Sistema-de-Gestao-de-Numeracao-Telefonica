@@ -27,6 +27,12 @@ public class Cliente {
 	@Column(name = "MUNICIPIO")
 	private String municipio;
 
+	@Column(name = "bairro")
+	private String bairro;
+	
+	@Column(name = "numeroEndereco")
+	private String numeroEndereco;
+	
 	@Column(name = "CEP")
 	private String cep;
 
@@ -92,6 +98,22 @@ public class Cliente {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getNumeroEndereco() {
+		return numeroEndereco;
+	}
+
+	public void setNumeroEndereco(String numeroEndereco) {
+		this.numeroEndereco = numeroEndereco;
 	}
 
 	@Override

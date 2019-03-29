@@ -60,7 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		List<UserDetails> users = new ArrayList<>();
 		
 		for(Usuario user: usuarios) {
-			
 			UserDetails userDetail = new User(user.getUserName(),user.getSenha(), AuthorityUtils.commaSeparatedStringToAuthorityList(user.getPerfil().getNome()));
 			users.add(userDetail);
 		}

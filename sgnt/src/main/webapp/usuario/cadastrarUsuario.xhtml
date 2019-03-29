@@ -4,7 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
 <h:head>
 
 	<meta charset="utf-8" />
@@ -16,7 +17,13 @@
 </h:head>
 
 <h:body>
+	<sec:authorize access="hasAnyRole('ADM_NUMERACAO', 'GERENTE_CONTA')">
+		ACESSO NEGADO
+	</sec:authorize>
 
+	<sec:authorize access="hasRole('ADM_TI')">
+	
+	
 	<div class="topo">
 		<div class="BotaoHome">
 			<ul>
@@ -45,7 +52,7 @@
 
 
 	<div class="container">
-		
+		<p:growl id="message" showDetail="true"/>
 		<h:form id="formCadastro">
 
 			<div
@@ -150,16 +157,18 @@
 				
 				<h:commandButton value="Cadastrar" action="#{usuarioController.cadastrar}" update="formCadastro"/>
 				<br/>
-				<p:messages id="messages"></p:messages>
+				
 			</div>
 		</h:form>
 	</div>
-
+	
+	
 	<div class="rodape">
 		<div class="nomesis" id="textoRodape">
 			<b>SGNT - Todos os direitos reservados.</b>
 		</div>
 	</div>
-
+	</sec:authorize>
 </h:body>
+
 </html>

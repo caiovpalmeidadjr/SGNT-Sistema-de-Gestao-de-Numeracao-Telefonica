@@ -4,7 +4,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:sec="http://www.springframework.org/security/tags">
 
 <h:head>
 <meta charset="utf-8" />
@@ -16,7 +18,13 @@
 </h:head>
 <body>
 
-<div class="topo">
+	<sec:authorize access="hasRole('ADM_TI')">
+		ACESSO NEGADO
+	</sec:authorize>
+
+	<sec:authorize access="hasAnyRole('ADM_NUMERACAO', 'GERENTE_CONTA')">
+
+	<div class="topo">
 		<div class="BotaoHome">
 			<ul>
 				<li><a href="../index/index.xhtml" class="linkMenu"> MENU </a>
@@ -45,69 +53,93 @@
 
 	<h:form id="frmCliente">
 	<p:growl id="testeMSG" showDetail="true"/>
-	        <div>				
+		<h4>Dados do Cliente:</h4>
+	        <div jsf:id="divCliente" style="text-align: left; width: 50%; float:left">				
 
-				<h4>Dados do Cliente:</h4>
+				
 				<br />
 	
 				<h:outputLabel id="lblNome" value="Nome: " />
 				<br />
 				<p:inputText id="textNome"
-					value="#{clienteController.clienteResidencial.nome}" />
-				<br />				
+					value="#{clienteController.clienteResidencial.nome}" required="true" validatorMessage="Preencha o nome">
+					<f:validateLength minimum="0" />
+					<p:message for="textNome" display="icon" />
+				</p:inputText>
 				
+				<br/>			
 				<h:outputLabel id="lblEmail" value="Email: " />
 				<br />
 				<p:inputText id="textEmail"
-					value="#{clienteController.clienteResidencial.email}" />
+					value="#{clienteController.clienteResidencial.email}" required="true" validatorMessage="Preencha o e-mail">
+					<f:validateLength minimum="2" />
+					<p:message for="textEmail" display="icon" />
+				</p:inputText>
 				<br />				
-					
-
-				<h:outputLabel id="lblLogradouro" value="Logradouro: " />
-				<br />
-				<p:inputText id="textLogradouro" value="#{clienteController.clienteResidencial.logradouro}"/>
-				<br />
-				
-				<h:outputLabel id="lblMunicipio" value="Municipio: " />
-				<br />
-				<p:inputText id="textMunicipio" value="#{clienteController.clienteResidencial.municipio}"/>
-				<br />
-				
+		
 				<h:outputLabel id="lblCEP" value="CEP: " />
 				<br />
-				<p:inputMask id="textCEP" value="#{clienteController.clienteResidencial.cep}" mask="99.999.999"/>
+				<p:inputMask id="textCEP" value="#{clienteController.clienteResidencial.cep}" mask="99.999-999" binding="#{cep}" validatorMessage="Preencha o campo CEP">
+					<f:validateLength minimum="8" />
+				</p:inputMask>
+				<p:commandButton value="Buscar CEP" update="@form:divEndereco, @form:divCliente" action="#{clienteController.getEndereco(cep.value)}" style="margin-left:30px;"/>
+				<br />	
+				
+				<h:outputLabel id="lblCPF" value="CPF " />
 				<br />
-
-				<h:outputLabel id="lblCNPJ" value="CNPJ: " />
-				<br />
-				<p:inputMask id="textCNPJ" value="#{clienteController.clienteResidencial.cpf}" mask="999.999.999-99"/>
+				<p:inputMask id="textCPF" value="#{clienteController.clienteResidencial.cpf}" mask="999.999.999-99"/>
 				<br />
 				
-			</div>
+				<p:commandButton action="#{clienteController.salvarResidencial}" value="Salvar" update="frmCliente, :formDT" style="margin-top:20px;"/>
+		</div>
 		
-		<p:commandButton action="#{clienteController.salvarCorporativo}" value="Salvar" update="frmCliente" />
+		<div jsf:id="divEndereco" style="width: 50%; float:right">
+			
+			<br />
+			<h:outputLabel id="lblLogradouro" value="Logradouro: " />
+			<br />
+			<p:inputText id="textLogradouro" value="#{clienteController.e.logradouro}" readonly="true" disabled="true"/>
+			<br />
+				
+			<h:outputLabel id="lblBairro" value="Bairro: " />
+			<br />
+			<p:inputText id="textBairro" value="#{clienteController.e.bairro}" readonly="true" disabled="true"/>
+			<br />
+				
+			<h:outputLabel id="lblMunicipio" value="Municipio: " />
+			<br />
+			<p:inputText id="textMunicipio" value="#{clienteController.e.localidade}" readonly="true" disabled="true"/>
+			<br />
+			
+			<h:outputLabel id="lblNumero" value="Número:" />
+			<br />
+			<p:inputText id="textNumero" value="#{clienteController.clienteResidencial.numeroEndereco}" required="true" requiredMessage="Preencha o campo número"/>
+			<br />
 		
-		<h:commandButton action="#{clienteController.cancelar}" value="Cancelar"
-						 rendered="#{clienteController.alteracao}">
-			<f:ajax render="frmCliente" />
-		</h:commandButton>
+		</div>
+		
 		<br/><br/>
 		
+	</h:form>
+		
+		
+		<h:form id="formDT">
+		<div style="clear:both">
 		<p:dataTable id="clienteDT" value="#{clienteController.listClientesResidencial}"
 					 var="cliente" paginator="true" rows="100" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="10,20,50" reflow="true" 
-					 style="padding-bottom:40px;" editable="true">
+					 style="padding-bottom:40px;" editable="true" >
 		
 		<p:ajax event="rowEdit" listener="#{clienteController.onRowEdit}" update=":frmCliente:testeMSG" />
 		<p:ajax event="rowEditCancel" listener="#{clienteController.onRowCancel}" update=":frmCliente:testeMSG" />
 		
-			<p:column headerText="Nome" filterBy="#{cliente.nome}" filterable="true">
+			<p:column headerText="Nome" filterable="true" filterBy="#{cliente.nome}">
 				<p:cellEditor>
 					<f:facet name="output"> <h:outputText value="#{cliente.nome}"/> </f:facet>
 					<f:facet name="input"><p:inputText value="#{cliente.nome}"/> </f:facet>
 				</p:cellEditor>
 			</p:column>
 			
-			<p:column headerText="CPF" style="width:200px;" filterBy="#{cliente.cpf}" filterable="true">
+			<p:column headerText="CNPJ" style="width:200px;" filterable="true" filterBy="#{cliente.cpf}">
 				<p:cellEditor>
 					<f:facet name="output"> <h:outputText value="#{cliente.cpf}"/> </f:facet>
 					<f:facet name="input"><p:inputMask mask="999.999.999-99" value="#{cliente.cpf}"/> </f:facet>
@@ -128,10 +160,24 @@
 				</p:cellEditor>
 			</p:column>
 			
+			<p:column headerText="Bairro" filterable="true" filterBy="#{cliente.bairro}">
+				<p:cellEditor>
+					<f:facet name="output"> <h:outputText value="#{cliente.bairro}"/> </f:facet>
+					<f:facet name="input"> <p:inputText value="#{cliente.bairro}"></p:inputText> </f:facet>
+				</p:cellEditor>
+			</p:column>
+			
 			<p:column headerText="Logradouro" filterable="true" filterBy="#{cliente.logradouro}">	
 				<p:cellEditor>
 					<f:facet name="output"> <h:outputText value="#{cliente.logradouro}"/> </f:facet>
 					<f:facet name="input"><p:inputText value="#{cliente.logradouro}"/> </f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="Número" filterable="true" filterBy="#{cliente.numeroEndereco}">
+				<p:cellEditor>
+					<f:facet name="output"> <h:outputText value="#{cliente.numeroEndereco}"/> </f:facet>
+					<f:facet name="input"> <p:inputText value="#{cliente.numeroEndereco}"></p:inputText> </f:facet>
 				</p:cellEditor>
 			</p:column>
 			
@@ -147,6 +193,7 @@
 			</p:column>
 
 		</p:dataTable>
+		</div>
 	</h:form>
 	</div>
 		<div class="rodape">
@@ -154,6 +201,6 @@
 			<b>SGNT - Todos os direitos reservados.</b>
 		</div>
 	</div>
-	
+	</sec:authorize>
 </body>
 </html>
