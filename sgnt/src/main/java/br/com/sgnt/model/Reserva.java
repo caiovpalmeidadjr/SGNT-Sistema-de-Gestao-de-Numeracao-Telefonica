@@ -27,10 +27,6 @@ public class Reserva {
 	private Date dataPrevista;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_STAT")
-	private Status status;
-
-	@ManyToOne
 	@JoinColumn(name = "ID_FUNC")
 	private Funcionario funcionario;
 
@@ -62,14 +58,6 @@ public class Reserva {
 		this.dataPrevista = dataPrevista;
 	}
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
@@ -95,7 +83,6 @@ public class Reserva {
 		result = prime * result + ((dataPrevista == null) ? 0 : dataPrevista.hashCode());
 		result = prime * result + ((funcionario == null) ? 0 : funcionario.hashCode());
 		result = prime * result + ((idReserva == null) ? 0 : idReserva.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 
@@ -133,18 +120,14 @@ public class Reserva {
 				return false;
 		} else if (!idReserva.equals(other.idReserva))
 			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Reserva [idReserva=" + idReserva + ", dataHoraReserva=" + dataHoraReserva + ", dataPrevista="
-				+ dataPrevista + ", status=" + status + ", funcionario=" + funcionario + ", cliente=" + cliente + "]";
+				+ dataPrevista + ", funcionario=" + funcionario + ", cliente=" + cliente + "]";
 	}
-
+	
+	
 }

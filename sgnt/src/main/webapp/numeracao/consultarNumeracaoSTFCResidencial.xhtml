@@ -4,7 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
 <h:head>
 
 	<meta charset="utf-8" />
@@ -16,7 +17,11 @@
 </h:head>
 
 <h:body>
-
+	<sec:authorize access="hasRole('ADM_TI')">
+		ACESSO NEGADO
+	</sec:authorize>
+	
+	<sec:authorize access="hasAnyRole('ADM_NUMERACAO', 'GERENTE_CONTA')">
 	<div class="topo">
 		<div class="BotaoHome">
 			<ul>
@@ -48,9 +53,9 @@
 
 		<h:form id="frmNumero">
 			<div
-				style="width: 500px; text-align: left; height: 100%; padding-top: 5px; padding-bottom: 50px; float: left;">
+				style="text-align: left; height: 100%; padding-top: 5px; padding-bottom: 50px; float: left;">
 
-				<h4>Lista de números cadastrados:</h4>
+				<h4 style="text-align:center;">Lista de números cadastrados:</h4>
 				<br />
 
 
@@ -72,7 +77,11 @@
 					<p:column headerText="Area Local" filterBy="#{numero.areaLocal.nomeAreaLocal}">
 						<h:outputText value="#{numero.areaLocal.nomeAreaLocal}"/>
 					</p:column>
-
+					
+					<p:column headerText="Status" filterBy="#{numero.status.nomeStatus}">
+						<h:outputText value="#{numero.status.nomeStatus}"/>
+					</p:column>
+					
 				</p:dataTable>
 						
 				
@@ -86,6 +95,6 @@
 			<b>SGNT - Todos os direitos reservados.</b>
 		</div>
 	</div>
-
+	</sec:authorize>
 </h:body>
 </html>

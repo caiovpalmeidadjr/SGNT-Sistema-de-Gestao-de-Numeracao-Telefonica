@@ -4,7 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
 <h:head>
 
 	<meta charset="utf-8" />
@@ -16,7 +17,11 @@
 </h:head>
 
 <h:body>
+	<sec:authorize access="hasAnyRole('ADM_TI', 'GERENTE_CONTA')">
+		ACESSO NEGADO
+	</sec:authorize>
 
+	<sec:authorize access="hasRole('ADM_NUMERACAO')">
 	<div class="topo">
 		<div class="BotaoHome">
 			<ul>
@@ -56,11 +61,11 @@
 				<h:panelGrid id="pGridCN" columns="3" cellpadding="5" cellspacing="5">
 				<p:outputLabel for="cn" value="CN:" />
 				<p:selectOneMenu id="cn" value="#{numeroSTFCController.cnSelecionado}" >
+					<p:ajax listener="#{numeroSTFCController.onCNChange}" update="areaLocal"/>
+					<f:selectItem itemLabel="CN" noSelectionOption="true"/>
 					<f:selectItems value="#{numeroSTFCController.listCN}" />
 				</p:selectOneMenu>
-				
-				<p:commandButton value="Listar Area Local" update="frmAreaLocal" action="#{numeroSTFCController.carregaAreaLocal}" style="width: 200px;" />
-				
+								
 				</h:panelGrid>
 				
 				<br/>
@@ -77,19 +82,24 @@
 		<h:form id="frmNumero">
 		<div
 				style="width: 300px; text-align: left; height: 100%; padding-top: 5px; padding-bottom: 50px; float: right; margin-top:30px;">
-				<p:messages id="messages"></p:messages>
+				<p:growl id="message" showDetail="true"/>
 				<p:outputLabel id="lblPrefixo" value="Prefixo: "/> <br/>
-				<p:inputText id="txtPrefixo" value="#{numeroSTFCController.numeroSTFC.prefixoNumeroSTFC}" maxlength="4" size="4"/>
+				<p:inputText id="txtPrefixo" value="#{numeroSTFCController.numeroSTFC.prefixoNumeroSTFC}" maxlength="4" size="4" required="true" validatorMessage="Comprimento deve ser de 4 dígitos">
+					<f:validateLength minimum="4"/>
+				</p:inputText>
 				<br/>
 				
 				<p:outputLabel id="lblFIniial" value="MCDU Inicial: "/> <br/>
-				<p:inputText id="txtxFIniial" value="#{numeroSTFCController.faixaInicial}" maxlength="4" size="4"/>
+				<p:inputText id="txtxFIniial" value="#{numeroSTFCController.faixaInicial}" maxlength="4" size="4" required="true" validatorMessage="Comprimento deve ser de 4 dígitos">
+					<f:validateLength minimum="4"/>
+				</p:inputText>
 				<br/>
 				<p:outputLabel id="lblFFinal" value="MCDU Final: "/> <br/>
-				<p:inputText id="txtFFinal" value="#{numeroSTFCController.faixaFinal}" maxlength="4" size="4"/>
-				
+				<p:inputText id="txtFFinal" value="#{numeroSTFCController.faixaFinal}" maxlength="4" size="4" required="true" validatorMessage="Comprimento deve ser de 4 dígitos">
+					<f:validateLength minimum="4"/>
+				</p:inputText>
 				<br/><br/>
-				
+				<p:growl id="testeMSG" showDetail="true"/>
 				<p:commandButton value="Cadastrar" partialSubmit="true" update="frmNumero, :frmAreaLocal" process="frmNumero, :frmAreaLocal" action="#{numeroSTFCController.cadastrar('RESIDENCIAL')}"  />
 				
 				</div>
@@ -102,6 +112,6 @@
 			<b>SGNT - Todos os direitos reservados.</b>
 		</div>
 	</div>
-
+	</sec:authorize>
 </h:body>
 </html>

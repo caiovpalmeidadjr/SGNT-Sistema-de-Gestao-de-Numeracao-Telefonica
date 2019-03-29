@@ -32,9 +32,10 @@
 				value="#{now}">
 				<f:convertDateTime pattern="dd/MM/yyyy" typer="date" />
 			</h:outputText> </b> 
+			
+			
 		</div>
 		<div class="logout" style="widht:100px; float:right;margin-right:120px;" >
-			
 			  <h:form onsubmit="this.action='#{request.contextPath}/logout';"
     			class="logout-form">
     			<p:commandLink value="LOGOUT" ajax="false" style="color:#1d51a3; font-weight:bold;"/>
@@ -48,85 +49,90 @@
 		style="margin: auto; width: 89%; height: 2px; background-color: gray;">
 	</div>
 
-
+	<h3 style="text-align:center;"> Bem-Vindo ${usuarioController.currentUserName}</h3>
+	
 	<br />
 
 	<div class="container" style="padding-top:30px;">
 		
+		<sec:authorize access="hasAnyRole('GERENTE_CONTA','ADM_NUMERACAO')">
 		<div class="dropdown btn-group">
-		<sec:authorize access="hasAnyRole('ROLE_GERENTE_CONTA','ROLE_ADM_NUMERACAO')">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
 				<p:menuButton value="Numeração STFC Corporativa">
 					
 					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoSTFCCorporativa.xhtml"/>
-					<sec:authorize access="hasRole('ROLE_GERENTE_CONTA')">
-						<p:menuitem value="Reservar" />
+					<sec:authorize access="hasRole('GERENTE_CONTA')">
+						<p:menuitem value="Reservar" url="/numeracao/reservarNumeracaoSTFCCorporativa.xhtml"/>
 						<p:menuitem value="Alterar Reserva" />
 					</sec:authorize>
 					<p:menuitem value="Cancelar Reserva" />
-					<sec:authorize access="hasRole('ROLE_ADM_NUMERACAO')">
+					<sec:authorize access="hasRole('ADM_NUMERACAO')">
 						<p:menuitem value="Cadastrar Numeração" url="/numeracao/cadastrarNumeracaoSTFCCorporativa.xhtml"/>
 					</sec:authorize>
 				</p:menuButton>
 			</h:form>
-		</sec:authorize>
-		</div> <br/><br/>
 		
+		</div> <br/><br/>
+		</sec:authorize>
+		
+		<sec:authorize access="hasAnyRole('GERENTE_CONTA','ADM_NUMERACAO')">
 		<div class="dropdown btn-group">
-			<sec:authorize access="hasAnyRole('ROLE_GERENTE_CONTA','ROLE_ADM_NUMERACAO')">
+			
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
 				<p:menuButton value="Numeração STFC Residencial">
 					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoSTFCResidencial.xhtml"/>
-					<sec:authorize access="hasRole('ROLE_GERENTE_CONTA')">
+					<sec:authorize access="hasRole('GERENTE_CONTA')">
 						<p:menuitem value="Reservar" />
 						<p:menuitem value="Alterar Reserva" />
 					</sec:authorize>
 					<p:menuitem value="Cancelar Reserva" />
-					<sec:authorize access="hasRole('ROLE_ADM_NUMERACAO')">
+					<sec:authorize access="hasRole('ADM_NUMERACAO')">
 						<p:menuitem value="Cadastrar Numeração" url="/numeracao/cadastrarNumeracaoSTFCResidencial.xhtml"/>
 					</sec:authorize>
 
 				</p:menuButton>
 			</h:form>
-			</sec:authorize>
 		</div> <br/><br/>
+		</sec:authorize>
 
+		<sec:authorize access="hasAnyRole('GERENTE_CONTA','ADM_NUMERACAO')">
 		<div class="dropdown btn-group">
-			<sec:authorize access="hasAnyRole('ROLE_GERENTE_CONTA','ROLE_ADM_NUMERACAO')">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
 				<p:menuButton value="CNG (Código Não Geográfico)">
 
 					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoCNG.xhtml"/>
-					<sec:authorize access="hasRole('ROLE_GERENTE_CONTA')">
+					<sec:authorize access="hasRole('GERENTE_CONTA')">
 						<p:menuitem value="Reservar" />
 						<p:menuitem value="Alterar Reserva" />
 					</sec:authorize>
 					<p:menuitem value="Cancelar Reserva" />
-					<sec:authorize access="hasRole('ROLE_ADM_NUMERACAO')">
+					<sec:authorize access="hasRole('ADM_NUMERACAO')">
 						<p:menuitem value="Cadastrar Numeração" url="/numeracao/cadastrarNumeracaoCNG.xhtml"/>
 					</sec:authorize>
 
 				</p:menuButton>
 			</h:form>
-			</sec:authorize>
 		</div> <br/><br/>
+		</sec:authorize>
 
+		<sec:authorize access="hasAnyRole('GERENTE_CONTA','ADM_NUMERACAO')">
 		<div class="dropdown btn-group">
-			<sec:authorize access="hasAnyRole('ROLE_GERENTE_CONTA','ROLE_ADM_NUMERACAO')">
 			<h:form>
 				<p:menuButton value="Cliente">
 					<p:menuitem value="Corporativo" url="/cliente/clienteCorporativo.xhtml" />
 					<p:menuitem value="Residencial" url="/cliente/clienteResidencial.xhtml" />
 				</p:menuButton>
 			</h:form>
-			</sec:authorize>
+			
 		</div> <br/><br/>
-
+		</sec:authorize>
+		
+		<sec:authorize access="hasRole('ADM_NUMERACAO')">
 		<div class="dropdown btn-group">
-			<sec:authorize access="hasRole('ROLE_ADM_NUMERACAO')">
+			
 			<h:form>
 				<p:menuButton value="Relatórios">
 					<p:menuitem value="STFC Corporativo" />
@@ -134,18 +140,21 @@
 					<p:menuitem value="CNG" />
 				</p:menuButton>
 			</h:form>
-			</sec:authorize>
+			
 		</div> <br/><br/>
+		</sec:authorize>
 		
+		<sec:authorize access="hasRole('ADM_TI')">
 		<div class="dropdown btn-group">
-			<sec:authorize access="hasRole('ROLE_ADM_TI')">
+			
 			<h:form>
 				<p:menuButton value="Usuário">
 					<p:menuitem value="Cadastrar" url="/usuario/cadastrarUsuario.xhtml" />
 				</p:menuButton>
 			</h:form>
-			</sec:authorize>
+			
 		</div>
+		</sec:authorize>
 		
 	</div>
 	

@@ -17,6 +17,9 @@ import br.com.sgnt.model.ClienteResidencial;
 import br.com.sgnt.repository.ClienteCorporativoRepository;
 import br.com.sgnt.repository.ClienteRepository;
 import br.com.sgnt.repository.ClienteResidencialRepository;
+import br.com.viacep.ClienteWs;
+import br.com.viacep.Endereco;
+
 
 //dizendo que o meu controller é um bean que se comunica com a tela
 @Named
@@ -36,6 +39,9 @@ public class ClienteController {
 	private Cliente cliente = new Cliente();
 	private ClienteCorporativo clienteCorporativo = new ClienteCorporativo();
 	private ClienteResidencial clienteResidencial = new ClienteResidencial();
+	private Endereco e = new Endereco();
+	private ClienteWs ws = new ClienteWs();
+	private ClienteCorporativo selectedCliente = new ClienteCorporativo();
 	
 	private List<Cliente> listClientes;
 	private List<ClienteCorporativo> listClientesCorporativo;
@@ -107,6 +113,9 @@ public class ClienteController {
 		Cliente c = clienteCorporativoRepository.buscarPorCNPJ(clienteCorporativo.getCnpj());
 		
 		if(c == null) {
+			clienteCorporativo.setLogradouro(e.getLogradouro());
+			clienteCorporativo.setBairro(e.getBairro());
+			clienteCorporativo.setMunicipio(e.getLocalidade());
 			repository.save(clienteCorporativo);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
@@ -130,6 +139,9 @@ public class ClienteController {
 		Cliente c = clienteResidencialRepository.buscarPorCPF(clienteResidencial.getCpf());
 		
 		if(c == null) {
+			clienteResidencial.setBairro(e.getBairro());
+			clienteResidencial.setLogradouro(e.getLogradouro());
+			clienteResidencial.setMunicipio(e.getLocalidade());
 			repository.save(clienteResidencial);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
@@ -161,6 +173,26 @@ public class ClienteController {
 		FacesMessage msg = new FacesMessage("Alteração cancelada", c.getNome());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+	
+	public void getEndereco(String cep) {
+		cep = cep.replace(".", "").replace("-", "");
+		e = ws.getEnderecoPorCep(cep);
+		
+		if(e == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"CEP inválido", "Favor informar um CEP válido"));
+		}
+		
+	}
+	
+	public void deleteClienteCorporativo() {
+		//listClientesCorporativo.remove(selectedCliente);
+		System.out.println("OK");
+		System.out.println("---------------------------------------");
+		System.out.println(selectedCliente.toString());
+		
+		//selectedCliente = null;
+	}
 	
 	public Cliente getCliente() {
 		//o botão de salvar que vai atualizar, ele sabe se o objeto tem id ou não caso tenha ele realiza o update
@@ -228,5 +260,35 @@ public class ClienteController {
 	public void setListClientesResidencial(List<ClienteResidencial> listClientesResidencial) {
 		this.listClientesResidencial = listClientesResidencial;
 	}
-	
+
+
+	public Endereco getE() {
+		return e;
+	}
+
+
+	public void setE(Endereco e) {
+		this.e = e;
+	}
+
+
+	public ClienteWs getWs() {
+		return ws;
+	}
+
+
+	public void setWs(ClienteWs ws) {
+		this.ws = ws;
+	}
+
+
+	public ClienteCorporativo getSelectedCliente() {
+		return selectedCliente;
+	}
+
+
+	public void setSelectedCliente(ClienteCorporativo selectedCliente) {
+		this.selectedCliente = selectedCliente;
+	}
+		
 }
