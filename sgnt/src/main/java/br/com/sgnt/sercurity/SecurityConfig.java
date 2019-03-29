@@ -1,13 +1,9 @@
 package br.com.sgnt.sercurity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,7 +11,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 
@@ -35,13 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		//configurando pagina a ser redirecionada após o login
 		http.userDetailsService(userDetailsService())
-			.formLogin()
+			.formLogin().loginPage("/login/login.xhtml").permitAll()
 			.defaultSuccessUrl("/index/index.xhtml").and()
 			.csrf()
 			.disable()
 			.authorizeRequests()
+			.antMatchers("/login/login.css").permitAll()
 			.antMatchers("/index/index.xhtml")
-			.hasAnyRole("ADMIN, USER, GERENTE_CONTA, ADM_TI, ADM_NUMERACAO")
+			.hasAnyRole("ADMIN")
 			.anyRequest().authenticated();
 		
 	}
@@ -74,7 +70,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void setContentNegotationStrategy(ContentNegotiationStrategy contentNegotiationStrategy) {
-		// TODO Auto-generated method stub
 		super.setContentNegotationStrategy(contentNegotiationStrategy);
 	}
 }
