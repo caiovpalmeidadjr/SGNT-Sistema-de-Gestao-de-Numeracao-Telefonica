@@ -17,8 +17,8 @@ import br.com.sgnt.model.ClienteResidencial;
 import br.com.sgnt.repository.ClienteCorporativoRepository;
 import br.com.sgnt.repository.ClienteRepository;
 import br.com.sgnt.repository.ClienteResidencialRepository;
-import br.com.viacep.ClienteWs;
-import br.com.viacep.Endereco;
+import br.com.viacep.ClienteCEP;
+import br.com.viacep.EnderecoCEP;
 
 
 //dizendo que o meu controller é um bean que se comunica com a tela
@@ -39,13 +39,14 @@ public class ClienteController {
 	private Cliente cliente = new Cliente();
 	private ClienteCorporativo clienteCorporativo = new ClienteCorporativo();
 	private ClienteResidencial clienteResidencial = new ClienteResidencial();
-	private Endereco e = new Endereco();
-	private ClienteWs ws = new ClienteWs();
 	private ClienteCorporativo selectedCliente = new ClienteCorporativo();
+	private EnderecoCEP e = new EnderecoCEP();
+	private ClienteCEP ws = new ClienteCEP();
 	
 	private List<Cliente> listClientes;
 	private List<ClienteCorporativo> listClientesCorporativo;
 	private List<ClienteResidencial> listClientesResidencial;
+	
 	
 	private boolean alteracao;
 	
@@ -262,26 +263,6 @@ public class ClienteController {
 	}
 
 
-	public Endereco getE() {
-		return e;
-	}
-
-
-	public void setE(Endereco e) {
-		this.e = e;
-	}
-
-
-	public ClienteWs getWs() {
-		return ws;
-	}
-
-
-	public void setWs(ClienteWs ws) {
-		this.ws = ws;
-	}
-
-
 	public ClienteCorporativo getSelectedCliente() {
 		return selectedCliente;
 	}
@@ -290,5 +271,27 @@ public class ClienteController {
 	public void setSelectedCliente(ClienteCorporativo selectedCliente) {
 		this.selectedCliente = selectedCliente;
 	}
-		
+
+
+	public EnderecoCEP getE() {
+		return e;
+	}
+
+
+	public void setE(EnderecoCEP e) {
+		this.e = e;
+	}
+
+
+	public ClienteCEP getWs() {
+		return ws;
+	}
+
+
+	public void setWs(ClienteCEP ws) {
+		this.ws = ws;
+	}
+	
+	
+	
 }

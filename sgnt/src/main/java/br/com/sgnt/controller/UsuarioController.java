@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import br.com.sgnt.model.Funcionario;
@@ -41,7 +42,7 @@ public class UsuarioController implements Serializable {
 	private Usuario usuario = new Usuario();
 	private Funcionario funcionario = new Funcionario();
 	
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -148,5 +149,6 @@ public class UsuarioController implements Serializable {
 
 		return "";
 	}
+	
 
 }

@@ -30,14 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		//configurando pagina a ser redirecionada após o login
 		http.userDetailsService(userDetailsService())
-			.formLogin().loginPage("/login/login.xhtml").permitAll()
+			.formLogin()
 			.defaultSuccessUrl("/index/index.xhtml").and()
 			.csrf()
 			.disable()
 			.authorizeRequests()
 			.antMatchers("/login/login.css").permitAll()
 			.antMatchers("/index/index.xhtml")
-			.hasAnyRole("ADMIN")
+			.hasAnyRole("ADMIN, ADM_TI, ADM_NUMERACAO, GERENTE_CONTA")
 			.anyRequest().authenticated();
 		
 	}

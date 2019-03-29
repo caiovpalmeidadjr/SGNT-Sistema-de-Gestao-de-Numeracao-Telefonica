@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Classe para recuperar informações do WS do viacep.com.br
  */
-public class ClienteWs {
+public class ClienteCEP {
 
     private static final Set<String> CAMPOS = new HashSet<String>(Arrays.asList(
     "cep",
@@ -33,16 +33,16 @@ public class ClienteWs {
      * @param cep String no formato 00000000
      * @return instancia de br.com.viacep.Endereco
      */
-    public static Endereco getEnderecoPorCep(String cep) {
+    public static EnderecoCEP getEnderecoPorCep(String cep) {
 
         JsonObject jsonObject = getCepResponse(cep);
-        Endereco endereco = null;
+        EnderecoCEP endereco = null;
 
         JsonValue erro = jsonObject.get("erro");
 
         if (erro == null) {
 
-            endereco = new Endereco()
+            endereco = new EnderecoCEP()
                     .setCep(jsonObject.getString("cep"))
                     .setLogradouro(jsonObject.getString("logradouro"))
                     .setComplemento(jsonObject.getString("complemento"))

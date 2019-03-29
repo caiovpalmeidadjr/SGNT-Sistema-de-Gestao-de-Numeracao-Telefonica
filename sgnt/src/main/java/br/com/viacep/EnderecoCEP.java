@@ -3,7 +3,7 @@ package br.com.viacep;
 /**
  * Entidade baseada nos dados do WS do viacep.com
  */
-public class Endereco {
+public class EnderecoCEP {
 
     private String cep;
     private String logradouro;
@@ -51,47 +51,47 @@ public class Endereco {
         return gia;
     }
 
-    public Endereco setCep(String cep) {
+    public EnderecoCEP setCep(String cep) {
         this.cep = cep;
         return this;
     }
 
-    public Endereco setLogradouro(String logradouro) {
+    public EnderecoCEP setLogradouro(String logradouro) {
         this.logradouro = logradouro;
         return this;
     }
 
-    public Endereco setComplemento(String complemento) {
+    public EnderecoCEP setComplemento(String complemento) {
         this.complemento = complemento;
         return this;
     }
 
-    public Endereco setBairro(String bairro) {
+    public EnderecoCEP setBairro(String bairro) {
         this.bairro = bairro;
         return this;
     }
 
-    public Endereco setLocalidade(String localidade) {
+    public EnderecoCEP setLocalidade(String localidade) {
         this.localidade = localidade;
         return this;
     }
 
-    public Endereco setUf(String uf) {
+    public EnderecoCEP setUf(String uf) {
         this.uf = uf;
         return this;
     }
 
-    public Endereco setUnidade(String unidade) {
+    public EnderecoCEP setUnidade(String unidade) {
         this.unidade = unidade;
         return this;
     }
 
-    public Endereco setIbge(String ibge) {
+    public EnderecoCEP setIbge(String ibge) {
         this.ibge = ibge;
         return this;
     }
 
-    public Endereco setGia(String gia) {
+    public EnderecoCEP setGia(String gia) {
         this.gia = gia;
         return this;
     }
