@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+	    <title>Spring Security</title>
+
+	    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+
+	    <link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+
+	    <link th:href="@{/webjars/font-awesome/css/font-awesome.min.css}" rel="stylesheet"/>
+
+	    <link rel="stylesheet" type="text/css" href="login.css"/>
+	</head>
+
+	<body>
+	
+			<div class="wrapper fadeInDown">
+					<div id="formContent">
+						<form th:action="@{/login}" method="post">
+							<div class="form-group">
+								<input type="text" name="username" class="fadeIn second" placeholder="Usuario"/>
+							</div>
+
+							<div class="form-group">
+								<input type="password" name="password" class="fadeIn third" placeholder="Senha"/>
+							</div>
+
+							<div class="form-group">
+								<input type="submit" class="fadeIn fourth" value="LOGIN">
+							</div>
+
+							<div class="form-group">
+								<input type="checkbox" id="remember-me" name="remember-me" />
+								<label for="remember-me">Lembrar?</label>
+							</div>
+						</form>
+					</div>
+				</div>
+			
+		<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
+		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	</body>
+</html>
