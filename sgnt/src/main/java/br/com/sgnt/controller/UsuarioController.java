@@ -9,6 +9,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 
 import br.com.sgnt.model.Funcionario;
 import br.com.sgnt.model.Perfil;
@@ -19,7 +21,7 @@ import br.com.sgnt.repository.UsuarioRepository;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
 @Named
-@ViewScoped
+@Controller
 public class UsuarioController implements Serializable {
 
 	/**
@@ -40,7 +42,7 @@ public class UsuarioController implements Serializable {
 	private Usuario usuario = new Usuario();
 	private Funcionario funcionario = new Funcionario();
 	
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -91,16 +93,33 @@ public class UsuarioController implements Serializable {
 	
 	public void redirecionar() throws IOException {
 		
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/sgnt/index/index.xhtml");  
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/index/index.xhtml");  
 	}
 
 
 	public void cadastrar() {	
-		usuario.setPerfil(perfil);
-		usuarioRepository.save(usuario);
-		funcionario.setAtivo(true);
-		funcionario.setUsuario(usuario);
-		funcionarioRepository.save(funcionario);
+		
+		Usuario u = usuarioRepository.buscaPorUsername(usuario.getUserName());
+		
+		if(u == null) {
+			usuario.setPerfil(perfil);
+			usuarioRepository.save(usuario);
+			funcionario.setAtivo(true);
+			funcionario.setUsuario(usuario);
+			funcionarioRepository.save(funcionario);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Usuário cadastrado!", "Cadastro efetuado"));
+			funcionario = new Funcionario();
+			usuario = new Usuario();
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Usuário já existe no banco", "Cadastro não efetuado"));
+		}
+			
+		
+		/*
+
+		*/
 	}
 
 	public String testarAcesso() {
@@ -130,5 +149,6 @@ public class UsuarioController implements Serializable {
 
 		return "";
 	}
+	
 
 }

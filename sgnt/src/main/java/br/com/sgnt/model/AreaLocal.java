@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_AREA_LOCAL")
-public class AreaLocal {
+public class AreaLocal implements Comparable<AreaLocal> {
 
 	@Id
 	@GeneratedValue
@@ -28,7 +28,7 @@ public class AreaLocal {
 	private Integer cnAreaLocal;
 
 	@Column(name = "NUMATENDIMENTO")
-	private Integer numAtendimentoAreaLocal;
+	private boolean numAtendimentoAreaLocal;
 
 	public Integer getIdAreaLocal() {
 		return idAreaLocal;
@@ -70,11 +70,11 @@ public class AreaLocal {
 		this.cnAreaLocal = cnAreaLocal;
 	}
 
-	public Integer getNumAtendimentoAreaLocal() {
+	public boolean isNumAtendimentoAreaLocal() {
 		return numAtendimentoAreaLocal;
 	}
 
-	public void setNumAtendimentoAreaLocal(Integer numAtendimentoAreaLocal) {
+	public void setNumAtendimentoAreaLocal(boolean numAtendimentoAreaLocal) {
 		this.numAtendimentoAreaLocal = numAtendimentoAreaLocal;
 	}
 
@@ -85,7 +85,7 @@ public class AreaLocal {
 		result = prime * result + ((cnAreaLocal == null) ? 0 : cnAreaLocal.hashCode());
 		result = prime * result + ((idAreaLocal == null) ? 0 : idAreaLocal.hashCode());
 		result = prime * result + ((nomeAreaLocal == null) ? 0 : nomeAreaLocal.hashCode());
-		result = prime * result + ((numAtendimentoAreaLocal == null) ? 0 : numAtendimentoAreaLocal.hashCode());
+		result = prime * result + (numAtendimentoAreaLocal ? 1231 : 1237);
 		result = prime * result + ((siglaAreaLocal == null) ? 0 : siglaAreaLocal.hashCode());
 		result = prime * result + ((ufAreaLocal == null) ? 0 : ufAreaLocal.hashCode());
 		return result;
@@ -115,10 +115,7 @@ public class AreaLocal {
 				return false;
 		} else if (!nomeAreaLocal.equals(other.nomeAreaLocal))
 			return false;
-		if (numAtendimentoAreaLocal == null) {
-			if (other.numAtendimentoAreaLocal != null)
-				return false;
-		} else if (!numAtendimentoAreaLocal.equals(other.numAtendimentoAreaLocal))
+		if (numAtendimentoAreaLocal != other.numAtendimentoAreaLocal)
 			return false;
 		if (siglaAreaLocal == null) {
 			if (other.siglaAreaLocal != null)
@@ -138,6 +135,14 @@ public class AreaLocal {
 		return "AreaLocal [idAreaLocal=" + idAreaLocal + ", siglaAreaLocal=" + siglaAreaLocal + ", nomeAreaLocal="
 				+ nomeAreaLocal + ", ufAreaLocal=" + ufAreaLocal + ", cnAreaLocal=" + cnAreaLocal
 				+ ", numAtendimentoAreaLocal=" + numAtendimentoAreaLocal + "]";
+	}
+
+	@Override
+	public int compareTo(AreaLocal a1) {
+		if(getCnAreaLocal() == null || a1.getCnAreaLocal() == null) {
+			return 0;
+		}
+		return getCnAreaLocal().compareTo(a1.getCnAreaLocal());
 	}
 
 }

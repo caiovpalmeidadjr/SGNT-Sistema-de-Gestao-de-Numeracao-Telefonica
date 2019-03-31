@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
+	<!-- h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet-->
+	<title>SGNT - RESERVAR NUMERAÇÃO STFC</title>
+</h:head>
+
+<h:body>
+	<sec:authorize access="hasAnyRole('ADM_NUMERACAO', 'ADM_TI')">
+		ACESSO NEGADO
+	</sec:authorize>
+	
+	
+	<sec:authorize access="hasRole('GERENTE_CONTA')">
+	<div class="topo">
+		<div class="BotaoHome">
+			<ul>
+				<li><a href="../index/index.xhtml" class="linkMenu"> MENU </a>
+				</li>
+			</ul>
+		</div>
+		<div class="nomesis">
+			<b>SGNT - Sistema de Gestão de Numeração Telefônica</b>
+		</div>
+	</div>
+	<br />
+
+	<div class="subtopo" style="">
+		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
+				pattern="dd/MM/yyyy" /></b>
+		<div class="nomePagina">RESERVAR NUMERAÇÃO STFC CORPORATIVA</div>
+	</div>
+	<br />
+
+	<div class="linha"
+		style="margin: auto; width: 89%; height: 2px; background-color: gray;">
+	</div>
+	<br />
+
+
+
+	<div class="container">
+		
+		<h:form id="frmAreaLocal">
+		<p:growl id="message" showDetail="true"/>
+			<h4 style="text-align:center;">Dados da Reserva</h4>
+			<div
+				style=" text-align: left;width:50% ;height: 100%; padding-top: 5px; padding-bottom: 50px; float:left;">
+				<br />
+				
+			
+				<p:outputLabel for="cn" value="CN:" />
+				<p:selectOneMenu id="cn" value="#{numeroSTFCController.cnSelecionado}" style="margin-left:10px;">
+					<p:ajax listener="#{numeroSTFCController.onCNChange}" update="areaLocal"/>
+					<f:selectItem itemLabel="CN" noSelectionOption="true" />
+					<f:selectItems value="#{numeroSTFCController.listCN}" />
+				</p:selectOneMenu>
+				<br/>
+				
+				<p:outputLabel for="areaLocal" value="Area Local: " /> 
+				<p:selectOneMenu id="areaLocal" value="#{numeroSTFCController.area}" style="margin-left:10px;">
+					<p:ajax listener="#{numeroSTFCController.onAreaLocalChange}" update="prefixo" />
+					<f:selectItem itemLabel="AL" noSelectionOption="true" />
+					<f:selectItems value="#{numeroSTFCController.listAreaLocal}" />
+				</p:selectOneMenu>
+				
+				<br/>
+				
+				<p:outputLabel for="prefixo" value="Prefixo:" /> 
+				<p:selectOneMenu id="prefixo" value="#{numeroSTFCController.prefixo}" style="margin-left:10px;">
+					<f:selectItem itemLabel="Prefixo" noSelectionOption="true" />
+					<f:selectItems value="#{numeroSTFCController.listPrefixo}" />
+				</p:selectOneMenu>
+				<br/>
+				
+				<p:outputLabel id="lblFIniial" value="MCDU Inicial: "/>
+				<p:inputText id="txtxFIniial" value="#{numeroSTFCController.faixaInicial}" maxlength="4" size="4" required="true" validatorMessage="Comprimento deve ser de 4 dígitos" style="margin-left:10px;">
+					<f:validateLength minimum="4" />
+				</p:inputText>
+				<br/>
+				
+				<p:outputLabel id="lblFFinal" value="MCDU Final: "/>
+				<p:inputText id="txtFFinal" value="#{numeroSTFCController.faixaFinal}" maxlength="4" size="4" required="true" validatorMessage="Comprimento deve ser de 4 dígitos" style="margin-left:10px;">
+					<f:validateLength minimum="4" />
+				</p:inputText>
+				
+				<br/>
+				
+				<p:commandButton value="Reservar" update="frmAreaLocal" action="#{numeroSTFCController.reservar}" style="margin-top:20px;"/>
+				<br/><br/>
+				
+				<p:outputLabel for="mcduOk" value="MCDU cadastrados"/>
+				<p:inputText id="mcduOk" disabled="true" value="#{numeroSTFCController.qtdeMCDUOk}" style="width:50px; margin-left:18px;"/>
+				<br></br>
+				<p:outputLabel for="mcduErro" value="MCDU já reservados"/>
+				<p:inputText id="mcduErro" disabled="true"  value="#{numeroSTFCController.mcduErro}" style="width:50px; margin-left:10px;" />
+				
+			</div>
+			<div style="float:right; text-align:left;width:50% ;height: 100%; padding-top: 5px; padding-bottom: 50px; ">
+				
+			</div>
+			
+		</h:form>
+		
+	</div>
+
+	<div class="rodape">
+		<div class="nomesis" id="textoRodape">
+			<b>SGNT - Todos os direitos reservados.</b>
+		</div>
+	</div>
+	</sec:authorize>
+
+</h:body>
+</html>

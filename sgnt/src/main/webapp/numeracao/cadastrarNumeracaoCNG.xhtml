@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
+	<!-- h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet-->
+	<title>SGNT - CADASTRAR NUMERAÇÃO CNG</title>
+</h:head>
+
+<h:body>
+
+	<sec:authorize access="hasAnyRole('ADM_TI', 'GERENTE_CONTA')">
+		ACESSO NEGADO
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('ADM_NUMERACAO')">
+
+	<div class="topo">
+		<div class="BotaoHome">
+			<ul>
+				<li><a href="../index/index.xhtml" class="linkMenu"> MENU </a>
+				</li>
+			</ul>
+		</div>
+		<div class="nomesis">
+			<b>SGNT - Sistema de Gestão de Numeração Telefônica</b>
+		</div>
+	</div>
+	<br />
+
+	<div class="subtopo" style="">
+		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
+				pattern="dd/MM/yyyy" /></b>
+		<div class="nomePagina">CADASTRAR NUMERAÇÃO CNG</div>
+	</div>
+	<br />
+
+	<div class="linha"
+		style="margin: auto; width: 89%; height: 2px; background-color: gray;">
+	</div>
+	<br />
+
+
+
+	<div class="container">
+		<p:growl id="message" showDetail="true"/>
+		<h:form id="frmNumeroCNG">
+			<div
+				style="width: 300px; text-align: left; height: 100%; padding-top: 5px; padding-bottom: 50px; float: left;">
+
+				<h4>Dados do CNG:</h4>
+				<br />
+
+				<p:outputLabel id="lblPrefixo" value="Prefixo: "/> <br/>
+				<p:inputText id="txtPrefixo" value="#{numeroCNGController.numeroCNG.prefixoNumeroCNG}" maxlength="4" size="4" />
+				<br/>
+				
+				<p:outputLabel id="lblSerie" value="Série: "/> <br/>
+				<p:inputText id="txtxFSerie" value="#{numeroCNGController.numeroCNG.serieNumeroCNG}" maxlength="3" size="3"/>
+				<br/>
+				<p:outputLabel id="lblMcdu" value="MCDU: "/> <br/>
+				<p:inputText id="txtFMcdu" value="#{numeroCNGController.numeroCNG.mcduNumeroCNG}" maxlength="4" size="4"/>
+				
+				<br/><br/>
+				
+				<p:commandButton value="Cadastrar" action="#{numeroCNGController.cadastrar}" update="frmNumeroCNG"/>
+				
+				</div>
+		</h:form>
+		
+	</div>
+
+	<div class="rodape">
+		<div class="nomesis" id="textoRodape">
+			<b>SGNT - Todos os direitos reservados.</b>
+		</div>
+	</div>
+</sec:authorize>
+</h:body>
+</html>

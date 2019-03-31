@@ -4,7 +4,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+       xmlns:sec="http://www.springframework.org/security/tags">
 <h:head>
   <meta charset="utf-8"/>
   <title>SGNT - Login</title>
@@ -13,6 +14,15 @@
 </h:head>
 <body>
 
+	<div class="authorization-div">
+    <sec:authorize access="hasRole('ROLE_USER')">
+      <p:outputLabel value="You have the USER role" />
+    </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+      <p:outputLabel value="You have the ADMIN role" />
+    </sec:authorize>
+  </div>
+
   <div class="wrapper fadeInDown">
     <div id="formContent">
       <!-- Login -->
@@ -20,7 +30,7 @@
       <h:form id="formLogin">
         <h:inputText id="login" styleClass="fadeIn second" u:placeholder="Usuário" value="#{usuarioController.usuario.userName}"/>
         <h:inputSecret id="password" styleClass="fadeIn third" u:placeholder="Senha" value="#{usuarioController.usuario.senha}"/>
-        <h:commandButton id="botaoLogar" styleClass="" value="LOGAR" action="#{usuarioController.envia}"/>        
+        <h:commandButton id="botaoLogar" styleClass="" value="LOGAR" action="#{usuarioController.envia()}"/>        
       </h:form>
       
       <!-- Lembrar Senha -->

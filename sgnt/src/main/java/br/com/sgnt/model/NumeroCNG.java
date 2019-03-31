@@ -17,6 +17,9 @@ public class NumeroCNG {
 	@Column(name = "ID_NCNG")
 	private Integer idNumeroCNG;
 
+	@Column(name = "PREFIXO")
+	private Integer prefixoNumeroCNG;
+
 	@Column(name = "SERIE")
 	private Integer serieNumeroCNG;
 
@@ -26,6 +29,10 @@ public class NumeroCNG {
 	@ManyToOne
 	@JoinColumn(name = "ID_RESE")
 	private Reserva reserva;
+
+	@ManyToOne
+	@JoinColumn(name = "ID_STAT")
+	private Status status;
 
 	public Integer getIdNumeroCNG() {
 		return idNumeroCNG;
@@ -59,14 +66,32 @@ public class NumeroCNG {
 		this.reserva = reserva;
 	}
 
+	public Integer getPrefixoNumeroCNG() {
+		return prefixoNumeroCNG;
+	}
+
+	public void setPrefixoNumeroCNG(Integer prefixoNumeroCNG) {
+		this.prefixoNumeroCNG = prefixoNumeroCNG;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((idNumeroCNG == null) ? 0 : idNumeroCNG.hashCode());
 		result = prime * result + ((mcduNumeroCNG == null) ? 0 : mcduNumeroCNG.hashCode());
+		result = prime * result + ((prefixoNumeroCNG == null) ? 0 : prefixoNumeroCNG.hashCode());
 		result = prime * result + ((reserva == null) ? 0 : reserva.hashCode());
 		result = prime * result + ((serieNumeroCNG == null) ? 0 : serieNumeroCNG.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 
@@ -89,6 +114,11 @@ public class NumeroCNG {
 				return false;
 		} else if (!mcduNumeroCNG.equals(other.mcduNumeroCNG))
 			return false;
+		if (prefixoNumeroCNG == null) {
+			if (other.prefixoNumeroCNG != null)
+				return false;
+		} else if (!prefixoNumeroCNG.equals(other.prefixoNumeroCNG))
+			return false;
 		if (reserva == null) {
 			if (other.reserva != null)
 				return false;
@@ -99,13 +129,19 @@ public class NumeroCNG {
 				return false;
 		} else if (!serieNumeroCNG.equals(other.serieNumeroCNG))
 			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "NumeroCNG [idNumeroCNG=" + idNumeroCNG + ", serieNumeroCNG=" + serieNumeroCNG + ", mcduNumeroCNG="
-				+ mcduNumeroCNG + ", reserva=" + reserva + "]";
+		return "NumeroCNG [idNumeroCNG=" + idNumeroCNG + ", prefixoNumeroCNG=" + prefixoNumeroCNG + ", serieNumeroCNG="
+				+ serieNumeroCNG + ", mcduNumeroCNG=" + mcduNumeroCNG + ", reserva=" + reserva + ", status=" + status
+				+ "]";
 	}
 
 }

@@ -4,13 +4,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
 <h:head>
 
 	<meta charset="utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
+	<!-- h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet-->
 	
 </h:head>
 
@@ -22,12 +24,24 @@
 		</div>
 	</div>
 	<br />
+	
+	<div class="subtopo">
 
-	<div class="subtopo" style="">
-		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><h:outputText
+		<div class="dataHora" style="width:100px; float:left; margin-left:120px;" >
+			<b><h:outputText
 				value="#{now}">
-				<f:convertDateTime pattern="dd/MM/yyyy" typer="date"></f:convertDateTime>
-			</h:outputText> </b>
+				<f:convertDateTime pattern="dd/MM/yyyy" typer="date" />
+			</h:outputText> </b> 
+			
+			
+		</div>
+		<div class="logout" style="widht:100px; float:right;margin-right:120px;" >
+			  <h:form onsubmit="this.action='#{request.contextPath}/logout';"
+    			class="logout-form">
+    			<p:commandLink value="LOGOUT" ajax="false" style="color:#1d51a3; font-weight:bold;"/>
+  			</h:form>
+			
+		</div>
 	</div>
 	<br />
 
@@ -35,89 +49,115 @@
 		style="margin: auto; width: 89%; height: 2px; background-color: gray;">
 	</div>
 
-
+	<h3 style="text-align:center;"> Bem-Vindo</h3>
+	
 	<br />
 
-	<div class="container">
-
+	<div class="container" style="padding-top:30px;">
+		
+		<sec:authorize access="hasAnyRole('GERENTE_CONTA','ADM_NUMERACAO')">
 		<div class="dropdown btn-group">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
 				<p:menuButton value="Numeração STFC Corporativa">
-
-					<p:menuitem value="Consultar" />
-					<p:menuitem value="Reservar" />
-					<p:menuitem value="Alterar Reserva" />
+					
+					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoSTFCCorporativa.xhtml"/>
+					<sec:authorize access="hasRole('GERENTE_CONTA')">
+						<p:menuitem value="Reservar" url="/numeracao/reservarNumeracaoSTFCCorporativa.xhtml"/>
+						<p:menuitem value="Alterar Reserva" />
+					</sec:authorize>
 					<p:menuitem value="Cancelar Reserva" />
-					<p:menuitem value="Cadastrar Numeração" />
-
+					<sec:authorize access="hasRole('ADM_NUMERACAO')">
+						<p:menuitem value="Cadastrar Numeração" url="/numeracao/cadastrarNumeracaoSTFCCorporativa.xhtml"/>
+					</sec:authorize>
 				</p:menuButton>
 			</h:form>
-
-		</div>
-
+		
+		</div> <br/><br/>
+		</sec:authorize>
+		
+		<sec:authorize access="hasAnyRole('GERENTE_CONTA','ADM_NUMERACAO')">
 		<div class="dropdown btn-group">
+			
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
 				<p:menuButton value="Numeração STFC Residencial">
-
-					<p:menuitem value="Consultar" />
-					<p:menuitem value="Reservar" />
-					<p:menuitem value="Alterar Reserva" />
+					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoSTFCResidencial.xhtml"/>
+					<sec:authorize access="hasRole('GERENTE_CONTA')">
+						<p:menuitem value="Reservar" />
+						<p:menuitem value="Alterar Reserva" />
+					</sec:authorize>
 					<p:menuitem value="Cancelar Reserva" />
-					<p:menuitem value="Cadastrar Numeração" />
+					<sec:authorize access="hasRole('ADM_NUMERACAO')">
+						<p:menuitem value="Cadastrar Numeração" url="/numeracao/cadastrarNumeracaoSTFCResidencial.xhtml"/>
+					</sec:authorize>
 
 				</p:menuButton>
 			</h:form>
-		</div>
+		</div> <br/><br/>
+		</sec:authorize>
 
+		<sec:authorize access="hasAnyRole('GERENTE_CONTA','ADM_NUMERACAO')">
 		<div class="dropdown btn-group">
 			<h:form>
 				<p:growl id="messages" showDetail="true" />
 				<p:menuButton value="CNG (Código Não Geográfico)">
 
-					<p:menuitem value="Consultar" />
-					<p:menuitem value="Reservar" />
-					<p:menuitem value="Alterar Reserva" />
+					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoCNG.xhtml"/>
+					<sec:authorize access="hasRole('GERENTE_CONTA')">
+						<p:menuitem value="Reservar" />
+						<p:menuitem value="Alterar Reserva" />
+					</sec:authorize>
 					<p:menuitem value="Cancelar Reserva" />
-					<p:menuitem value="Cadastrar Numeração" />
+					<sec:authorize access="hasRole('ADM_NUMERACAO')">
+						<p:menuitem value="Cadastrar Numeração" url="/numeracao/cadastrarNumeracaoCNG.xhtml"/>
+					</sec:authorize>
 
 				</p:menuButton>
 			</h:form>
-		</div>
+		</div> <br/><br/>
+		</sec:authorize>
 
+		<sec:authorize access="hasAnyRole('GERENTE_CONTA','ADM_NUMERACAO')">
 		<div class="dropdown btn-group">
 			<h:form>
-
+				<p:menuButton value="Cliente">
+					<p:menuitem value="Corporativo" url="/cliente/clienteCorporativo.xhtml" />
+					<p:menuitem value="Residencial" url="/cliente/clienteResidencial.xhtml" />
+				</p:menuButton>
+			</h:form>
+			
+		</div> <br/><br/>
+		</sec:authorize>
+		
+		<sec:authorize access="hasRole('ADM_NUMERACAO')">
+		<div class="dropdown btn-group">
+			
+			<h:form>
 				<p:menuButton value="Relatórios">
-
 					<p:menuitem value="STFC Corporativo" />
 					<p:menuitem value="STFC Residencial" />
 					<p:menuitem value="CNG" />
-
 				</p:menuButton>
 			</h:form>
+			
+		</div> <br/><br/>
+		</sec:authorize>
+		
+		<sec:authorize access="hasRole('ADM_TI')">
+		<div class="dropdown btn-group">
+			
+			<h:form>
+				<p:menuButton value="Usuário">
+					<p:menuitem value="Cadastrar" url="/usuario/cadastrarUsuario.xhtml" />
+				</p:menuButton>
+			</h:form>
+			
 		</div>
-
+		</sec:authorize>
+		
 	</div>
-
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-
+	
 	<div class="rodape">
 		<div class="nomesis" id="textoRodape">
 			<b>SGNT - Todos os direitos reservados.</b>

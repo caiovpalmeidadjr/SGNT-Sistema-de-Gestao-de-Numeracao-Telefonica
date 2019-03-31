@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
+	<!-- h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet-->
+	
+</h:head>
+
+<h:body>
+
+	<div class="topo">
+		<div class="BotaoHome">
+			<ul>
+				<li><a href="../index/index.xhtml" class="linkMenu"> MENU </a>
+				</li>
+			</ul>
+		</div>
+		<div class="nomesis">
+			<b>SGNT - Sistema de Gestão de Numeração Telefônica</b>
+		</div>
+	</div>
+	<br />
+	
+	<div class="subtopo">
+
+		<div class="dataHora" style="width:100px; float:left; margin-left:120px;" >
+			<b><h:outputText
+				value="#{now}">
+				<f:convertDateTime pattern="dd/MM/yyyy" typer="date" />
+			</h:outputText> </b> 
+			
+			
+		</div>
+		<div class="logout" style="widht:100px; float:right;margin-right:120px;" >
+			
+			  <h:form onsubmit="this.action='#{request.contextPath}/logout';"
+    			class="logout-form">
+    			<p:commandLink value="LOGOUT" ajax="false" style="color:#1d51a3; font-weight:bold;"/>
+  			</h:form>
+			
+		</div>
+	</div>
+	<br />
+
+	<div class="linha"
+		style="margin: auto; width: 89%; height: 2px; background-color: gray;">
+	</div>
+
+
+	<br />
+
+	<div class="container" style="padding-top:30px;">
+		<h1 style="text-align:center;">Acesso negado</h1>		
+	</div>
+</h:body>
+</html>

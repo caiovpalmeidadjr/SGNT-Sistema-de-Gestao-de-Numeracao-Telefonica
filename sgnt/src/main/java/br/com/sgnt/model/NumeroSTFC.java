@@ -35,6 +35,10 @@ public class NumeroSTFC {
 	@JoinColumn(name = "ID_RESE")
 	private Reserva reserva;
 
+	@ManyToOne
+	@JoinColumn(name = "ID_STAT")
+	private Status status;
+
 	public Integer getIdNumeroSTFC() {
 		return idNumeroSTFC;
 	}
@@ -83,6 +87,14 @@ public class NumeroSTFC {
 		this.reserva = reserva;
 	}
 
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -92,6 +104,7 @@ public class NumeroSTFC {
 		result = prime * result + ((mcduNumeroSTFC == null) ? 0 : mcduNumeroSTFC.hashCode());
 		result = prime * result + ((prefixoNumeroSTFC == null) ? 0 : prefixoNumeroSTFC.hashCode());
 		result = prime * result + ((reserva == null) ? 0 : reserva.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((tipoNumero == null) ? 0 : tipoNumero.hashCode());
 		return result;
 	}
@@ -130,6 +143,11 @@ public class NumeroSTFC {
 				return false;
 		} else if (!reserva.equals(other.reserva))
 			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
 		if (tipoNumero == null) {
 			if (other.tipoNumero != null)
 				return false;
@@ -142,7 +160,7 @@ public class NumeroSTFC {
 	public String toString() {
 		return "NumeroSTFC [idNumeroSTFC=" + idNumeroSTFC + ", prefixoNumeroSTFC=" + prefixoNumeroSTFC
 				+ ", mcduNumeroSTFC=" + mcduNumeroSTFC + ", areaLocal=" + areaLocal + ", tipoNumero=" + tipoNumero
-				+ ", reserva=" + reserva + "]";
+				+ ", reserva=" + reserva + ", status=" + status + "]";
 	}
 
 }

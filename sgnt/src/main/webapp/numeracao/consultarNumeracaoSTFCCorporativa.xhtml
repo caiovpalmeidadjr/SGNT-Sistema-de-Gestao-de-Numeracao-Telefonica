@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
+	<!-- h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet-->
+	<title>SGNT - CONSULTAR NUMERAÇÃO STFC</title>
+</h:head>
+
+<h:body>
+	
+	<sec:authorize access="hasRole('ADM_TI')">
+		ACESSO NEGADO
+	</sec:authorize>
+	
+	
+	<sec:authorize access="hasAnyRole('ADM_NUMERACAO', 'GERENTE_CONTA')">
+	<div class="topo">
+		<div class="BotaoHome">
+			<ul>
+				<li><a href="../index/index.xhtml" class="linkMenu"> MENU </a>
+				</li>
+			</ul>
+		</div>
+		<div class="nomesis">
+			<b>SGNT - Sistema de Gestão de Numeração Telefônica</b>
+		</div>
+	</div>
+	<br />
+
+	<div class="subtopo" style="">
+		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
+				pattern="dd/MM/yyyy" /></b>
+		<div class="nomePagina">CONSULTAR NUMERAÇÃO STFC CORPORATIVA</div>
+	</div>
+	<br />
+
+	<div class="linha"
+		style="margin: auto; width: 89%; height: 2px; background-color: gray;">
+	</div>
+	<br />
+
+
+
+	<div class="container">
+
+		<h:form id="frmNumero">
+			<div
+				style="backgoround-color:blue ;text-align: left; height: 100%; padding-top: 5px; padding-bottom: 50px; ">
+
+				<h4 style="text-align:center">Lista de números cadastrados:</h4>
+				<br />
+
+
+				<p:dataTable id="numeroDT" value="#{numeroSTFCController.listNumeroSTFCCorporativo}"
+					 var="numero" paginator="true" rows="100" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="100,500,1000" reflow="true">
+					
+					
+					<p:column headerText="CN" filterBy="#{numero.areaLocal.cnAreaLocal}">
+						<h:outputText value="#{numero.areaLocal.cnAreaLocal}"/>
+					</p:column>
+					
+					<p:column headerText="Prefixo" filterBy="#{numero.prefixoNumeroSTFC}">
+						<h:outputText value="#{numero.prefixoNumeroSTFC}"/>
+					</p:column>
+					<p:column headerText="MCDU" filterBy="#{numero.mcduNumeroSTFC}">
+						<h:outputText value="#{numero.mcduNumeroSTFC}"/>
+					</p:column>
+					
+					<p:column headerText="Area Local" filterBy="#{numero.areaLocal.nomeAreaLocal}">
+						<h:outputText value="#{numero.areaLocal.nomeAreaLocal}"/>
+					</p:column>
+					
+					<p:column headerText="Status" filterBy="#{numero.status.nomeStatus}">
+						<h:outputText value="#{numero.status.nomeStatus}"/>
+					</p:column>
+
+				</p:dataTable>
+						
+				
+			</div>
+		</h:form>
+
+	</div>
+
+	<div class="rodape">
+		<div class="nomesis" id="textoRodape">
+			<b>SGNT - Todos os direitos reservados.</b>
+		</div>
+	</div>
+	</sec:authorize>
+</h:body>
+</html>
