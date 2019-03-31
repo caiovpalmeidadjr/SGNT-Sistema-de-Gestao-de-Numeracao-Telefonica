@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+<h:head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
+	<!-- h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet-->
+	<title>SGNT - RESERVAR NUMERAÇÃO CNG</title>
+</h:head>
+
+<h:body>
+	<sec:authorize access="hasAnyRole('ADM_NUMERACAO', 'ADM_TI')">
+		ACESSO NEGADO
+	</sec:authorize>
+	
+	
+	<sec:authorize access="hasRole('GERENTE_CONTA')">
+	<div class="topo">
+		<div class="BotaoHome">
+			<ul>
+				<li><a href="../index/index.xhtml" class="linkMenu"> MENU </a>
+				</li>
+			</ul>
+		</div>
+		<div class="nomesis">
+			<b>SGNT - Sistema de Gestão de Numeração Telefônica</b>
+		</div>
+	</div>
+	<br />
+
+	<div class="subtopo" style="">
+		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
+				pattern="dd/MM/yyyy" /></b>
+		<div class="nomePagina">RESERVAR NUMERAÇÃO CNG</div>
+	</div>
+	<br />
+
+	<div class="linha"
+		style="margin: auto; width: 89%; height: 2px; background-color: gray;">
+	</div>
+	<br />
+
+
+
+	<div class="container">
+		
+		<h:form id="frmReserva">
+		<p:growl id="message" showDetail="true"/>
+			<h4 style="text-align:center;">Dados da Reserva</h4>
+			<div
+				style=" text-align: left;width:50% ;height: 100%; padding-top: 5px; padding-bottom: 50px; float:left;">
+
+				<p:dataTable id="numeroDT" value="#{numeroCNGController.listNumeroCNGDisponivel}" var="cng" paginator="true" 
+					rows="5" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="5,10,15" reflow="true" 
+					selection="#{numeroCNGController.numeroSelecionado}" rowKey="#{cng.idNumeroCNG}" style="padding-right:20px;">
+
+					<p:column selectionMode="single" style="width:35px;text-align:center"/>
+					<p:column headerText="Prefixo" filterable="true" filterBy="#{cng.prefixoNumeroCNG}">
+						<h:outputText value="#{cng.prefixoNumeroCNG}"/>
+					</p:column>
+					
+					<p:column headerText="Série" filterable="true" filterBy="#{cng.serieNumeroCNG}">
+						<h:outputText value="#{cng.serieNumeroCNG}"/>
+					</p:column>
+					
+					<p:column headerText="MCDU" filterable="true" filterBy="#{cng.mcduNumeroCNG}">
+						<h:outputText value="#{cng.mcduNumeroCNG}"/>
+					</p:column>
+				
+				</p:dataTable>
+				
+				
+			</div>
+			
+			
+			
+			<div style="float:right; text-align:left;width:50% ;height: 100%; padding-top: 5px; padding-bottom: 50px; ">
+				
+				<p:dataTable id="clienteDT" value="#{clienteController.listClientesCorporativo}"
+					 var="cliente" paginator="true" rows="5" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="5,10,15" reflow="true" 
+					 style="padding-bottom:40px;" selection="#{numeroCNGController.reserva.cliente}" rowKey="#{cliente.cnpj}">
+				
+				<p:column selectionMode="single" style="width:35px;text-align:center"/>
+				<p:column headerText="Nome" filterable="true" filterBy="#{cliente.nome}">
+					<h:outputText value="#{cliente.nome}"/> 
+				</p:column>
+				
+				<p:column headerText="CNPJ" style="width:200px;" filterable="true" filterBy="#{cliente.cnpj}">
+					<h:outputText value="#{cliente.cnpj}"/> 	
+				</p:column>
+							
+			
+			</p:dataTable>
+			<h:outputLabel for="dataPrevista" value="Data Prevista de Ativação:" />
+			<br />
+			<p:calendar id="dataPrevista" showOn="button" value="#{numeroCNGController.reserva.dataPrevista}" mask="99/99/99"/>
+			
+			<br/><br />
+			<p:outputLabel for="idReserva" value="ID da Reserva:"/>
+			<p:inputText id="idReserva" disabled="true" value="#{numeroCNGController.reserva.idReserva}" style="width:50px; margin-left:18px;"/>
+			<br/>
+			
+			<p:commandButton value="Reservar" update="frmReserva" action="#{numeroCNGController.reservar}" style="margin-top:20px;"/>
+			
+			</div>
+			
+		</h:form>
+		
+	</div>
+
+	<div class="rodape">
+		<div class="nomesis" id="textoRodape">
+			<b>SGNT - Todos os direitos reservados.</b>
+		</div>
+	</div>
+	</sec:authorize>
+
+</h:body>
+</html>

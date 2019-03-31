@@ -42,6 +42,7 @@ public class ClienteController {
 	private ClienteCorporativo selectedCliente = new ClienteCorporativo();
 	private EnderecoCEP e = new EnderecoCEP();
 	private ClienteCEP ws = new ClienteCEP();
+	private ClienteCorporativo clienteCorporativoSelecionado;
 	
 	private List<Cliente> listClientes;
 	private List<ClienteCorporativo> listClientesCorporativo;
@@ -290,6 +291,16 @@ public class ClienteController {
 
 	public void setWs(ClienteCEP ws) {
 		this.ws = ws;
+	}
+
+
+	public ClienteCorporativo getClienteCorporativoSelecionado() {
+		return clienteCorporativoSelecionado;
+	}
+
+
+	public void setClienteCorporativoSelecionado(ClienteCorporativo clienteCorporativoSelecionado) {
+		this.clienteCorporativoSelecionado = clienteCorporativoSelecionado;
 	}
 	
 	

@@ -84,7 +84,7 @@
 				<p:menuButton value="Numeração STFC Residencial">
 					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoSTFCResidencial.xhtml"/>
 					<sec:authorize access="hasRole('GERENTE_CONTA')">
-						<p:menuitem value="Reservar" />
+						<p:menuitem value="Reservar" url="/numeracao/reservarNumeracaoSTFCResidencial.xhtml"/>
 						<p:menuitem value="Alterar Reserva" />
 					</sec:authorize>
 					<p:menuitem value="Cancelar Reserva" />
@@ -105,7 +105,7 @@
 
 					<p:menuitem value="Consultar" url="/numeracao/consultarNumeracaoCNG.xhtml"/>
 					<sec:authorize access="hasRole('GERENTE_CONTA')">
-						<p:menuitem value="Reservar" />
+						<p:menuitem value="Reservar" url="/numeracao/reservarNumeracaoCNG.xhtml"/>
 						<p:menuitem value="Alterar Reserva" />
 					</sec:authorize>
 					<p:menuitem value="Cancelar Reserva" />

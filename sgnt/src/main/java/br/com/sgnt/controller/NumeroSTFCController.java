@@ -1,6 +1,7 @@
 package br.com.sgnt.controller;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,11 +15,14 @@ import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.sgnt.model.AreaLocal;
+import br.com.sgnt.model.ClienteCorporativo;
 import br.com.sgnt.model.NumeroSTFC;
+import br.com.sgnt.model.Reserva;
 import br.com.sgnt.model.Status;
 import br.com.sgnt.model.TipoNumero;
 import br.com.sgnt.repository.AreaLocalRepository;
 import br.com.sgnt.repository.NumeroSTFCRepository;
+import br.com.sgnt.repository.ReservaRepository;
 import br.com.sgnt.repository.StatusRepository;
 import br.com.sgnt.repository.TipoNumeroRepository;
 
@@ -44,20 +48,24 @@ public class NumeroSTFCController implements Serializable {
 	private StatusRepository statusRepository;
 	private Status status = new Status();
 
+	@Autowired
+	private ReservaRepository reservaRepository;
+	
 	private List<AreaLocal> listCN;
 	private List<AreaLocal> listAreaLocal;
 	private List<NumeroSTFC> listNumeroSTFC;
 	private List<NumeroSTFC> listNumeroSTFCCorporativo = new ArrayList<NumeroSTFC>();
 	private List<NumeroSTFC> listNumeroSTFCResidencial = new ArrayList<NumeroSTFC>();
-	private List<Integer> listPrefixo;
+	private List<Integer> listPrefixoCorporativo, listPrefixoResidencial;
 	private Integer cnSelecionado;
 	private Integer prefixo, qtdeMCDUOk;
 	private String area;
 	private Integer faixaInicial, faixaFinal, tempInicial, tempFinal;
 	private List<NumeroSTFC> lista = new ArrayList<NumeroSTFC>();
-	List<Integer> mcduOk = new ArrayList<Integer>();
-	List<Integer> mcduErro = new ArrayList<Integer>();
-	
+	private List<Integer> mcduOk = new ArrayList<Integer>();
+	private List<Integer> mcduErro = new ArrayList<Integer>();
+	private Reserva reserva = new Reserva();
+
 	@PostConstruct
 	private void init() {
 		listCN = areaLocalRepository.listDistinctCN();
@@ -156,6 +164,10 @@ public class NumeroSTFCController implements Serializable {
 	}
 	
 	public void reservar() {
+		Timestamp data = new Timestamp(System.currentTimeMillis());
+		reserva.setDataHoraReserva(data);
+		reserva = reservaRepository.save(reserva);
+		
 		AreaLocal a = areaLocalRepository.areaLocalNome(area);
 		tempInicial = faixaInicial;
 		tempFinal = faixaFinal;
@@ -167,9 +179,9 @@ public class NumeroSTFCController implements Serializable {
 		} else {
 			while(tempInicial <= tempFinal) {
 				NumeroSTFC n = numeroSTFCRepository.numeroAreaLocal(prefixo, tempInicial, a);
-				
 				if (n.getStatus().getIdStatus().equals(1)) {
 					n.setStatus(status);
+					n.setReserva(reserva);
 					numeroSTFCRepository.save(n);
 					mcduOk.add(faixaInicial);
 				} else {
@@ -184,7 +196,7 @@ public class NumeroSTFCController implements Serializable {
 		
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 				"MCDU cadastrados: " + mcduOk.size() , "MCDU com erros: " + mcduErro.size()));
-		
+	
 	}
 	
 	
@@ -193,7 +205,8 @@ public class NumeroSTFCController implements Serializable {
 	}
 
 	public void onAreaLocalChange() {
-		listPrefixo = numeroSTFCRepository.listPrefixo(areaLocalRepository.areaLocalNome(area));
+		listPrefixoCorporativo = numeroSTFCRepository.listPrefixo(areaLocalRepository.areaLocalNome(area),tipoNumerorepository.findOne(1));
+		listPrefixoResidencial = numeroSTFCRepository.listPrefixo(areaLocalRepository.areaLocalNome(area),tipoNumerorepository.findOne(2));
 
 	}
 
@@ -341,12 +354,20 @@ public class NumeroSTFCController implements Serializable {
 		this.status = status;
 	}
 
-	public List<Integer> getListPrefixo() {
-		return listPrefixo;
+	public List<Integer> getListPrefixoCorporativo() {
+		return listPrefixoCorporativo;
 	}
 
-	public void setListPrefixo(List<Integer> listPrefixo) {
-		this.listPrefixo = listPrefixo;
+	public void setListPrefixoCorporativo(List<Integer> listPrefixoCorporativo) {
+		this.listPrefixoCorporativo = listPrefixoCorporativo;
+	}
+
+	public List<Integer> getListPrefixoResidencial() {
+		return listPrefixoResidencial;
+	}
+
+	public void setListPrefixoResidencial(List<Integer> listPrefixoResidencial) {
+		this.listPrefixoResidencial = listPrefixoResidencial;
 	}
 
 	public Integer getPrefixo() {
@@ -388,7 +409,13 @@ public class NumeroSTFCController implements Serializable {
 	public void setQtdeMCDUOk(Integer qtdeMCDUOk) {
 		this.qtdeMCDUOk = qtdeMCDUOk;
 	}
-	
-	
+
+	public Reserva getReserva() {
+		return reserva;
+	}
+
+	public void setReserva(Reserva reserva) {
+		this.reserva = reserva;
+	}
 	
 }

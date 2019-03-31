@@ -39,7 +39,7 @@
 	<div class="subtopo" style="">
 		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
 				pattern="dd/MM/yyyy" /></b>
-		<div class="nomePagina">RESERVAR NUMERAÇÃO STFC CORPORATIVA</div>
+		<div class="nomePagina">RESERVAR NUMERAÇÃO STFC RESIDENCIAL</div>
 	</div>
 	<br />
 
@@ -80,7 +80,7 @@
 				<p:outputLabel for="prefixo" value="Prefixo:" /> 
 				<p:selectOneMenu id="prefixo" value="#{numeroSTFCController.prefixo}" style="margin-left:10px;">
 					<f:selectItem itemLabel="Prefixo" noSelectionOption="true" />
-					<f:selectItems value="#{numeroSTFCController.listPrefixoCorporativo}" />
+					<f:selectItems value="#{numeroSTFCController.listPrefixoResidencial}" />
 				</p:selectOneMenu>
 				<br/>
 				
@@ -106,9 +106,9 @@
 			</div>
 			<div style="float:right; text-align:left;width:50% ;height: 100%; padding-top: 5px; padding-bottom: 50px; ">
 				
-				<p:dataTable id="clienteDT" value="#{clienteController.listClientesCorporativo}"
+				<p:dataTable id="clienteDT" value="#{clienteController.listClientesResidencial}"
 					 var="cliente" paginator="true" rows="5" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="5,10,15" reflow="true" 
-					 style="padding-bottom:40px;" selection="#{numeroSTFCController.reserva.cliente}" rowKey="#{cliente.cnpj}">
+					 style="padding-bottom:40px;" selection="#{numeroSTFCController.reserva.cliente}" rowKey="#{cliente.cpf}">
 				
 				<p:column selectionMode="single" style="width:35px;text-align:center"/>
 				<p:column headerText="Nome" filterable="true" filterBy="#{cliente.nome}">
@@ -118,10 +118,10 @@
 					</p:cellEditor>
 				</p:column>
 				
-				<p:column headerText="CNPJ" style="width:200px;" filterable="true" filterBy="#{cliente.cnpj}">
+				<p:column headerText="CNPJ" style="width:200px;" filterable="true" filterBy="#{cliente.cpf}">
 					<p:cellEditor>
-						<f:facet name="output"> <h:outputText value="#{cliente.cnpj}"/> </f:facet>
-						<f:facet name="input"><p:inputMask mask="99.999.999/9999-99" value="#{cliente.cnpj}"/> </f:facet>
+						<f:facet name="output"> <h:outputText value="#{cliente.cpf}"/> </f:facet>
+						<f:facet name="input"><p:inputMask mask="99.999.999/9999-99" value="#{cliente.cpf}"/> </f:facet>
 					</p:cellEditor>
 				</p:column>
 							

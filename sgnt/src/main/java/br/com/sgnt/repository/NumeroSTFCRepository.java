@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.sgnt.model.AreaLocal;
 import br.com.sgnt.model.NumeroSTFC;
+import br.com.sgnt.model.TipoNumero;
 
 //metodos padroes de crud estão no JpaRepository extendido, utilizando a class cliente
 @Repository // a partir dessa anotação essa class vira um bean do spring, objeto construido pelo spring 
@@ -23,8 +24,8 @@ public interface NumeroSTFCRepository extends JpaRepository<NumeroSTFC, Integer>
 	@Query("select n from NumeroSTFC n")
 	public List<NumeroSTFC> listNumeroCorporativo();
 	
-	@Query("select distinct n.prefixoNumeroSTFC from NumeroSTFC n where areaLocal=:areaLocal")
-	public List<Integer> listPrefixo(@Param("areaLocal")AreaLocal areaLocal);
+	@Query("select distinct n.prefixoNumeroSTFC from NumeroSTFC n where n.areaLocal=:areaLocal and n.tipoNumero=:tipoNumero")
+	public List<Integer> listPrefixo(@Param("areaLocal")AreaLocal areaLocal, @Param("tipoNumero")TipoNumero tipoNumero);
 	
 	@Query("select n from NumeroSTFC n where n.prefixoNumeroSTFC=:prefixoNumeroSTFC and n.mcduNumeroSTFC=:mcduNumeroSTFC and n.areaLocal=:areaLocal")
 	public NumeroSTFC numeroAreaLocal(@Param("prefixoNumeroSTFC")Integer prefixoNumeroSTFC, @Param("mcduNumeroSTFC")Integer mcduNumeroSTFC, @Param("areaLocal")AreaLocal areaLocal);
