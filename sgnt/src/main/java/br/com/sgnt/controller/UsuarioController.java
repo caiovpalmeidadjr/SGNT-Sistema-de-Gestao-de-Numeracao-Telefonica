@@ -18,6 +18,8 @@ import br.com.sgnt.model.Usuario;
 import br.com.sgnt.repository.FuncionarioRepository;
 import br.com.sgnt.repository.PerfilRepository;
 import br.com.sgnt.repository.UsuarioRepository;
+import br.com.sgnt.service.IUsuarioService;
+import br.com.sgnt.service.UsuarioServiceImpl;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
 @Named
@@ -37,6 +39,9 @@ public class UsuarioController implements Serializable {
 	
 	@Autowired
 	private PerfilRepository perfilRepository;
+	
+	@Autowired
+	private IUsuarioService usuarioService;
 	
 	private Perfil perfil = new Perfil();
 	private Usuario usuario = new Usuario();
@@ -69,7 +74,7 @@ public class UsuarioController implements Serializable {
 
 	public String envia() {
 
-		usuario = usuarioRepository.getUsuario(usuario.getUserName(), usuario.getSenha());
+		usuario = usuarioService.getUsuario(usuario.getUserName(), usuario.getSenha());
 		if (usuario == null) {
 			usuario = new Usuario();
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -99,9 +104,9 @@ public class UsuarioController implements Serializable {
 
 	public void cadastrar() {	
 		
-		Usuario u = usuarioRepository.buscaPorUsername(usuario.getUserName());
+		Usuario user = usuarioService.buscaPorUsername(usuario.getUserName());
 		
-		if(u == null) {
+		if(user == null) {
 			usuario.setPerfil(perfil);
 			usuarioRepository.save(usuario);
 			funcionario.setAtivo(true);
