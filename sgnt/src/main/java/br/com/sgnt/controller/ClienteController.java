@@ -17,6 +17,7 @@ import br.com.sgnt.model.ClienteResidencial;
 import br.com.sgnt.repository.ClienteCorporativoRepository;
 import br.com.sgnt.repository.ClienteRepository;
 import br.com.sgnt.repository.ClienteResidencialRepository;
+import br.com.sgnt.service.IClienteService;
 import br.com.viacep.ClienteCEP;
 import br.com.viacep.EnderecoCEP;
 
@@ -36,6 +37,9 @@ public class ClienteController {
 	@Autowired
 	private ClienteResidencialRepository clienteResidencialRepository;
 	
+	@Autowired
+	private IClienteService clienteService;
+	
 	private Cliente cliente = new Cliente();
 	private ClienteCorporativo clienteCorporativo = new ClienteCorporativo();
 	private ClienteResidencial clienteResidencial = new ClienteResidencial();
@@ -53,16 +57,16 @@ public class ClienteController {
 	//usada nos metodos com relação de injeção de dependencia, apos a injeção de dependencia do spring, eu acesso esse metodo
 	@PostConstruct
 	private void init() {
-		listClientes = repository.listCliente();
-		listClientesCorporativo = clienteCorporativoRepository.findAll();
-		listClientesResidencial = clienteResidencialRepository.findAll();
+		listClientes = clienteService.listClientes();
+		listClientesCorporativo = clienteService.listClientesCorporativos();
+		listClientesResidencial = clienteService.listClientesResidencial();
 		// tambem funciona listClientes = repository.findAll();
 	}
 	
 	
 	public void salvar() {
 		//salvando no banco
-		repository.save(cliente);
+		clienteService.salvar(cliente);
 		
 		if(!alteracao) {
 			//adicionando na lista que vai atualizar a tabela 
@@ -80,19 +84,30 @@ public class ClienteController {
 	
 	public void excluir(Cliente cliente) {
 		//removendo do banco
-		repository.delete(cliente);
+		if(cliente != null) {
+			clienteService.excluir(cliente);
+			
+			//removendo da lista
+			listClientes.remove(cliente);
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Cliente não selecionado !", null));
+		}
 		
-		//removendo da lista
-		listClientes.remove(cliente);
 		
 	}
 	
-	public void excluirCorporativo(ClienteCorporativo cliente) {
+	public void excluirCorporativo(ClienteCorporativo clienteCorporativo) {
 		//removendo do banco
-		repository.delete(cliente);
-		
-		//removendo da lista
-		listClientes.remove(cliente);
+		if(clienteCorporativo != null) {
+			clienteService.excluir(clienteCorporativo);
+			
+			//removendo da lista
+			listClientes.remove(clienteCorporativo);
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Cliente Corporativo não selecionado !", null));
+		}
 		
 	}
 	

@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import br.com.sgnt.model.Funcionario;
@@ -19,7 +17,6 @@ import br.com.sgnt.repository.FuncionarioRepository;
 import br.com.sgnt.repository.PerfilRepository;
 import br.com.sgnt.repository.UsuarioRepository;
 import br.com.sgnt.service.IUsuarioService;
-import br.com.sgnt.service.UsuarioServiceImpl;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
 @Named
@@ -98,7 +95,7 @@ public class UsuarioController implements Serializable {
 	
 	public void redirecionar() throws IOException {
 		
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/index/index.xhtml");  
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/sgnt/index/index.xhtml");  
 	}
 
 
