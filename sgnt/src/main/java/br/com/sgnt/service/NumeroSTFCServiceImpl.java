@@ -2,12 +2,17 @@ package br.com.sgnt.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sgnt.model.NumeroSTFC;
+import br.com.sgnt.repository.NumeroCNGRepository;
 
 @Service
 public class NumeroSTFCServiceImpl implements INumeroSTFCService {
+	
+	@Autowired
+	private NumeroCNGRepository numeroCNGRepository;
 
 	@Override
 	public void salvar(NumeroSTFC vo) {

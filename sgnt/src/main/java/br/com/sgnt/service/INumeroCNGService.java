@@ -2,17 +2,21 @@ package br.com.sgnt.service;
 
 import java.util.List;
 
-import br.com.sgnt.model.NumeroSTFC;
+import org.springframework.data.repository.query.Param;
+
+import br.com.sgnt.model.NumeroCNG;
 
 public interface INumeroCNGService {
 	
-	public void salvar(NumeroSTFC vo) ;
+	public void salvar(NumeroCNG vo) ;
 	
-	public void atualizar(NumeroSTFC vo) ;
+	public void atualizar(NumeroCNG vo) ;
 	
-	public void excluir(NumeroSTFC vo);
+	public void excluir(NumeroCNG vo);
 	
-	public List<NumeroSTFC> listNumerosSTFC(String query);
+	public List<NumeroCNG> listNumeroCNG(String query);
 	
-	public List<NumeroSTFC> listNumerosSTFC();
+	public List<NumeroCNG> listNumeroCNG();
+	
+	public NumeroCNG findNumero(Integer serieNumeroCNG, Integer mcduNumeroCNG);
 }
