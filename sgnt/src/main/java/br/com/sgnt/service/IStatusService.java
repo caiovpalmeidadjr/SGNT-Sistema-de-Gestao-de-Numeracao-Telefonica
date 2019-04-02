@@ -15,4 +15,6 @@ public interface IStatusService {
 	public List<Status> listStatus(String query);
 	
 	public List<Status> listStatus();
+	
+	public Status findOne(Integer id);
 }

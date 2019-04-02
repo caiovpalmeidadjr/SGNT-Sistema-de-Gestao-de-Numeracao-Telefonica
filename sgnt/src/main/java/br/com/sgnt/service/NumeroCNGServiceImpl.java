@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.sgnt.model.NumeroCNG;
 import br.com.sgnt.model.NumeroSTFC;
+import br.com.sgnt.model.Status;
 import br.com.sgnt.repository.NumeroCNGRepository;
 
 @Service
@@ -45,9 +46,13 @@ public class NumeroCNGServiceImpl implements INumeroCNGService {
 	}
 
 	@Override
-	public NumeroCNG findNumero(Integer serieNumeroCNG, Integer mcduNumeroCNG) {
-		
-		return numeroCNGRepository.findNumero(serieNumeroCNG, mcduNumeroCNG);
+	public NumeroCNG findNumero(Integer prefixoNumeroCNG, Integer serieNumeroCNG, Integer mcduNumeroCNG) {
+		return numeroCNGRepository.findNumero(prefixoNumeroCNG,serieNumeroCNG, mcduNumeroCNG);
+	}
+
+	@Override
+	public List<NumeroCNG> findDisponivel(Status status) {
+		return numeroCNGRepository.findDisponivel(status);
 	}
 
 }

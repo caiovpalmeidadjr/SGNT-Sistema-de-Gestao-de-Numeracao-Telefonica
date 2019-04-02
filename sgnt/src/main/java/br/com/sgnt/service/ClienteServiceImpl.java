@@ -11,7 +11,6 @@ import br.com.sgnt.model.ClienteResidencial;
 import br.com.sgnt.repository.ClienteCorporativoRepository;
 import br.com.sgnt.repository.ClienteRepository;
 import br.com.sgnt.repository.ClienteResidencialRepository;
-import br.com.sgnt.repository.NumeroCNGRepository;
 
 @Service
 public class ClienteServiceImpl implements IClienteService {

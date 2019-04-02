@@ -13,12 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.sgnt.model.NumeroCNG;
 import br.com.sgnt.model.Reserva;
-import br.com.sgnt.model.Status;
 import br.com.sgnt.repository.NumeroCNGRepository;
 import br.com.sgnt.repository.ReservaRepository;
 import br.com.sgnt.repository.StatusRepository;
 import br.com.sgnt.service.INumeroCNGService;
-import br.com.sgnt.service.IUsuarioService;
+import br.com.sgnt.service.IStatusService;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
 @Named
@@ -30,6 +29,9 @@ public class NumeroCNGController {
 	
 	@Autowired
 	private INumeroCNGService numeroCGNService;
+	
+	@Autowired
+	private IStatusService statusService;
 	
 	private NumeroCNG numeroCNG = new NumeroCNG();
 	
@@ -47,58 +49,35 @@ public class NumeroCNGController {
 	
 	@PostConstruct
 	public void init() {
-		listNumeroCNG = numeroCNGRepository.findAll();
-		listNumeroCNGDisponivel = numeroCNGRepository.findDisponivel(statusRepository.findOne(1));
-		listNumeroCNG = numeroCGNService.listNumeroCNG();   //numeroCNGRepository.findAll();
+		listNumeroCNG = numeroCGNService.listNumeroCNG();
+		listNumeroCNGDisponivel = numeroCGNService.findDisponivel(statusRepository.findOne(1));
 	}
 	
 	public void cadastrar() {
 		
-		NumeroCNG num = numeroCNGRepository.findNumero(numeroCNG.getPrefixoNumeroCNG(), numeroCNG.getSerieNumeroCNG(), numeroCNG.getMcduNumeroCNG());
+		NumeroCNG num = numeroCGNService.findNumero(numeroCNG.getPrefixoNumeroCNG(), numeroCNG.getSerieNumeroCNG(), numeroCNG.getMcduNumeroCNG());
 		
 		
 		try {
-		if((numeroCNG.getPrefixoNumeroCNG().equals(num.getPrefixoNumeroCNG()) && numeroCNG.getSerieNumeroCNG().equals(num.getSerieNumeroCNG())) && (numeroCNG.getMcduNumeroCNG().equals(num.getMcduNumeroCNG()))) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"CNG já cadastrado", "Erro no cadastro!"));
-		} else {
-			numeroCNG.setStatus(statusRepository.findOne(1));
-			numeroCNGRepository.save(numeroCNG);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
-			numeroCNG = new NumeroCNG();
-		}
-		//if(numeroCNG.getSerieNumeroCNG() != 0) {
-		NumeroCNG numeroCGN = numeroCGNService.findNumero(numeroCNG.getSerieNumeroCNG(), numeroCNG.getMcduNumeroCNG());
-		
-		
-		try {
-			
-			if(numeroCGN != null) {
-				if((numeroCNG.getSerieNumeroCNG().equals(numeroCGN.getSerieNumeroCNG())) && (numeroCNG.getMcduNumeroCNG().equals(numeroCGN.getMcduNumeroCNG()))) {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"CNG já cadastrado", "Erro no cadastro!"));
-				} else {
-					numeroCNGRepository.save(numeroCNG);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
-				}
-		
-			}else {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-						"Erro, número não encontrado !", null));
+			if((numeroCNG.getPrefixoNumeroCNG().equals(num.getPrefixoNumeroCNG()) && numeroCNG.getSerieNumeroCNG().equals(num.getSerieNumeroCNG())) && (numeroCNG.getMcduNumeroCNG().equals(num.getMcduNumeroCNG()))) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"CNG já cadastrado", "Erro no cadastro!"));
+			} else {
+				numeroCNG.setStatus(statusRepository.findOne(1));
+				numeroCNGRepository.save(numeroCNG);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
+				numeroCNG = new NumeroCNG();
 			}
+			
 		} catch (Exception e) {
-			numeroCNG.setStatus(statusRepository.findOne(1));
+			//é preciso fazer algum tratamento de valor ?
+			numeroCNG.setStatus(statusService.findOne(1));
 			numeroCNGRepository.save(numeroCNG);
 			numeroCNG = new NumeroCNG();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
 		}
-//		else {
-//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//					"Por favor digite um valor valido !"));
-//		}
 		
 	}
 	

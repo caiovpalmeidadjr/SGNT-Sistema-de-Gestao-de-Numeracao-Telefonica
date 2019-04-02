@@ -2,9 +2,8 @@ package br.com.sgnt.service;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import br.com.sgnt.model.NumeroCNG;
+import br.com.sgnt.model.Status;
 
 public interface INumeroCNGService {
 	
@@ -18,5 +17,7 @@ public interface INumeroCNGService {
 	
 	public List<NumeroCNG> listNumeroCNG();
 	
-	public NumeroCNG findNumero(Integer serieNumeroCNG, Integer mcduNumeroCNG);
+	public NumeroCNG findNumero(Integer prefixoNumeroCNG,Integer serieNumeroCNG, Integer mcduNumeroCNG);
+	
+	public List<NumeroCNG> findDisponivel(Status status);
 }
