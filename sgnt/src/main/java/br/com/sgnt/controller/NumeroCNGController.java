@@ -81,35 +81,38 @@ public class NumeroCNGController {
 //				numeroCNG = new NumeroCNG();
 //				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 //						"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Favor, informe um valor !", null));
 		}
-//		}else {
-//			//é preciso fazer algum tratamento de valor ?
-//			numeroCNG.setStatus(statusService.findOne(1));
-//			numeroCNGService.salvar(numeroCNG);
-//			numeroCNG = new NumeroCNG();
-//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//					"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
-//		}
 		
 	}
 	
 	public void reservar() {
 		Timestamp data = new Timestamp(System.currentTimeMillis());
+		
 		reserva.setDataHoraReserva(data);
 		reserva = reservaRepository.save(reserva);
-		NumeroCNG numero = numeroCNGRepository.findNumero(numeroSelecionado.getPrefixoNumeroCNG(), numeroSelecionado.getSerieNumeroCNG(), numeroSelecionado.getMcduNumeroCNG());
 		
-		if(numero.getStatus().getIdStatus().equals(1)) {
-			numero.setStatus(statusRepository.buscaPorNome("RESERVADO"));
-			System.out.println(numero.toString());
-			numero.setReserva(reserva);
-			numeroCNGService.salvar(numero);
+		NumeroCNG numeroBuscado = numeroCNGRepository.findNumero(numeroSelecionado.getPrefixoNumeroCNG(), numeroSelecionado.getSerieNumeroCNG(), numeroSelecionado.getMcduNumeroCNG());
+		
+		if(numeroBuscado != null) {
+			if(numeroBuscado.getStatus().getIdStatus().equals(1)) {
+				numeroBuscado.setStatus(statusRepository.buscaPorNome("RESERVADO"));
+				System.out.println(numeroBuscado.toString());
+				numeroBuscado.setReserva(reserva);
+				numeroCNGService.salvar(numeroBuscado);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"CNG reservado com sucesso!", "Reserva Efetuada"));
+			} else {
+				reservaRepository.delete(reserva.getIdReserva());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"CNG não pode ser reservado", "Reserva Não Efetuada"));
+			}
+		
+		}else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"CNG reservado com sucesso!", "Reserva Efetuada"));
-		} else {
-			reservaRepository.delete(reserva.getIdReserva());
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"CNG não pode ser reservado", "Reserva Não Efetuada"));
+					"Favor, informe um valor !", null));
 		}
 		
 	}
