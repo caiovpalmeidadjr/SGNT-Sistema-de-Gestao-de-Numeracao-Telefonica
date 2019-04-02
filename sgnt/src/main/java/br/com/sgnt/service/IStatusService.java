@@ -17,4 +17,6 @@ public interface IStatusService {
 	public List<Status> listStatus();
 	
 	public Status findOne(Integer id);
+	
+	public Status buscaPorNome(String nome);
 }

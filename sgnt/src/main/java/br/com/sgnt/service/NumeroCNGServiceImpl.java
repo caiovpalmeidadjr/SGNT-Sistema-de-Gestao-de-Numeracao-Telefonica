@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sgnt.model.NumeroCNG;
-import br.com.sgnt.model.NumeroSTFC;
 import br.com.sgnt.model.Status;
 import br.com.sgnt.repository.NumeroCNGRepository;
 

@@ -2,16 +2,21 @@ package br.com.sgnt.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sgnt.model.Reserva;
+import br.com.sgnt.repository.ReservaRepository;
 
 @Service
 public class ReservaServiceImpl implements IReservaService {
+	
+	@Autowired
+	private ReservaRepository reservaRepository;
 
 	@Override
-	public void salvar(Reserva vo) {
-		// TODO Auto-generated method stub
+	public Reserva salvar(Reserva vo) {
+		return reservaRepository.save(vo);
 
 	}
 
@@ -23,8 +28,7 @@ public class ReservaServiceImpl implements IReservaService {
 
 	@Override
 	public void excluir(Reserva vo) {
-		// TODO Auto-generated method stub
-
+		reservaRepository.delete(vo);
 	}
 
 	@Override
@@ -37,6 +41,12 @@ public class ReservaServiceImpl implements IReservaService {
 	public List<Reserva> listReservas() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void excluir(Integer id) {
+		reservaRepository.delete(id);
+		
 	}
 
 }

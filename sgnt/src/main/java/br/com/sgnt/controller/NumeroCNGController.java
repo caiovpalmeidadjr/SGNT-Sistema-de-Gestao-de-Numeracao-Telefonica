@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.sgnt.model.NumeroCNG;
 import br.com.sgnt.model.Reserva;
 import br.com.sgnt.repository.NumeroCNGRepository;
-import br.com.sgnt.repository.ReservaRepository;
-import br.com.sgnt.repository.StatusRepository;
 import br.com.sgnt.service.INumeroCNGService;
 import br.com.sgnt.service.IReservaService;
 import br.com.sgnt.service.IStatusService;
@@ -41,20 +39,15 @@ public class NumeroCNGController {
 	
 	private List<NumeroCNG> listNumeroCNG;
 	private List<NumeroCNG> listNumeroCNGDisponivel;
+	
 	private NumeroCNG numeroSelecionado;
 	
-	@Autowired
-	private ReservaRepository reservaRepository;
 	private Reserva reserva = new Reserva();
-	
-	@Autowired
-	private StatusRepository statusRepository;
-	
 	
 	@PostConstruct
 	public void init() {
 		listNumeroCNG = numeroCNGService.listNumeroCNG();
-		listNumeroCNGDisponivel = numeroCNGService.findDisponivel(statusRepository.findOne(1));
+		listNumeroCNGDisponivel = numeroCNGService.findDisponivel(statusService.findOne(1));
 	}
 	
 	public void cadastrar() {
@@ -67,7 +60,7 @@ public class NumeroCNGController {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"CNG já cadastrado", "Erro no cadastro!"));
 			} else {
-				numeroCNG.setStatus(statusRepository.findOne(1));
+				numeroCNG.setStatus(statusService.findOne(1));
 				numeroCNGService.salvar(numeroCNG);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
@@ -92,20 +85,20 @@ public class NumeroCNGController {
 		Timestamp data = new Timestamp(System.currentTimeMillis());
 		
 		reserva.setDataHoraReserva(data);
-		reserva = reservaRepository.save(reserva);
+		reserva = reservaService.salvar(reserva);
 		
 		NumeroCNG numeroBuscado = numeroCNGRepository.findNumero(numeroSelecionado.getPrefixoNumeroCNG(), numeroSelecionado.getSerieNumeroCNG(), numeroSelecionado.getMcduNumeroCNG());
 		
 		if(numeroBuscado != null) {
 			if(numeroBuscado.getStatus().getIdStatus().equals(1)) {
-				numeroBuscado.setStatus(statusRepository.buscaPorNome("RESERVADO"));
+				numeroBuscado.setStatus(statusService.buscaPorNome("RESERVADO"));
 				System.out.println(numeroBuscado.toString());
 				numeroBuscado.setReserva(reserva);
 				numeroCNGService.salvar(numeroBuscado);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"CNG reservado com sucesso!", "Reserva Efetuada"));
 			} else {
-				reservaRepository.delete(reserva.getIdReserva());
+				reservaService.excluir(reserva.getIdReserva());
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"CNG não pode ser reservado", "Reserva Não Efetuada"));
 			}

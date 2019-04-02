@@ -6,11 +6,13 @@ import br.com.sgnt.model.Reserva;
 
 public interface IReservaService {
 	
-	public void salvar(Reserva vo) ;
+	public Reserva salvar(Reserva vo) ;
 	
 	public void atualizar(Reserva vo) ;
 	
 	public void excluir(Reserva vo);
+	
+	public void excluir(Integer id);
 	
 	public List<Reserva> listReservas(String query);
 	
