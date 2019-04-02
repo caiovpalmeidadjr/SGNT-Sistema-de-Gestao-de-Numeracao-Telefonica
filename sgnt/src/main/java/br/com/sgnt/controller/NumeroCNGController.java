@@ -28,7 +28,7 @@ public class NumeroCNGController {
 	private NumeroCNGRepository numeroCNGRepository;
 	
 	@Autowired
-	private INumeroCNGService numeroCGNService;
+	private INumeroCNGService numeroCNGService;
 	
 	@Autowired
 	private IStatusService statusService;
@@ -49,13 +49,13 @@ public class NumeroCNGController {
 	
 	@PostConstruct
 	public void init() {
-		listNumeroCNG = numeroCGNService.listNumeroCNG();
-		listNumeroCNGDisponivel = numeroCGNService.findDisponivel(statusRepository.findOne(1));
+		listNumeroCNG = numeroCNGService.listNumeroCNG();
+		listNumeroCNGDisponivel = numeroCNGService.findDisponivel(statusRepository.findOne(1));
 	}
 	
 	public void cadastrar() {
 		
-		NumeroCNG num = numeroCGNService.findNumero(numeroCNG.getPrefixoNumeroCNG(), numeroCNG.getSerieNumeroCNG(), numeroCNG.getMcduNumeroCNG());
+		NumeroCNG num = numeroCNGService.findNumero(numeroCNG.getPrefixoNumeroCNG(), numeroCNG.getSerieNumeroCNG(), numeroCNG.getMcduNumeroCNG());
 		
 		
 		try {
@@ -64,7 +64,7 @@ public class NumeroCNGController {
 						"CNG já cadastrado", "Erro no cadastro!"));
 			} else {
 				numeroCNG.setStatus(statusRepository.findOne(1));
-				numeroCNGRepository.save(numeroCNG);
+				numeroCNGService.salvar(numeroCNG);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
 				numeroCNG = new NumeroCNG();
@@ -73,7 +73,7 @@ public class NumeroCNGController {
 		} catch (Exception e) {
 			//é preciso fazer algum tratamento de valor ?
 			numeroCNG.setStatus(statusService.findOne(1));
-			numeroCNGRepository.save(numeroCNG);
+			numeroCNGService.salvar(numeroCNG);
 			numeroCNG = new NumeroCNG();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));

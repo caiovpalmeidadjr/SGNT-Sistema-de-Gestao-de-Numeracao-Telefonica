@@ -18,20 +18,17 @@ public class NumeroCNGServiceImpl implements INumeroCNGService {
 	
 	@Override
 	public void salvar(NumeroCNG vo) {
-		// TODO Auto-generated method stub
-
+		numeroCNGRepository.save(vo);
 	}
 
 	@Override
 	public void atualizar(NumeroCNG vo) {
-		// TODO Auto-generated method stub
-
+		numeroCNGRepository.save(vo);
 	}
 
 	@Override
 	public void excluir(NumeroCNG vo) {
-		// TODO Auto-generated method stub
-
+		numeroCNGRepository.delete(vo);
 	}
 
 	@Override
