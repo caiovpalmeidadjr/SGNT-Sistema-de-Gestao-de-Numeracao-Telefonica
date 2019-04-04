@@ -43,7 +43,7 @@ public class ClienteController {
 	private Cliente cliente = new Cliente();
 	private ClienteCorporativo clienteCorporativo = new ClienteCorporativo();
 	private ClienteResidencial clienteResidencial = new ClienteResidencial();
-	private ClienteCorporativo selectedCliente = new ClienteCorporativo();
+	private Cliente selectedCliente = new Cliente();
 	private EnderecoCEP e = new EnderecoCEP();
 	private ClienteCEP ws = new ClienteCEP();
 	private ClienteCorporativo clienteCorporativoSelecionado;
@@ -51,7 +51,6 @@ public class ClienteController {
 	private List<Cliente> listClientes;
 	private List<ClienteCorporativo> listClientesCorporativo;
 	private List<ClienteResidencial> listClientesResidencial;
-	
 	
 	private boolean alteracao;
 	
@@ -110,6 +109,33 @@ public class ClienteController {
 					"Cliente Corporativo não selecionado !", null));
 		}
 		
+	}
+	
+	public void excluirSelecionadoCorporativo() {
+		try {
+			clienteService.excluir(selectedCliente);
+			listClientes.remove(selectedCliente);
+			listClientesCorporativo.remove(selectedCliente);
+			FacesMessage msg = new FacesMessage("Cliente removido da base", selectedCliente.getNome());
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (Exception e) {
+			FacesMessage msg = new FacesMessage("Cliente possui reservas em seu nome", selectedCliente.getNome());
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		
+	}
+	
+	public void excluirSelecionadoResidencial() {
+		try {
+			clienteService.excluir(selectedCliente);
+			listClientes.remove(selectedCliente);
+			listClientesResidencial.remove(selectedCliente);
+			FacesMessage msg = new FacesMessage("Cliente removido da base", selectedCliente.getNome());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (Exception e) {
+			FacesMessage msg = new FacesMessage("Cliente possui reservas em seu nome", selectedCliente.getNome());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
 	}
 	
 	public void editar(ClienteCorporativo cliente) {
@@ -201,16 +227,7 @@ public class ClienteController {
 		}
 		
 	}
-	
-	public void deleteClienteCorporativo() {
-		//listClientesCorporativo.remove(selectedCliente);
-		System.out.println("OK");
-		System.out.println("---------------------------------------");
-		System.out.println(selectedCliente.toString());
-		
-		//selectedCliente = null;
-	}
-	
+
 	public Cliente getCliente() {
 		//o botão de salvar que vai atualizar, ele sabe se o objeto tem id ou não caso tenha ele realiza o update
 		return cliente;
@@ -279,12 +296,12 @@ public class ClienteController {
 	}
 
 
-	public ClienteCorporativo getSelectedCliente() {
+	public Cliente getSelectedCliente() {
 		return selectedCliente;
 	}
 
 
-	public void setSelectedCliente(ClienteCorporativo selectedCliente) {
+	public void setSelectedCliente(Cliente selectedCliente) {
 		this.selectedCliente = selectedCliente;
 	}
 

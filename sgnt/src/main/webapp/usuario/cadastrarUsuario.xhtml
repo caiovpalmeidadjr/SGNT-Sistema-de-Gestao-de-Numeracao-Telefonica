@@ -5,6 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:u="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:sec="http://www.springframework.org/security/tags">
 <h:head>
 
@@ -16,7 +17,7 @@
 	<title>SGNT - CADASTRAR USUARIO</title>
 </h:head>
 
-<h:body>
+<body>
 	<sec:authorize access="hasAnyRole('ADM_NUMERACAO', 'GERENTE_CONTA')">
 		ACESSO NEGADO
 	</sec:authorize>
@@ -52,11 +53,11 @@
 
 
 	<div class="container">
-		<p:growl id="message" showDetail="true"/>
+		
 		<h:form id="formCadastro">
-
+		<p:growl id="message" showDetail="true"/>
 			<div
-				style="width: 300px; text-align: left; height:100%; padding-top: 5px; padding-bottom:50px; float: left;">
+				 jsf:id="divUsuario" style="width: 300px; text-align: left; height:100%; padding-top: 5px; padding-bottom:50px; float: left;">
 
 				<h4>Dados do Funcionário:</h4>
 				<br />
@@ -64,70 +65,25 @@
 				<h:outputLabel id="lblMatricula" value="Matricula: " />
 				<br />
 				<p:inputText id="textMatricula"
-					value="#{usuarioController.funcionario.matriculaFunc}" />
+					value="#{usuarioController.usuario.matricula}" />
 				<br />
 
 				<h:outputLabel id="lblNome" value="Nome: " />
 				<br />
 				<p:inputText id="textNome"
-					value="#{usuarioController.funcionario.nomeFunc}" />
-				<br />
-
-				<h:outputLabel id="lblTelefone" value="Telefone: "  />
-				<br />
-				<p:inputMask id="textTelefone"
-					value="#{usuarioController.funcionario.telefoneFunc}" mask="(99) 9999-9999"/>
+					value="#{usuarioController.usuario.nome}" />
 				<br />
 				
 				<h:outputLabel id="lblEmail" value="Email: " />
 				<br />
 				<p:inputText id="textEmail"
-					value="#{usuarioController.funcionario.emailFunc}" />
+					value="#{usuarioController.usuario.email}" />
 				<br />
 				
-				<h:outputLabel id="lblCargo" value="Cargo: " />
-				<br />
-				
-				<h:panelGrid columns="2"
-					style="margin-bottom:10px; font-size: 12px;" cellpadding="0">
-					<p:selectOneMenu id="cargo" style="width:125px" value="#{usuarioController.funcionario.cargo}">
-						<f:selectItem itemLabel="Cargo" itemValue="" />
-						<f:selectItem itemLabel="Técnico I" itemValue="Técnico I" />
-						<f:selectItem itemLabel="Técnico II" itemValue="Técnico II" />
-						<f:selectItem itemLabel="Analista" itemValue="Analista" />
-						<f:selectItem itemLabel="Especialista I" itemValue="Especialista I" />
-						<f:selectItem itemLabel="Especialista II" itemValue="Especialista II" />
-						<f:selectItem itemLabel="Consultor" itemValue="Consultor" />
-					</p:selectOneMenu>
-				</h:panelGrid>
-				
-				<h:outputLabel id="lblDtAdmissao" for="dtAdmissaoButton"
-					value="Data Admissão: " />
-				<br />
-				<p:calendar id="dtAdmissaoButton" showOn="button" value="#{usuarioController.funcionario.dtAdmissao}" mask="99/99/99"/>
-				<br />
-
-				<h:outputLabel id="lblDtNascimento" for="dtNascimentoButton"
-					value="Data Nascimento: " />
-				<br />
-				<p:calendar id="dtNascimentoButton" showOn="button" value="#{usuarioController.funcionario.dtNascimento}" mask="99/99/99"/>
-				<br /> <br />
-
-				<h:outputLabel id="lblRG" value="RG: " />
-				<br />
-				<p:inputMask id="textRG" value="#{usuarioController.funcionario.rg}" mask="99.999.999-9"/>
-				<br />
-
-				<h:outputLabel id="lblCPF" value="CPF: " />
-				<br />
-				<p:inputMask id="textCPF" value="#{usuarioController.funcionario.cpf}" mask="999.999.999-99"/>
-				<br />
-
-
 			</div>
 
 			<div
-				style="width: 350px; text-align: left; height:100%; padding-top: 5px; padding-bottom: 5px; float: right;">
+				jsf:id="divUsuarioDireita" style="width: 350px; text-align: left; height:100%; padding-top: 5px; padding-bottom: 5px; float: right;">
 
 				<h4>Dados do Usuário:</h4>
 
@@ -143,25 +99,83 @@
 					value="#{usuarioController.usuario.senha}" />
 				<br />
 
-				<h:outputLabel id="lblPeril" value="Perfil: " />
+				<h:outputLabel id="lblPerfil" value="Perfil: " />
 				<br />
 				<h:panelGrid columns="2"
 					style="margin-bottom:10px; font-size: 12px;" cellpadding="0">
 					<p:selectOneMenu id="perfil" style="width:125px" value="#{usuarioController.perfil.idPerfil}">
-						<f:selectItem itemLabel="Tipo" itemValue="" />
 						<f:selectItem itemLabel="Gerente Contas" itemValue="3" />
 						<f:selectItem itemLabel="Adm Numeração" itemValue="2" />
 						<f:selectItem itemLabel="Adm Sistema" itemValue="1" />
 					</p:selectOneMenu>
 				</h:panelGrid>
 				
-				<h:commandButton value="Cadastrar" action="#{usuarioController.cadastrar}" update="formCadastro"/>
+				<p:commandButton value="Cadastrar" action="#{usuarioController.cadastrar}" update="formCadastro, :formUsuario"/>
 				<br/>
 				
 			</div>
 		</h:form>
-	</div>
 	
+		<div jsf:id="divUsuarioDT" style="clear: both">
+			<h:form id="formUsuario">
+			
+			
+				<p:dataTable id="usuarioDT" value="#{usuarioController.listUsuario}" var="usuario" paginator="true" rows="10" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}"
+				rowsPerPageTemplate="10,20,50" reflow="true" style="padding-bottom:40px;" editable="true" selection="#{usuarioController.usuarioSelecionado}" rowKey="#{usuario.idUsuario}" selectionMode="single">
+					
+					
+					<p:ajax event="rowEdit" listener="#{usuarioController.onRowEdit}" update=":formCadastro:message" />
+					<p:ajax event="rowEditCancel" listener="#{usuarioController.onRowCancel}" update=":formCadastro:message" />
+					
+					<p:column headerText="Matricula" filterBy="#{usuarioController.usuario.matricula}">
+						<p:cellEditor>
+							<f:facet name="output" > <h:outputText value="#{usuario.matricula}"/> </f:facet>
+							<f:facet name="input" > <p:inputText value="#{usuario.matricula}" /> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column headerText="Nome" filterable="true" filterBy="#{usuarioController.usuario.nome}">
+						<p:cellEditor>
+							<f:facet name="output" > <h:outputText value="#{usuario.nome}"/> </f:facet>
+							<f:facet name="input" > <p:inputText value="#{usuario.nome}" /> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column headerText="Email" filterable="true" filterBy="#{usuarioController.usuario.email}">
+						<p:cellEditor>
+							<f:facet name="output" > <h:outputText value="#{usuario.email}"/> </f:facet>
+							<f:facet name="input" > <p:inputText value="#{usuario.email}" /> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column headerText="Username" filterable="true" filterBy="#{usuarioController.usuario.userName}">
+						<p:cellEditor>
+							<f:facet name="output" > <h:outputText value="#{usuario.userName}"/> </f:facet>
+							<f:facet name="input" > <p:inputText value="#{usuario.userName}" /> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column headerText="Perfil" filterable="true" filterBy="#{usuarioController.usuario.perfil.nome}" style="widht: 70px">
+						<p:cellEditor>
+							<f:facet name="output" > <h:outputText value="#{usuario.perfil.nome}"/> </f:facet>
+							<f:facet name="input" > <p:inputText value="#{usuario.perfil.nome}" /> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column  style="width:55px; margin-left:8px;">
+						<p:rowEditor/>
+					</p:column>
+					
+				</p:dataTable>
+				
+				<p:contextMenu for="usuarioDT">
+        			<p:menuitem value="Deletar" update="formUsuario, :formCadastro" action="#{usuarioController.deletarUsuario}"/>
+    			</p:contextMenu>
+				
+			</h:form>
+		</div>
+		
+	</div>	
 	
 	<div class="rodape">
 		<div class="nomesis" id="textoRodape">
@@ -169,6 +183,6 @@
 		</div>
 	</div>
 	</sec:authorize>
-</h:body>
+</body>
 
 </html>

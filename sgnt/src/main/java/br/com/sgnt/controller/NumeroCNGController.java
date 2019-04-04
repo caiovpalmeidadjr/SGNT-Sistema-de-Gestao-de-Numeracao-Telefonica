@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.sgnt.model.NumeroCNG;
 import br.com.sgnt.model.Reserva;
+import br.com.sgnt.model.Usuario;
 import br.com.sgnt.repository.NumeroCNGRepository;
 import br.com.sgnt.service.INumeroCNGService;
 import br.com.sgnt.service.IReservaService;
 import br.com.sgnt.service.IStatusService;
+import br.com.sgnt.service.IUsuarioService;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
 @Named
@@ -34,6 +36,9 @@ public class NumeroCNGController {
 	
 	@Autowired
 	private IReservaService reservaService;
+	
+	@Autowired
+	private IUsuarioService usuarioService;
 	
 	private NumeroCNG numeroCNG = new NumeroCNG();
 	
@@ -54,37 +59,27 @@ public class NumeroCNGController {
 		
 		NumeroCNG numCNGBuscado = numeroCNGService.findNumero(numeroCNG.getPrefixoNumeroCNG(), numeroCNG.getSerieNumeroCNG(), numeroCNG.getMcduNumeroCNG());
 		
-		if(numCNGBuscado != null) {
-//			try {
-			if((numeroCNG.getPrefixoNumeroCNG().equals(numCNGBuscado.getPrefixoNumeroCNG()) && numeroCNG.getSerieNumeroCNG().equals(numCNGBuscado.getSerieNumeroCNG())) && (numeroCNG.getMcduNumeroCNG().equals(numCNGBuscado.getMcduNumeroCNG()))) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-						"CNG já cadastrado", "Erro no cadastro!"));
-			} else {
-				numeroCNG.setStatus(statusService.findOne(1));
-				numeroCNGService.salvar(numeroCNG);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
-				numeroCNG = new NumeroCNG();
-			}
-			
-//			} catch (Exception e) {
-//				//é preciso fazer algum tratamento de valor ?
-//				numeroCNG.setStatus(statusService.findOne(1));
-//				numeroCNGService.salvar(numeroCNG);
-//				numeroCNG = new NumeroCNG();
-//				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-//						"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
-		}else {
+		if (numCNGBuscado == null) {
+			numeroCNG.setStatus(statusService.findOne(1));
+			numeroCNGService.salvar(numeroCNG);
+			numeroCNG = new NumeroCNG();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Favor, informe um valor !", null));
+					"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"CNG já cadastrado", "Erro no cadastro!"));
 		}
-		
 	}
 	
 	public void reservar() {
 		Timestamp data = new Timestamp(System.currentTimeMillis());
 		
+		Usuario usuario = new Usuario();
+		SecurityController security = new SecurityController();
+		usuario = usuarioService.buscaPorUsername(security.currentUserName());
+		
 		reserva.setDataHoraReserva(data);
+		reserva.setUsuario(usuario);
 		reserva = reservaService.salvar(reserva);
 		
 		NumeroCNG numeroBuscado = numeroCNGRepository.findNumero(numeroSelecionado.getPrefixoNumeroCNG(), numeroSelecionado.getSerieNumeroCNG(), numeroSelecionado.getMcduNumeroCNG());

@@ -15,21 +15,19 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	private UsuarioRepository usuarioRepository;
 
 	@Override
-	public void salvar(Usuario vo) {
-		// TODO Auto-generated method stub
+	public void salvar(Usuario usuario) {
+		usuarioRepository.save(usuario);
 
 	}
 
 	@Override
-	public void atualizar(Usuario vo) {
-		// TODO Auto-generated method stub
-
+	public void atualizar(Usuario usuario) {
+		usuarioRepository.save(usuario);
 	}
 
 	@Override
-	public void excluir(Usuario vo) {
-		// TODO Auto-generated method stub
-
+	public void excluir(Usuario usuario) {
+		usuarioRepository.delete(usuario);
 	}
 
 	@Override
@@ -41,7 +39,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	public List<Usuario> listUsuarios() {
 		// TODO Auto-generated method stub
-		return null;
+		return usuarioRepository.findAll();
 	}
 
 	@Override

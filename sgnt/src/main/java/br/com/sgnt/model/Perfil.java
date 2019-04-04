@@ -21,9 +21,6 @@ public class Perfil {
 	@Column(name = "NOME")
 	private String nome;
 
-	@OneToMany(targetEntity=Permissao.class)
-	private List<Permissao> listPermissao;
-
 	public Integer getIdPerfil() {
 		return idPerfil;
 	}
@@ -40,20 +37,11 @@ public class Perfil {
 		this.nome = nome;
 	}
 
-	public List<Permissao> getListPermissao() {
-		return listPermissao;
-	}
-
-	public void setListPermissao(List<Permissao> listPermissao) {
-		this.listPermissao = listPermissao;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((idPerfil == null) ? 0 : idPerfil.hashCode());
-		result = prime * result + ((listPermissao == null) ? 0 : listPermissao.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
@@ -72,11 +60,6 @@ public class Perfil {
 				return false;
 		} else if (!idPerfil.equals(other.idPerfil))
 			return false;
-		if (listPermissao == null) {
-			if (other.listPermissao != null)
-				return false;
-		} else if (!listPermissao.equals(other.listPermissao))
-			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
@@ -87,8 +70,7 @@ public class Perfil {
 
 	@Override
 	public String toString() {
-		return "Perfil [idPerfil=" + idPerfil + ", nome=" + nome + ", listPermissao="
-				+ listPermissao + "]";
+		return "Perfil [idPerfil=" + idPerfil + ", nome=" + nome + "]";
 	}
 
 }

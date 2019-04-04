@@ -2,19 +2,19 @@ package br.com.sgnt.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.com.sgnt.model.Funcionario;
 import br.com.sgnt.model.Perfil;
 import br.com.sgnt.model.Usuario;
-import br.com.sgnt.repository.FuncionarioRepository;
-import br.com.sgnt.repository.PerfilRepository;
 import br.com.sgnt.repository.UsuarioRepository;
 import br.com.sgnt.service.IUsuarioService;
 
@@ -32,19 +32,19 @@ public class UsuarioController implements Serializable {
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	private FuncionarioRepository funcionarioRepository;
-	
-	@Autowired
-	private PerfilRepository perfilRepository;
-	
-	@Autowired
 	private IUsuarioService usuarioService;
 	
 	private Perfil perfil = new Perfil();
 	private Usuario usuario = new Usuario();
-	private Funcionario funcionario = new Funcionario();
+	private List<Usuario> listUsuario;
+	private Usuario usuarioSelecionado = new Usuario();
+	private boolean alteracao;
 	
-
+	@PostConstruct
+	public void init() {
+		listUsuario = usuarioService.listUsuarios();		
+	}
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -53,13 +53,6 @@ public class UsuarioController implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
-	}
 	
 	public Perfil getPerfil() {
 		return perfil;
@@ -67,6 +60,30 @@ public class UsuarioController implements Serializable {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+	
+	public Usuario getUsuarioSelecionado() {
+		return usuarioSelecionado;
+	}
+
+	public void setUsuarioSelecionado(Usuario usuarioSelecionado) {
+		this.usuarioSelecionado = usuarioSelecionado;
+	}
+
+	public List<Usuario> getListUsuario() {
+		return listUsuario;
+	}
+
+	public void setListUsuario(List<Usuario> listUsuario) {
+		this.listUsuario = listUsuario;
+	}
+	
+	public boolean isAlteracao() {
+		return alteracao;
+	}
+
+	public void setAlteracao(boolean alteracao) {
+		this.alteracao = alteracao;
 	}
 
 	public String envia() {
@@ -105,13 +122,14 @@ public class UsuarioController implements Serializable {
 		
 		if(user == null) {
 			usuario.setPerfil(perfil);
-			usuarioRepository.save(usuario);
-			funcionario.setAtivo(true);
-			funcionario.setUsuario(usuario);
-			funcionarioRepository.save(funcionario);
+			usuarioService.salvar(usuario);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Usuário cadastrado!", "Cadastro efetuado"));
-			funcionario = new Funcionario();
+			
+			if(!alteracao) {
+				listUsuario.add(usuario);
+			}
+			setAlteracao(false);
 			usuario = new Usuario();
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -152,5 +170,24 @@ public class UsuarioController implements Serializable {
 		return "";
 	}
 	
-
+	public void onRowEdit(RowEditEvent event) {
+        Usuario u = ((Usuario) event.getObject());
+		FacesMessage msg = new FacesMessage("Usuário alterado!", u.getUserName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        usuarioService.salvar(u);
+    }
+	
+	public void onRowCancel(RowEditEvent event) {
+		Usuario u = ((Usuario) event.getObject());
+		FacesMessage msg = new FacesMessage("Alteração cancelada", u.getUserName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+	
+	public void deletarUsuario() {
+		usuarioService.excluir(usuarioSelecionado);
+		listUsuario.remove(usuarioSelecionado);
+		FacesMessage msg = new FacesMessage("Usuário deletado", usuarioSelecionado.getUserName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+		
 }

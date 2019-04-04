@@ -122,12 +122,12 @@
 		
 	</h:form>
 		
-		
+	<div style="clear:both">
 		<h:form id="formDT">
-		<div style="clear:both">
+		
 		<p:dataTable id="clienteDT" value="#{clienteController.listClientesResidencial}"
 					 var="cliente" paginator="true" rows="100" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="10,20,50" reflow="true" 
-					 style="padding-bottom:40px;" editable="true" >
+					 style="padding-bottom:40px;" editable="true" selection="#{clienteController.selectedCliente}" rowKey="#{cliente.id}" selectionMode="single">
 		
 		<p:ajax event="rowEdit" listener="#{clienteController.onRowEdit}" update=":frmCliente:testeMSG" />
 		<p:ajax event="rowEditCancel" listener="#{clienteController.onRowCancel}" update=":frmCliente:testeMSG" />
@@ -193,8 +193,13 @@
 			</p:column>
 
 		</p:dataTable>
-		</div>
-	</h:form>
+		
+		<p:contextMenu for="clienteDT">
+        	<p:menuitem value="Deletar" update="formDT, :frmCliente" action="#{clienteController.excluirSelecionadoResidencial}"/>
+    	</p:contextMenu>
+		
+		</h:form>
+	</div>
 	</div>
 		<div class="rodape">
 		<div class="nomesis" id="textoRodape">

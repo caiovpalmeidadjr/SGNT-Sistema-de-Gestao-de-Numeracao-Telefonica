@@ -27,8 +27,8 @@ public class Reserva {
 	private Date dataPrevista;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_FUNC")
-	private Funcionario funcionario;
+	@JoinColumn(name = "ID_USUA")
+	private Usuario usuario;
 
 	@ManyToOne
 	@JoinColumn(name = "ID_CLIE")
@@ -58,12 +58,12 @@ public class Reserva {
 		this.dataPrevista = dataPrevista;
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Cliente getCliente() {
@@ -81,8 +81,8 @@ public class Reserva {
 		result = prime * result + ((cliente == null) ? 0 : cliente.hashCode());
 		result = prime * result + ((dataHoraReserva == null) ? 0 : dataHoraReserva.hashCode());
 		result = prime * result + ((dataPrevista == null) ? 0 : dataPrevista.hashCode());
-		result = prime * result + ((funcionario == null) ? 0 : funcionario.hashCode());
 		result = prime * result + ((idReserva == null) ? 0 : idReserva.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 
@@ -110,15 +110,15 @@ public class Reserva {
 				return false;
 		} else if (!dataPrevista.equals(other.dataPrevista))
 			return false;
-		if (funcionario == null) {
-			if (other.funcionario != null)
-				return false;
-		} else if (!funcionario.equals(other.funcionario))
-			return false;
 		if (idReserva == null) {
 			if (other.idReserva != null)
 				return false;
 		} else if (!idReserva.equals(other.idReserva))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
 			return false;
 		return true;
 	}
@@ -126,8 +126,7 @@ public class Reserva {
 	@Override
 	public String toString() {
 		return "Reserva [idReserva=" + idReserva + ", dataHoraReserva=" + dataHoraReserva + ", dataPrevista="
-				+ dataPrevista + ", funcionario=" + funcionario + ", cliente=" + cliente + "]";
+				+ dataPrevista + ", usuario=" + usuario + ", cliente=" + cliente + "]";
 	}
-	
-	
+
 }
