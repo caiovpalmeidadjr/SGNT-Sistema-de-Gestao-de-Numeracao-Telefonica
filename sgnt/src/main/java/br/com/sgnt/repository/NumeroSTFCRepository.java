@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.sgnt.model.AreaLocal;
 import br.com.sgnt.model.NumeroSTFC;
+import br.com.sgnt.model.Status;
 import br.com.sgnt.model.TipoNumero;
 
 //metodos padroes de crud estão no JpaRepository extendido, utilizando a class cliente
@@ -23,6 +24,12 @@ public interface NumeroSTFCRepository extends JpaRepository<NumeroSTFC, Integer>
 	
 	@Query("select n from NumeroSTFC n")
 	public List<NumeroSTFC> listNumeroCorporativo();
+	
+	@Query("select n from NumeroSTFC n where n.tipoNumero=:tipoNumero")
+	public List<NumeroSTFC> listNumero(@Param("tipoNumero")TipoNumero tipoNumero);
+	
+	@Query("select n from NumeroSTFC n where n.tipoNumero=:tipoNumero and n.status=:status")
+	public List<NumeroSTFC> listNumeroDisponivel(@Param("tipoNumero")TipoNumero tipoNumero, @Param("status")Status status);
 	
 	@Query("select distinct n.prefixoNumeroSTFC from NumeroSTFC n where n.areaLocal=:areaLocal and n.tipoNumero=:tipoNumero")
 	public List<Integer> listPrefixo(@Param("areaLocal")AreaLocal areaLocal, @Param("tipoNumero")TipoNumero tipoNumero);

@@ -58,53 +58,33 @@
 			<div
 				style=" text-align: left;width:50% ;height: 100%; padding-top: 5px; padding-bottom: 50px; float:left;">
 				<br />
+											
+				<p:dataTable id="numeroDT" value="#{numeroSTFCController.listNumeroSTFCCorporativoDisponivel}" var="num" paginator="true" 
+					rows="100" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="100,1000,10000" reflow="true" 
+					selection="#{numeroSTFCController.listNumeroCorporativoSelecionado}" rowKey="#{num.idNumeroSTFC}" style="padding-right:20px;" >
+
+					<p:column selectionMode="multiple" style="width:35px;text-align:center"/>
+					
+					<p:column headerText="CN" filterable="true" filterBy="#{num.areaLocal.cnAreaLocal}">
+						<h:outputText value="#{num.areaLocal.cnAreaLocal}"/>
+					</p:column>
+					
+					<p:column headerText="Prefixo" filterable="true" filterBy="#{num.prefixoNumeroSTFC}">
+						<h:outputText value="#{num.prefixoNumeroSTFC}"/>
+					</p:column>
+					
+					<p:column headerText="MCDU" filterable="true" filterBy="#{num.mcduNumeroSTFC}" sortBy="#{num.mcduNumeroSTFC}">
+						<h:outputText value="#{num.mcduNumeroSTFC}"/>
+					</p:column>
+					
+					<p:column headerText="Área Local" filterable="true" filterBy="#{num.areaLocal.nomeAreaLocal}">
+						<h:outputText value="#{num.areaLocal.nomeAreaLocal}"/>
+					</p:column>
 				
-			
-				<p:outputLabel for="cn" value="CN:" />
-				<p:selectOneMenu id="cn" value="#{numeroSTFCController.cnSelecionado}" style="margin-left:10px;">
-					<p:ajax listener="#{numeroSTFCController.onCNChange}" update="areaLocal"/>
-					<f:selectItem itemLabel="CN" noSelectionOption="true" />
-					<f:selectItems value="#{numeroSTFCController.listCN}" />
-				</p:selectOneMenu>
-				<br/>
-				
-				<p:outputLabel for="areaLocal" value="Area Local: " /> 
-				<p:selectOneMenu id="areaLocal" value="#{numeroSTFCController.area}" style="margin-left:10px;">
-					<p:ajax listener="#{numeroSTFCController.onAreaLocalChange}" update="prefixo" />
-					<f:selectItem itemLabel="AL" noSelectionOption="true" />
-					<f:selectItems value="#{numeroSTFCController.listAreaLocal}" />
-				</p:selectOneMenu>
-				
-				<br/>
-				
-				<p:outputLabel for="prefixo" value="Prefixo:" /> 
-				<p:selectOneMenu id="prefixo" value="#{numeroSTFCController.prefixo}" style="margin-left:10px;">
-					<f:selectItem itemLabel="Prefixo" noSelectionOption="true" />
-					<f:selectItems value="#{numeroSTFCController.listPrefixoCorporativo}" />
-				</p:selectOneMenu>
-				<br/>
-				
-				<p:outputLabel id="lblFIniial" value="MCDU Inicial: "/>
-				<p:inputText id="txtxFIniial" value="#{numeroSTFCController.faixaInicial}" maxlength="4" size="4" required="true" validatorMessage="Comprimento deve ser de 4 dígitos" style="margin-left:10px;">
-					<f:validateLength minimum="4" />
-				</p:inputText>
-				<br/>
-				
-				<p:outputLabel id="lblFFinal" value="MCDU Final: "/>
-				<p:inputText id="txtFFinal" value="#{numeroSTFCController.faixaFinal}" maxlength="4" size="4" required="true" validatorMessage="Comprimento deve ser de 4 dígitos" style="margin-left:10px;">
-					<f:validateLength minimum="4" />
-				</p:inputText>
-				
-				<br/><br /><br />
-				
-				<p:outputLabel for="mcduOk" value="MCDU cadastrados"/>
-				<p:inputText id="mcduOk" disabled="true" value="#{numeroSTFCController.qtdeMCDUOk}" style="width:50px; margin-left:18px;"/>
-				<br></br>
-				<p:outputLabel for="mcduErro" value="MCDU já reservados"/>
-				<p:inputText id="mcduErro" disabled="true"  value="#{numeroSTFCController.mcduErro}" style="width:50px; margin-left:10px;" />
+				</p:dataTable>
 				
 			</div>
-			<div style="float:right; text-align:left;width:50% ;height: 100%; padding-top: 5px; padding-bottom: 50px; ">
+			<div style="float:right; text-align:left;width:50% ;height: 100%; padding-top: 30px; padding-bottom: 50px; ">
 				
 				<p:dataTable id="clienteDT" value="#{clienteController.listClientesCorporativo}"
 					 var="cliente" paginator="true" rows="5" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="5,10,15" reflow="true" 
@@ -112,22 +92,16 @@
 				
 				<p:column selectionMode="single" style="width:35px;text-align:center"/>
 				<p:column headerText="Nome" filterable="true" filterBy="#{cliente.nome}">
-					<p:cellEditor>
-						<f:facet name="output"> <h:outputText value="#{cliente.nome}"/> </f:facet>
-						<f:facet name="input"><p:inputText value="#{cliente.nome}"/> </f:facet>
-					</p:cellEditor>
+					<h:outputText value="#{cliente.nome}"/> 
 				</p:column>
 				
 				<p:column headerText="CNPJ" style="width:200px;" filterable="true" filterBy="#{cliente.cnpj}">
-					<p:cellEditor>
-						<f:facet name="output"> <h:outputText value="#{cliente.cnpj}"/> </f:facet>
-						<f:facet name="input"><p:inputMask mask="99.999.999/9999-99" value="#{cliente.cnpj}"/> </f:facet>
-					</p:cellEditor>
+					<h:outputText value="#{cliente.cnpj}"/> 	
 				</p:column>
 							
 			
 			</p:dataTable>
-			<h:outputLabel for="dataPrevista" value="Da Prevista de Ativação:" />
+			<h:outputLabel for="dataPrevista" value="Data Prevista de Ativação:" />
 			<br />
 			<p:calendar id="dataPrevista" showOn="button" value="#{numeroSTFCController.reserva.dataPrevista}" mask="99/99/99"/>
 			
@@ -135,7 +109,7 @@
 			<p:outputLabel for="idReserva" value="ID da Reserva:"/>
 			<p:inputText id="idReserva" disabled="true" value="#{numeroSTFCController.reserva.idReserva}" style="width:50px; margin-left:18px;"/>
 			<br/>
-			<p:commandButton value="Reservar" update="frmReserva" action="#{numeroSTFCController.reservar}" style="margin-top:20px;"/>
+			<p:commandButton value="Reservar" update="frmReserva" action="#{numeroSTFCController.reservarCorporativo}" style="margin-top:20px;"/>
 			
 			</div>
 			

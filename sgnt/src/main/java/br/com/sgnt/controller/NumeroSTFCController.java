@@ -20,11 +20,15 @@ import br.com.sgnt.model.NumeroSTFC;
 import br.com.sgnt.model.Reserva;
 import br.com.sgnt.model.Status;
 import br.com.sgnt.model.TipoNumero;
+import br.com.sgnt.model.Usuario;
 import br.com.sgnt.repository.AreaLocalRepository;
 import br.com.sgnt.repository.NumeroSTFCRepository;
 import br.com.sgnt.repository.ReservaRepository;
 import br.com.sgnt.repository.StatusRepository;
 import br.com.sgnt.repository.TipoNumeroRepository;
+import br.com.sgnt.service.IStatusService;
+import br.com.sgnt.service.ITipoNumeroService;
+import br.com.sgnt.service.IUsuarioService;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
 @Named
@@ -47,7 +51,16 @@ public class NumeroSTFCController implements Serializable {
 	@Autowired
 	private StatusRepository statusRepository;
 	private Status status = new Status();
-
+	
+	@Autowired
+	private IStatusService statusService;
+	
+	@Autowired
+	private IUsuarioService usuarioService;
+	
+	@Autowired
+	private ITipoNumeroService tipoService;
+	
 	@Autowired
 	private ReservaRepository reservaRepository;
 	
@@ -55,7 +68,10 @@ public class NumeroSTFCController implements Serializable {
 	private List<AreaLocal> listAreaLocal;
 	private List<NumeroSTFC> listNumeroSTFC;
 	private List<NumeroSTFC> listNumeroSTFCCorporativo = new ArrayList<NumeroSTFC>();
+	private List<NumeroSTFC> listNumeroSTFCCorporativoDisponivel = new ArrayList<NumeroSTFC>();
+	private List<NumeroSTFC> listNumeroSTFCResidencialDisponivel = new ArrayList<NumeroSTFC>();
 	private List<NumeroSTFC> listNumeroSTFCResidencial = new ArrayList<NumeroSTFC>();
+	private List<NumeroSTFC> listNumeroCorporativoSelecionado, listNumeroResidencialSelecionado;
 	private List<Integer> listPrefixoCorporativo, listPrefixoResidencial;
 	private Integer cnSelecionado;
 	private Integer prefixo, qtdeMCDUOk;
@@ -70,8 +86,13 @@ public class NumeroSTFCController implements Serializable {
 	private void init() {
 		listCN = areaLocalRepository.listDistinctCN();
 		Collections.sort(listCN);
-		listNumeroSTFC = numeroSTFCRepository.listNumeroCorporativo();	
-		carregaListaNumeros();
+		listNumeroSTFC = numeroSTFCRepository.listNumeroCorporativo();
+		listNumeroSTFCCorporativo = numeroSTFCRepository.listNumero(tipoService.findOne(1));
+		listNumeroSTFCResidencial = numeroSTFCRepository.listNumero(tipoService.findOne(2));
+		listNumeroSTFCCorporativoDisponivel = numeroSTFCRepository.listNumeroDisponivel(tipoService.findOne(1), statusService.findOne(1));
+		System.out.println(statusService.findOne(1));
+		listNumeroSTFCResidencialDisponivel = numeroSTFCRepository.listNumeroDisponivel(tipoService.findOne(2), statusService.findOne(1));
+		//carregaListaNumeros();
 	}
 
 	public void cadastrar(String nomeTipo) {
@@ -91,16 +112,6 @@ public class NumeroSTFCController implements Serializable {
 		
 	}
 	
-	public void carregaListaNumeros() {
-		for (NumeroSTFC numeroSTFC : listNumeroSTFC) {
-			if(numeroSTFC.getTipoNumero().getIdTipoNumero() == 1) {
-				listNumeroSTFCCorporativo.add(numeroSTFC);
-			} else {
-				listNumeroSTFCResidencial.add(numeroSTFC);
-			}
-		}
-	}
-
 	public boolean verificaAL() {
 		lista = numeroSTFCRepository.getListaAreaLocal(numeroSTFC.getPrefixoNumeroSTFC());
 
@@ -163,42 +174,51 @@ public class NumeroSTFCController implements Serializable {
 
 	}
 	
-	public void reservar() {
+	public void reservarCorporativo() {
 		Timestamp data = new Timestamp(System.currentTimeMillis());
+		Usuario usuario = new Usuario();
+		SecurityController security = new SecurityController();
+		usuario = usuarioService.buscaPorUsername(security.currentUserName());
+		
 		reserva.setDataHoraReserva(data);
+		reserva.setUsuario(usuario);
 		reserva = reservaRepository.save(reserva);
 		
-		AreaLocal a = areaLocalRepository.areaLocalNome(area);
-		tempInicial = faixaInicial;
-		tempFinal = faixaFinal;
-		status = statusRepository.buscaPorNome("RESERVADO");
-				
-		if(tempInicial > tempFinal) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Faixa Inicial deve ser menor que Faixa Final!", "Erro no cadastro!"));
-		} else {
-			while(tempInicial <= tempFinal) {
-				NumeroSTFC n = numeroSTFCRepository.numeroAreaLocal(prefixo, tempInicial, a);
-				if (n.getStatus().getIdStatus().equals(1)) {
-					n.setStatus(status);
-					n.setReserva(reserva);
-					numeroSTFCRepository.save(n);
-					mcduOk.add(faixaInicial);
-				} else {
-					mcduErro.add(tempInicial);
-				}
-				
-				tempInicial++;
-			}
+		for (int i = 0; i < listNumeroCorporativoSelecionado.size(); i++) {
+			listNumeroCorporativoSelecionado.get(i).setReserva(reserva);
+			listNumeroCorporativoSelecionado.get(i).setStatus(statusService.findOne(2));
+			listNumeroSTFCCorporativoDisponivel.remove(listNumeroCorporativoSelecionado.get(i));
 		}
 		
-		qtdeMCDUOk = mcduOk.size();
+		numeroSTFCRepository.save(listNumeroCorporativoSelecionado);
 		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-				"MCDU cadastrados: " + mcduOk.size() , "MCDU com erros: " + mcduErro.size()));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Reserva realizada", "Sucesso"));
 	
 	}
 	
+	public void reservarResidencial() {
+		Timestamp data = new Timestamp(System.currentTimeMillis());
+		Usuario usuario = new Usuario();
+		SecurityController security = new SecurityController();
+		usuario = usuarioService.buscaPorUsername(security.currentUserName());
+		
+		reserva.setDataHoraReserva(data);
+		reserva.setUsuario(usuario);
+		reserva = reservaRepository.save(reserva);
+		
+		for (int i = 0; i < listNumeroResidencialSelecionado.size(); i++) {
+			listNumeroResidencialSelecionado.get(i).setReserva(reserva);
+			listNumeroResidencialSelecionado.get(i).setStatus(statusService.findOne(2));
+			listNumeroSTFCResidencialDisponivel.remove(listNumeroResidencialSelecionado.get(i));
+		}
+		
+		numeroSTFCRepository.save(listNumeroResidencialSelecionado);
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Reserva realizada", "Sucesso"));
+	
+	}
 	
 	public void onCNChange() {
 		listAreaLocal = areaLocalRepository.listAreaLocalCN(cnSelecionado);
@@ -416,6 +436,38 @@ public class NumeroSTFCController implements Serializable {
 
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
+	}
+
+	public List<NumeroSTFC> getListNumeroSTFCCorporativoDisponivel() {
+		return listNumeroSTFCCorporativoDisponivel;
+	}
+
+	public void setListNumeroSTFCCorporativoDisponivel(List<NumeroSTFC> listNumeroSTFCCorporativoDisponivel) {
+		this.listNumeroSTFCCorporativoDisponivel = listNumeroSTFCCorporativoDisponivel;
+	}
+
+	public List<NumeroSTFC> getListNumeroSTFCResidencialDisponivel() {
+		return listNumeroSTFCResidencialDisponivel;
+	}
+
+	public void setListNumeroSTFCResidencialDisponivel(List<NumeroSTFC> listNumeroSTFCResidencialDisponivel) {
+		this.listNumeroSTFCResidencialDisponivel = listNumeroSTFCResidencialDisponivel;
+	}
+
+	public List<NumeroSTFC> getListNumeroCorporativoSelecionado() {
+		return listNumeroCorporativoSelecionado;
+	}
+
+	public void setListNumeroCorporativoSelecionado(List<NumeroSTFC> listNumeroCorporativoSelecionado) {
+		this.listNumeroCorporativoSelecionado = listNumeroCorporativoSelecionado;
+	}
+
+	public List<NumeroSTFC> getListNumeroResidencialSelecionado() {
+		return listNumeroResidencialSelecionado;
+	}
+
+	public void setListNumeroResidencialSelecionado(List<NumeroSTFC> listNumeroResidencialSelecionado) {
+		this.listNumeroResidencialSelecionado = listNumeroResidencialSelecionado;
 	}
 	
 }

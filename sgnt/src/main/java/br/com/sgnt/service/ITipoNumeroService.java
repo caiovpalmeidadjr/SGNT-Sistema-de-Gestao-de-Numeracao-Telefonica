@@ -12,6 +12,8 @@ public interface ITipoNumeroService {
 	
 	public void excluir(TipoNumero vo);
 	
+	public TipoNumero findOne(Integer id);
+	
 	public List<TipoNumero> listTiposNumeros(String query);
 	
 	public List<TipoNumero> listTiposNumeros();
