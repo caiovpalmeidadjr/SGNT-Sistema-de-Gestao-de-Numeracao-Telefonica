@@ -103,7 +103,8 @@
 				<br />
 				<h:panelGrid columns="2"
 					style="margin-bottom:10px; font-size: 12px;" cellpadding="0">
-					<p:selectOneMenu id="perfil" style="width:125px" value="#{usuarioController.perfil.idPerfil}">
+					<p:selectOneMenu id="perfil" style="width:125px" value="#{usuarioController.idPerfil}">
+						<f:selectItem itemLabel="Tipo" itemValue="" />
 						<f:selectItem itemLabel="Gerente Contas" itemValue="3" />
 						<f:selectItem itemLabel="Adm Numeração" itemValue="2" />
 						<f:selectItem itemLabel="Adm Sistema" itemValue="1" />

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import br.com.sgnt.model.Perfil;
 import br.com.sgnt.model.Usuario;
 import br.com.sgnt.repository.UsuarioRepository;
+import br.com.sgnt.service.IPerfilService;
 import br.com.sgnt.service.IUsuarioService;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
@@ -30,21 +31,25 @@ public class UsuarioController implements Serializable {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private IUsuarioService usuarioService;
+	
+	@Autowired
+	private IPerfilService perfilService;
 	
 	private Perfil perfil = new Perfil();
 	private Usuario usuario = new Usuario();
 	private List<Usuario> listUsuario;
 	private Usuario usuarioSelecionado = new Usuario();
 	private boolean alteracao;
-	
+	private Integer idPerfil;
+
 	@PostConstruct
 	public void init() {
-		listUsuario = usuarioService.listUsuarios();		
+		listUsuario = usuarioService.listUsuarios();
 	}
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -53,7 +58,6 @@ public class UsuarioController implements Serializable {
 		this.usuario = usuario;
 	}
 
-	
 	public Perfil getPerfil() {
 		return perfil;
 	}
@@ -61,7 +65,7 @@ public class UsuarioController implements Serializable {
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-	
+
 	public Usuario getUsuarioSelecionado() {
 		return usuarioSelecionado;
 	}
@@ -77,13 +81,21 @@ public class UsuarioController implements Serializable {
 	public void setListUsuario(List<Usuario> listUsuario) {
 		this.listUsuario = listUsuario;
 	}
-	
+
 	public boolean isAlteracao() {
 		return alteracao;
 	}
 
 	public void setAlteracao(boolean alteracao) {
 		this.alteracao = alteracao;
+	}
+
+	public Integer getIdPerfil() {
+		return idPerfil;
+	}
+
+	public void setIdPerfil(Integer idPerfil) {
+		this.idPerfil = idPerfil;
 	}
 
 	public String envia() {
@@ -95,38 +107,37 @@ public class UsuarioController implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário não encontrado!", "Erro no Login!"));
 			return null;
 		} else {
-			
+
 			try {
-				//redirecionando para a tela index.xhtml
+				// redirecionando para a tela index.xhtml
 				redirecionar();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			return null;
-			
-			
+
 		}
 
 	}
-	
+
 	public void redirecionar() throws IOException {
-		
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/sgnt/index/index.xhtml");  
+
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/sgnt/index/index.xhtml");
 	}
 
+	public void cadastrar() {
 
-	public void cadastrar() {	
-		
 		Usuario user = usuarioService.buscaPorUsername(usuario.getUserName());
-		
-		if(user == null) {
+
+		if (user == null) {
+			perfil = perfilService.findOne(idPerfil);
 			usuario.setPerfil(perfil);
 			usuarioService.salvar(usuario);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Usuário cadastrado!", "Cadastro efetuado"));
-			
-			if(!alteracao) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário cadastrado!", "Cadastro efetuado"));
+
+			if (!alteracao) {
 				listUsuario.add(usuario);
 			}
 			setAlteracao(false);
@@ -135,10 +146,9 @@ public class UsuarioController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 					"Usuário já existe no banco", "Cadastro não efetuado"));
 		}
-			
-		
-		/*
 
+		/*
+		
 		*/
 	}
 
@@ -169,25 +179,25 @@ public class UsuarioController implements Serializable {
 
 		return "";
 	}
-	
+
 	public void onRowEdit(RowEditEvent event) {
-        Usuario u = ((Usuario) event.getObject());
+		Usuario u = ((Usuario) event.getObject());
 		FacesMessage msg = new FacesMessage("Usuário alterado!", u.getUserName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        usuarioService.salvar(u);
-    }
-	
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		usuarioService.salvar(u);
+	}
+
 	public void onRowCancel(RowEditEvent event) {
 		Usuario u = ((Usuario) event.getObject());
 		FacesMessage msg = new FacesMessage("Alteração cancelada", u.getUserName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-	
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	public void deletarUsuario() {
 		usuarioService.excluir(usuarioSelecionado);
 		listUsuario.remove(usuarioSelecionado);
 		FacesMessage msg = new FacesMessage("Usuário deletado", usuarioSelecionado.getUserName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-		
+
 }

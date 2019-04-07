@@ -13,7 +13,7 @@
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
 	<!-- h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet-->
-	<title>SGNT - EXCLUIR RESERVA</title>
+	<title>SGNT - EXCLUIR RESERVA STFC</title>
 </h:head>
 
 <h:body>
@@ -39,7 +39,7 @@
 	<div class="subtopo" style="">
 		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
 				pattern="dd/MM/yyyy" /></b>
-		<div class="nomePagina">EXCLUIR RESERVA DE NUMERAÇÃO CNG</div>
+		<div class="nomePagina">EXCLUIR RESERVA NUMERAÇÃO STFC RESIDENCIAL</div>
 	</div>
 	<br />
 
@@ -59,25 +59,25 @@
 				style=" text-align: left;height: 100%; padding-top: 5px; padding-bottom: 50px; ">
 				
 				<h:outputLabel value="Reserva"/><br/>
-				<p:inputText value="#{numeroCNGController.idReserva}" style="width:80px"/><br/><br/>
-				<p:commandButton value="Listar Reserva" update="@form, @this" action="#{numeroCNGController.carregaReserva}"/>
-				<p:commandButton value="Excluir Reserva" update="@form, @this" action="#{numeroCNGController.excluirReserva}" style="padding-left:50px;"/>
+				<p:inputText value="#{numeroSTFCController.idReserva}" style="width:80px"/><br/><br/>
+				<p:commandButton value="Listar Reserva" update="@form, @this" action="#{numeroSTFCController.carregaReservado(2)}"/>
+				<p:commandButton value="Excluir Reserva" update="@form, @this" action="#{numeroSTFCController.excluirReserva}" style="margin-left:50px;"/>
 				
 				<br/><br/>
-				<p:dataTable id="numeroDT" value="#{numeroCNGController.listNumerosReserva}" var="cng" paginator="true" 
+				<p:dataTable id="numeroDT" value="#{numeroSTFCController.listNumeroReserva}" var="cng" paginator="true" 
 					rows="20" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="20,30,50" reflow="true" 
 					style="padding-right:20px;">
 
-					<p:column headerText="Prefixo" filterable="true" filterBy="#{cng.prefixoNumeroCNG}">
-						<h:outputText value="#{cng.prefixoNumeroCNG}"/>
+					<p:column headerText="Prefixo" filterable="true" filterBy="#{cng.prefixoNumeroSTFC}">
+						<h:outputText value="#{cng.prefixoNumeroSTFC}"/>
+					</p:column>
+
+					<p:column headerText="MCDU" filterable="true" filterBy="#{cng.mcduNumeroSTFC}">
+						<h:outputText value="#{cng.mcduNumeroSTFC}"/>
 					</p:column>
 					
-					<p:column headerText="Série" filterable="true" filterBy="#{cng.serieNumeroCNG}">
-						<h:outputText value="#{cng.serieNumeroCNG}"/>
-					</p:column>
-					
-					<p:column headerText="MCDU" filterable="true" filterBy="#{cng.mcduNumeroCNG}">
-						<h:outputText value="#{cng.mcduNumeroCNG}"/>
+					<p:column headerText="Area Local" filterable="true" filterBy="#{cng.areaLocal.nomeAreaLocal}">
+						<h:outputText value="#{cng.areaLocal.nomeAreaLocal}"/>
 					</p:column>
 					
 					<p:column headerText="Cliente" filterable="true" filterBy="#{cng.reserva.cliente.nome}">

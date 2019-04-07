@@ -15,5 +15,7 @@ public interface IPerfilService {
 	public List<Perfil> listPerfis(String query);
 	
 	public List<Perfil> listPerfis();
-
+	
+	public Perfil findOne(Integer id);
+	
 }

@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sgnt.model.NumeroSTFC;
-import br.com.sgnt.repository.NumeroCNGRepository;
+import br.com.sgnt.model.Reserva;
+import br.com.sgnt.model.TipoNumero;
+import br.com.sgnt.repository.NumeroSTFCRepository;
 
 @Service
 public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 	
 	@Autowired
-	private NumeroCNGRepository numeroCNGRepository;
+	private NumeroSTFCRepository numeroSTFCrepository;
 
 	@Override
 	public void salvar(NumeroSTFC vo) {
@@ -44,4 +46,14 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 		return null;
 	}
 
+	@Override
+	public List<NumeroSTFC> findReserva(Reserva reserva) {
+		return numeroSTFCrepository.findRerserva(reserva);
+	}
+
+	@Override
+	public List<NumeroSTFC> findReserva(Reserva reserva, TipoNumero tipoNumero) {
+		return numeroSTFCrepository.findReservaTipo(reserva, tipoNumero);
+	}
+	
 }

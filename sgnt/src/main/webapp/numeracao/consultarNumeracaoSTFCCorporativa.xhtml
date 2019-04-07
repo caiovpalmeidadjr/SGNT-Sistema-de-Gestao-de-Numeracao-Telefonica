@@ -83,7 +83,11 @@
 					<p:column headerText="Status" filterBy="#{numero.status.nomeStatus}">
 						<h:outputText value="#{numero.status.nomeStatus}"/>
 					</p:column>
-
+					
+					<p:column headerText="ID Reserva" filterBy="#{numero.reserva.idReserva}">
+						<h:outputText value="#{numero.reserva.idReserva}"/>
+					</p:column>
+					
 				</p:dataTable>
 						
 				

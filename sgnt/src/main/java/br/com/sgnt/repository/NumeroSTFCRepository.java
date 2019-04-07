@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.sgnt.model.AreaLocal;
 import br.com.sgnt.model.NumeroSTFC;
+import br.com.sgnt.model.Reserva;
 import br.com.sgnt.model.Status;
 import br.com.sgnt.model.TipoNumero;
 
@@ -36,6 +37,10 @@ public interface NumeroSTFCRepository extends JpaRepository<NumeroSTFC, Integer>
 	
 	@Query("select n from NumeroSTFC n where n.prefixoNumeroSTFC=:prefixoNumeroSTFC and n.mcduNumeroSTFC=:mcduNumeroSTFC and n.areaLocal=:areaLocal")
 	public NumeroSTFC numeroAreaLocal(@Param("prefixoNumeroSTFC")Integer prefixoNumeroSTFC, @Param("mcduNumeroSTFC")Integer mcduNumeroSTFC, @Param("areaLocal")AreaLocal areaLocal);
-
 	
+	@Query("select n from NumeroSTFC n where n.reserva=:reserva")
+	public List<NumeroSTFC> findRerserva(@Param("reserva")Reserva reserva);
+	
+	@Query("select n from NumeroSTFC n where n.reserva=:reserva and n.tipoNumero=:tipoNumero")
+	public List<NumeroSTFC> findReservaTipo(@Param("reserva")Reserva reserva, @Param("tipoNumero")TipoNumero tipoNumero);
 }

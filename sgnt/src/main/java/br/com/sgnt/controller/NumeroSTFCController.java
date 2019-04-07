@@ -26,9 +26,12 @@ import br.com.sgnt.repository.NumeroSTFCRepository;
 import br.com.sgnt.repository.ReservaRepository;
 import br.com.sgnt.repository.StatusRepository;
 import br.com.sgnt.repository.TipoNumeroRepository;
+import br.com.sgnt.service.INumeroSTFCService;
+import br.com.sgnt.service.IReservaService;
 import br.com.sgnt.service.IStatusService;
 import br.com.sgnt.service.ITipoNumeroService;
 import br.com.sgnt.service.IUsuarioService;
+import br.com.sgnt.service.ReservaServiceImpl;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
 @Named
@@ -53,6 +56,9 @@ public class NumeroSTFCController implements Serializable {
 	private Status status = new Status();
 	
 	@Autowired
+	private INumeroSTFCService numeroSTFCService;
+	
+	@Autowired
 	private IStatusService statusService;
 	
 	@Autowired
@@ -62,18 +68,21 @@ public class NumeroSTFCController implements Serializable {
 	private ITipoNumeroService tipoService;
 	
 	@Autowired
+	private IReservaService reservaService;
+	
+	@Autowired
 	private ReservaRepository reservaRepository;
 	
 	private List<AreaLocal> listCN;
 	private List<AreaLocal> listAreaLocal;
-	private List<NumeroSTFC> listNumeroSTFC;
+	private List<NumeroSTFC> listNumeroSTFC, listNumeroReserva;
 	private List<NumeroSTFC> listNumeroSTFCCorporativo = new ArrayList<NumeroSTFC>();
 	private List<NumeroSTFC> listNumeroSTFCCorporativoDisponivel = new ArrayList<NumeroSTFC>();
 	private List<NumeroSTFC> listNumeroSTFCResidencialDisponivel = new ArrayList<NumeroSTFC>();
 	private List<NumeroSTFC> listNumeroSTFCResidencial = new ArrayList<NumeroSTFC>();
 	private List<NumeroSTFC> listNumeroCorporativoSelecionado, listNumeroResidencialSelecionado;
 	private List<Integer> listPrefixoCorporativo, listPrefixoResidencial;
-	private Integer cnSelecionado;
+	private Integer cnSelecionado, idReserva;
 	private Integer prefixo, qtdeMCDUOk;
 	private String area;
 	private Integer faixaInicial, faixaFinal, tempInicial, tempFinal;
@@ -232,7 +241,43 @@ public class NumeroSTFCController implements Serializable {
 		listPrefixoResidencial = numeroSTFCRepository.listPrefixo(areaLocalRepository.areaLocalNome(area),tipoNumerorepository.findOne(2));
 
 	}
-
+	
+	public void carregaReservado(Integer tipo) {
+		try{
+			reserva = reservaService.findOne(idReserva);
+			listNumeroReserva = numeroSTFCService.findReserva(reserva, tipoService.findOne(tipo));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Informe o ID da reserva", null));
+		}
+		
+	}
+	
+	public void excluirReserva() {
+		int tam = listNumeroReserva.size();
+		List<NumeroSTFC> listTemp = new ArrayList<NumeroSTFC>();
+		Usuario usuario = new Usuario();
+		SecurityController security = new SecurityController();
+		usuario = usuarioService.buscaPorUsername(security.currentUserName());
+		
+		if(usuario == reserva.getUsuario() || usuario.getPerfil().getIdPerfil().equals(1)) {
+			for (int i=0; i<tam; i=i+1) {
+				listNumeroReserva.get(i).setReserva(null);
+				listNumeroReserva.get(i).setStatus(statusService.findOne(1));
+				
+				numeroSTFCRepository.save(listNumeroReserva.get(i));
+				listTemp.add(listNumeroReserva.get(i));
+			}
+			listNumeroReserva.removeAll(listTemp);
+			reservaService.excluir(reserva);
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Sem permissão para exclusão", null));
+		}
+		
+	}
+	
+	
 	public NumeroSTFCRepository getNumeroSTFCRepository() {
 		return numeroSTFCRepository;
 	}
@@ -471,6 +516,22 @@ public class NumeroSTFCController implements Serializable {
 
 	public void setListNumeroResidencialSelecionado(List<NumeroSTFC> listNumeroResidencialSelecionado) {
 		this.listNumeroResidencialSelecionado = listNumeroResidencialSelecionado;
+	}
+
+	public Integer getIdReserva() {
+		return idReserva;
+	}
+
+	public void setIdReserva(Integer idReserva) {
+		this.idReserva = idReserva;
+	}
+
+	public List<NumeroSTFC> getListNumeroReserva() {
+		return listNumeroReserva;
+	}
+
+	public void setListNumeroReserva(List<NumeroSTFC> listNumeroReserva) {
+		this.listNumeroReserva = listNumeroReserva;
 	}
 	
 }

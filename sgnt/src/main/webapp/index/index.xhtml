@@ -65,7 +65,7 @@
 					<sec:authorize access="hasRole('GERENTE_CONTA')">
 						<p:menuitem value="Reservar" url="/numeracao/reservarNumeracaoSTFCCorporativa.xhtml"/>
 						<p:menuitem value="Alterar Reserva" />
-						<p:menuitem value="Cancelar Reserva" />
+						<p:menuitem value="Cancelar Reserva" url="/numeracao/excluirReservaSTFCCorporativa.xhtml" />
 					</sec:authorize>
 					<sec:authorize access="hasRole('ADM_NUMERACAO')">
 						<p:menuitem value="Cadastrar Numeração" url="/numeracao/cadastrarNumeracaoSTFCCorporativa.xhtml"/>
