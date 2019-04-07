@@ -17,12 +17,12 @@
 </h:head>
 
 <h:body>
-	<sec:authorize access="hasAnyRole('ADM_NUMERACAO', 'ADM_TI')">
+	<sec:authorize access="hasRole('ADM_NUMERACAO')">
 		ACESSO NEGADO
 	</sec:authorize>
 	
 	
-	<sec:authorize access="hasRole('GERENTE_CONTA')">
+	<sec:authorize access="hasAnyRole('GERENTE_CONTA', 'ADM_TI')">
 	<div class="topo">
 		<div class="BotaoHome">
 			<ul>
@@ -39,7 +39,7 @@
 	<div class="subtopo" style="">
 		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
 				pattern="dd/MM/yyyy" /></b>
-		<div class="nomePagina">RESERVAR NUMERAÇÃO CNG</div>
+		<div class="nomePagina">MANUTENÇÃO NUMERAÇÃO CNG</div>
 	</div>
 	<br />
 
@@ -56,13 +56,18 @@
 		<p:growl id="message" showDetail="true"/>
 			<h4 style="text-align:center;">Dados da Reserva</h4>
 			<div
-				style=" text-align: left;width:50% ;height: 100%; padding-top: 5px; padding-bottom: 50px; float:left;">
+				style=" text-align: left;height: 100%; padding-top: 5px; padding-bottom: 50px; ">
+				
+				<h:outputLabel value="Reserva"/><br/>
+				<p:inputText value="#{numeroCNGController.idReserva}" style="width:80px"/><br/><br/>
+				<p:commandButton value="Listar Reserva" update="@form, @this" action="#{numeroCNGController.carregaReserva}"/>
+				<p:commandButton value="Excluir Reserva" update="@form, @this" action="#{numeroCNGController.excluirReserva}" style="padding-left:50px;"/>
+				
+				<br/><br/>
+				<p:dataTable id="numeroDT" value="#{numeroCNGController.listNumerosReserva}" var="cng" paginator="true" 
+					rows="20" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="20,30,50" reflow="true" 
+					style="padding-right:20px;">
 
-				<p:dataTable id="numeroDT" value="#{numeroCNGController.listNumeroCNGDisponivel}" var="cng" paginator="true" 
-					rows="5" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="5,10,15" reflow="true" 
-					selection="#{numeroCNGController.numeroSelecionado}" rowKey="#{cng.idNumeroCNG}" style="padding-right:20px;">
-
-					<p:column selectionMode="single" style="width:35px;text-align:center"/>
 					<p:column headerText="Prefixo" filterable="true" filterBy="#{cng.prefixoNumeroCNG}">
 						<h:outputText value="#{cng.prefixoNumeroCNG}"/>
 					</p:column>
@@ -74,42 +79,14 @@
 					<p:column headerText="MCDU" filterable="true" filterBy="#{cng.mcduNumeroCNG}">
 						<h:outputText value="#{cng.mcduNumeroCNG}"/>
 					</p:column>
-				
+					
+					<p:column headerText="Cliente" filterable="true" filterBy="#{cng.reserva.cliente.nome}">
+						<h:outputText value="#{cng.reserva.cliente.nome}"/>
+					</p:column>
+
 				</p:dataTable>
 				
 				
-			</div>
-			
-			
-			
-			<div style="float:right; text-align:left;width:50% ;height: 100%; padding-top: 5px; padding-bottom: 50px; ">
-				
-				<p:dataTable id="clienteDT" value="#{clienteController.listClientesCorporativo}"
-					 var="cliente" paginator="true" rows="5" paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" rowsPerPageTemplate="5,10,15" reflow="true" 
-					 style="padding-bottom:40px;" selection="#{numeroCNGController.reserva.cliente}" rowKey="#{cliente.cnpj}">
-				
-				<p:column selectionMode="single" style="width:35px;text-align:center"/>
-				<p:column headerText="Nome" filterable="true" filterBy="#{cliente.nome}">
-					<h:outputText value="#{cliente.nome}"/> 
-				</p:column>
-				
-				<p:column headerText="CNPJ" style="width:200px;" filterable="true" filterBy="#{cliente.cnpj}">
-					<h:outputText value="#{cliente.cnpj}"/> 	
-				</p:column>
-							
-			
-				</p:dataTable>
-			<h:outputLabel for="dataPrevista" value="Data Prevista de Ativação:" />
-			<br />
-			<p:calendar id="dataPrevista" showOn="button" value="#{numeroCNGController.reserva.dataPrevista}" mask="99/99/99"/>
-			
-			<br/><br />
-			<p:outputLabel for="idReserva" value="ID da Reserva:"/>
-			<p:inputText id="idReserva" disabled="true" value="#{numeroCNGController.reserva.idReserva}" style="width:80px; margin-left:18px;"/>
-			<br/>
-			
-			<p:commandButton value="Reservar" update="frmReserva" action="#{numeroCNGController.reservar}" style="margin-top:20px;"/>
-			
 			</div>
 			
 		</h:form>

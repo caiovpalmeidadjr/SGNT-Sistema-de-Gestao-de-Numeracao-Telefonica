@@ -44,10 +44,12 @@ public class NumeroCNGController {
 	
 	private List<NumeroCNG> listNumeroCNG;
 	private List<NumeroCNG> listNumeroCNGDisponivel;
+	private List<NumeroCNG> listNumerosReserva;
 	
 	private NumeroCNG numeroSelecionado;
 	
 	private Reserva reserva = new Reserva();
+	private Integer idReserva;
 	
 	@PostConstruct
 	public void init() {
@@ -105,6 +107,28 @@ public class NumeroCNGController {
 		
 	}
 	
+	public void carregaReserva() {		
+		try {
+			reserva = reservaService.findOne(idReserva);
+			listNumerosReserva = numeroCNGService.findReserva(reserva);
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Informe o ID da reserva", null));
+		}
+		
+	}
+	
+	public void excluirReserva() {
+		
+		for (int i=0; i<listNumerosReserva.size(); i++) {
+			listNumerosReserva.get(i).setReserva(null);
+			listNumerosReserva.get(i).setStatus(statusService.findOne(1));
+			numeroCNGService.atualizar(listNumerosReserva.get(i));
+			listNumerosReserva.remove(i);
+		}
+		reservaService.excluir(reserva);
+	}
+	
 	public NumeroCNGRepository getNumeroCNGRepository() {
 		return numeroCNGRepository;
 	}
@@ -152,7 +176,22 @@ public class NumeroCNGController {
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
 	}
-	
-	
 
+	public List<NumeroCNG> getListNumerosReserva() {
+		return listNumerosReserva;
+	}
+
+	public void setListNumerosReserva(List<NumeroCNG> listNumerosReserva) {
+		this.listNumerosReserva = listNumerosReserva;
+	}
+
+	public Integer getIdReserva() {
+		return idReserva;
+	}
+
+	public void setIdReserva(Integer idReserva) {
+		this.idReserva = idReserva;
+	}
+	
+	
 }

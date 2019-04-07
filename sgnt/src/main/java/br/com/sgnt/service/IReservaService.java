@@ -17,4 +17,9 @@ public interface IReservaService {
 	public List<Reserva> listReservas(String query);
 	
 	public List<Reserva> listReservas();
+	
+	public List<Reserva> listReservasCNG();
+	
+	public Reserva findOne(Integer id);
+	
 }

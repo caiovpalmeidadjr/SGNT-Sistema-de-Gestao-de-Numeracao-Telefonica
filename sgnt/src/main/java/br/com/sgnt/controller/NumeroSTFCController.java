@@ -179,7 +179,7 @@ public class NumeroSTFCController implements Serializable {
 		Usuario usuario = new Usuario();
 		SecurityController security = new SecurityController();
 		usuario = usuarioService.buscaPorUsername(security.currentUserName());
-		
+		try {
 		reserva.setDataHoraReserva(data);
 		reserva.setUsuario(usuario);
 		reserva = reservaRepository.save(reserva);
@@ -194,6 +194,9 @@ public class NumeroSTFCController implements Serializable {
 		
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Reserva realizada", "Sucesso"));
+		} catch (Exception e) {
+			System.out.println("Deu erro aqui!");
+		}
 	
 	}
 	

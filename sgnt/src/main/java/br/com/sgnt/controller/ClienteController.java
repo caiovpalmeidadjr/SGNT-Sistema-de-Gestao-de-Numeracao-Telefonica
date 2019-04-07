@@ -220,7 +220,7 @@ public class ClienteController {
 	public void getEndereco(String cep) {
 		cep = cep.replace(".", "").replace("-", "");
 		e = ws.getEnderecoPorCep(cep);
-		
+		System.out.println(e);
 		if(e == null) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"CEP inválido", "Favor informar um CEP válido"));

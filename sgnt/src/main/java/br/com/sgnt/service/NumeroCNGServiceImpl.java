@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sgnt.model.NumeroCNG;
+import br.com.sgnt.model.Reserva;
 import br.com.sgnt.model.Status;
 import br.com.sgnt.repository.NumeroCNGRepository;
 
@@ -51,4 +52,14 @@ public class NumeroCNGServiceImpl implements INumeroCNGService {
 		return numeroCNGRepository.findDisponivel(status);
 	}
 
+	@Override
+	public List<NumeroCNG> findReservado(Status status) {
+		return numeroCNGRepository.findReservados(status);
+	}
+
+	@Override
+	public List<NumeroCNG> findReserva(Reserva reserva) {
+		return numeroCNGRepository.findReserva(reserva);
+	}
+	
 }

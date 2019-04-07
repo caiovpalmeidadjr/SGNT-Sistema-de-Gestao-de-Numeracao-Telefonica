@@ -1,5 +1,7 @@
 package br.com.sgnt.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +12,6 @@ import br.com.sgnt.model.Reserva;
 //metodos padroes de crud estão no JpaRepository extendido, utilizando a class cliente
 @Repository // a partir dessa anotação essa class vira um bean do spring, objeto construido pelo spring 
 public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
-
+	
 	
 }

@@ -39,7 +39,10 @@ public class ReservaServiceImpl implements IReservaService {
 
 	@Override
 	public List<Reserva> listReservas() {
-		// TODO Auto-generated method stub
+		return reservaRepository.findAll();
+	}
+	
+	public List<Reserva> listReservasCNG() {
 		return null;
 	}
 
@@ -49,4 +52,9 @@ public class ReservaServiceImpl implements IReservaService {
 		
 	}
 
+	@Override
+	public Reserva findOne(Integer id) {
+		return reservaRepository.findOne(id);
+	}
+	
 }

@@ -3,6 +3,7 @@ package br.com.sgnt.service;
 import java.util.List;
 
 import br.com.sgnt.model.NumeroCNG;
+import br.com.sgnt.model.Reserva;
 import br.com.sgnt.model.Status;
 
 public interface INumeroCNGService {
@@ -20,4 +21,9 @@ public interface INumeroCNGService {
 	public NumeroCNG findNumero(Integer prefixoNumeroCNG,Integer serieNumeroCNG, Integer mcduNumeroCNG);
 	
 	public List<NumeroCNG> findDisponivel(Status status);
+	
+	public List<NumeroCNG> findReservado(Status status);
+	
+	public List<NumeroCNG> findReserva(Reserva reserva);
+		
 }
