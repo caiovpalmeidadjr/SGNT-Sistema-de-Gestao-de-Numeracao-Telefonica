@@ -1,0 +1,2 @@
+prop.path.stfc=C:\\arquivos\\stfc
+prop.path.cng=C:\\arquivos\\cng
