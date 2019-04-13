@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "TB_NUMERO_STFC")
@@ -38,6 +39,9 @@ public class NumeroSTFC {
 	@ManyToOne
 	@JoinColumn(name = "ID_STAT")
 	private Status status;
+	
+	@Column(name = "DATA_HORA_STATUS")
+	private Timestamp dataHoraStatus;
 
 	public Integer getIdNumeroSTFC() {
 		return idNumeroSTFC;
@@ -95,11 +99,20 @@ public class NumeroSTFC {
 		this.status = status;
 	}
 
+	public Timestamp getDataHoraStatus() {
+		return dataHoraStatus;
+	}
+
+	public void setDataHoraStatus(Timestamp dataHoraStatus) {
+		this.dataHoraStatus = dataHoraStatus;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((areaLocal == null) ? 0 : areaLocal.hashCode());
+		result = prime * result + ((dataHoraStatus == null) ? 0 : dataHoraStatus.hashCode());
 		result = prime * result + ((idNumeroSTFC == null) ? 0 : idNumeroSTFC.hashCode());
 		result = prime * result + ((mcduNumeroSTFC == null) ? 0 : mcduNumeroSTFC.hashCode());
 		result = prime * result + ((prefixoNumeroSTFC == null) ? 0 : prefixoNumeroSTFC.hashCode());
@@ -122,6 +135,11 @@ public class NumeroSTFC {
 			if (other.areaLocal != null)
 				return false;
 		} else if (!areaLocal.equals(other.areaLocal))
+			return false;
+		if (dataHoraStatus == null) {
+			if (other.dataHoraStatus != null)
+				return false;
+		} else if (!dataHoraStatus.equals(other.dataHoraStatus))
 			return false;
 		if (idNumeroSTFC == null) {
 			if (other.idNumeroSTFC != null)
@@ -160,7 +178,7 @@ public class NumeroSTFC {
 	public String toString() {
 		return "NumeroSTFC [idNumeroSTFC=" + idNumeroSTFC + ", prefixoNumeroSTFC=" + prefixoNumeroSTFC
 				+ ", mcduNumeroSTFC=" + mcduNumeroSTFC + ", areaLocal=" + areaLocal + ", tipoNumero=" + tipoNumero
-				+ ", reserva=" + reserva + ", status=" + status + "]";
+				+ ", reserva=" + reserva + ", status=" + status + ", dataHoraStatus=" + dataHoraStatus + "]";
 	}
 
 }

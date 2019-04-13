@@ -1,6 +1,6 @@
 package br.com.sgnt.model;
 
-import java.sql.Timestamp;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,18 +11,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TB_STATUS")
 public class Status {
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = "ID_STAT")
 	private Integer idStatus;
-	
+
 	@Column(name = "NOME")
 	private String nomeStatus;
-	
-	@Column(name = "DATA_HORA")
-	private Timestamp dataHoraStatus;
-	
+
 	public Integer getIdStatus() {
 		return idStatus;
 	}
@@ -39,19 +36,10 @@ public class Status {
 		this.nomeStatus = nomeStatus;
 	}
 
-	public Timestamp getDataHoraStatus() {
-		return dataHoraStatus;
-	}
-
-	public void setDataHoraStatus(Timestamp dataHoraStatus) {
-		this.dataHoraStatus = dataHoraStatus;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dataHoraStatus == null) ? 0 : dataHoraStatus.hashCode());
 		result = prime * result + ((idStatus == null) ? 0 : idStatus.hashCode());
 		result = prime * result + ((nomeStatus == null) ? 0 : nomeStatus.hashCode());
 		return result;
@@ -66,11 +54,6 @@ public class Status {
 		if (getClass() != obj.getClass())
 			return false;
 		Status other = (Status) obj;
-		if (dataHoraStatus == null) {
-			if (other.dataHoraStatus != null)
-				return false;
-		} else if (!dataHoraStatus.equals(other.dataHoraStatus))
-			return false;
 		if (idStatus == null) {
 			if (other.idStatus != null)
 				return false;
@@ -86,8 +69,7 @@ public class Status {
 
 	@Override
 	public String toString() {
-		return "Status [idStatus=" + idStatus + ", nomeStatus=" + nomeStatus + ", dataHoraStatus=" + dataHoraStatus
-				+ "]";
+		return "Status [idStatus=" + idStatus + ", nomeStatus=" + nomeStatus + "]";
 	}
 
 }

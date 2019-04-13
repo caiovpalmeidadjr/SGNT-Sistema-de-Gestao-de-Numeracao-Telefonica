@@ -107,6 +107,8 @@ public class NumeroSTFCController implements Serializable {
 	public void cadastrar(String nomeTipo) {
 		areaLocal = areaLocalRepository.areaLocalNome(area);
 		tipo = tipoNumerorepository.pesquisaNome(nomeTipo);
+		Timestamp data = new Timestamp(System.currentTimeMillis());
+		numeroSTFC.setDataHoraStatus(data);
 		numeroSTFC.setTipoNumero(tipo);
 		numeroSTFC.setAreaLocal(areaLocal);
 		status = statusRepository.buscaPorNome("DISPONIVEL");
@@ -196,6 +198,7 @@ public class NumeroSTFCController implements Serializable {
 		for (int i = 0; i < listNumeroCorporativoSelecionado.size(); i++) {
 			listNumeroCorporativoSelecionado.get(i).setReserva(reserva);
 			listNumeroCorporativoSelecionado.get(i).setStatus(statusService.findOne(2));
+			listNumeroCorporativoSelecionado.get(i).setDataHoraStatus(data);
 			listNumeroSTFCCorporativoDisponivel.remove(listNumeroCorporativoSelecionado.get(i));
 		}
 		
@@ -222,6 +225,7 @@ public class NumeroSTFCController implements Serializable {
 		for (int i = 0; i < listNumeroResidencialSelecionado.size(); i++) {
 			listNumeroResidencialSelecionado.get(i).setReserva(reserva);
 			listNumeroResidencialSelecionado.get(i).setStatus(statusService.findOne(2));
+			listNumeroResidencialSelecionado.get(i).setDataHoraStatus(data);
 			listNumeroSTFCResidencialDisponivel.remove(listNumeroResidencialSelecionado.get(i));
 		}
 		
@@ -260,7 +264,7 @@ public class NumeroSTFCController implements Serializable {
 		SecurityController security = new SecurityController();
 		usuario = usuarioService.buscaPorUsername(security.currentUserName());
 		
-		if(usuario == reserva.getUsuario() || usuario.getPerfil().getIdPerfil().equals(1)) {
+		if(reserva.getUsuario().equals(usuario) || usuario.getPerfil().getIdPerfil().equals(1)) {
 			for (int i=0; i<tam; i=i+1) {
 				listNumeroReserva.get(i).setReserva(null);
 				listNumeroReserva.get(i).setStatus(statusService.findOne(1));
@@ -270,6 +274,27 @@ public class NumeroSTFCController implements Serializable {
 			}
 			listNumeroReserva.removeAll(listTemp);
 			reservaService.excluir(reserva);
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Sem permissão para exclusão", null));
+		}
+		
+	}
+	
+	public void revalidarReserva() {
+		int tam = listNumeroReserva.size();
+		Usuario usuario = new Usuario();
+		SecurityController security = new SecurityController();
+		usuario = usuarioService.buscaPorUsername(security.currentUserName());
+		Timestamp data = new Timestamp(System.currentTimeMillis());
+		
+		if(reserva.getUsuario().equals(usuario) || usuario.getPerfil().getIdPerfil().equals(1)) {
+			for (int i=0; i<tam; i=i+1) {
+				listNumeroReserva.get(i).setDataHoraStatus(data);		
+				numeroSTFCRepository.save(listNumeroReserva.get(i));
+			}
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Reserva validada!", null));
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Sem permissão para exclusão", null));

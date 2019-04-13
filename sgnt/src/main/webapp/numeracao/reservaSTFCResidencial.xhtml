@@ -39,7 +39,7 @@
 	<div class="subtopo" style="">
 		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
 				pattern="dd/MM/yyyy" /></b>
-		<div class="nomePagina">EXCLUIR RESERVA NUMERAÇÃO STFC CORPORATIVA</div>
+		<div class="nomePagina">EXCLUIR RESERVA NUMERAÇÃO STFC RESIDENCIAL</div>
 	</div>
 	<br />
 
@@ -60,8 +60,9 @@
 				
 				<h:outputLabel value="Reserva"/><br/>
 				<p:inputText value="#{numeroSTFCController.idReserva}" style="width:80px"/><br/><br/>
-				<p:commandButton value="Listar Reserva" update="@form, @this" action="#{numeroSTFCController.carregaReservado(1)}"/>
-				<p:commandButton value="Excluir Reserva" update="@form, @this" action="#{numeroSTFCController.excluirReserva}" style="margin-left:50px;"/>
+				<p:commandButton value="Listar Reserva" update="@form, @this" action="#{numeroSTFCController.carregaReservado(2)}"/>
+				<p:commandButton value="Excluir Reserva" update="@form, @this" action="#{numeroSTFCController.excluirReserva}" style="margin-left:10px;"/>
+				<p:commandButton value="Validar Reserva" update="@form, @this" action="#{numeroSTFCController.revalidarReserva}" style="margin-left:10px;"/>
 				
 				<br/><br/>
 				<p:dataTable id="numeroDT" value="#{numeroSTFCController.listNumeroReserva}" var="cng" paginator="true" 

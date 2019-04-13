@@ -60,9 +60,11 @@ public class NumeroCNGController {
 	public void cadastrar() {
 		
 		NumeroCNG numCNGBuscado = numeroCNGService.findNumero(numeroCNG.getPrefixoNumeroCNG(), numeroCNG.getSerieNumeroCNG(), numeroCNG.getMcduNumeroCNG());
+		Timestamp data = new Timestamp(System.currentTimeMillis());
 		
 		if (numCNGBuscado == null) {
 			numeroCNG.setStatus(statusService.findOne(1));
+			numeroCNG.setDataHoraStatus(data);
 			numeroCNGService.salvar(numeroCNG);
 			numeroCNG = new NumeroCNG();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -89,6 +91,7 @@ public class NumeroCNGController {
 		if(numeroBuscado != null) {
 			if(numeroBuscado.getStatus().getIdStatus().equals(1)) {
 				numeroBuscado.setStatus(statusService.buscaPorNome("RESERVADO"));
+				numeroBuscado.setDataHoraStatus(data);
 				System.out.println(numeroBuscado.toString());
 				numeroBuscado.setReserva(reserva);
 				numeroCNGService.salvar(numeroBuscado);
@@ -119,14 +122,42 @@ public class NumeroCNGController {
 	}
 	
 	public void excluirReserva() {
+		Usuario usuario = new Usuario();
+		SecurityController security = new SecurityController();
+		usuario = usuarioService.buscaPorUsername(security.currentUserName());
 		
-		for (int i=0; i<listNumerosReserva.size(); i++) {
-			listNumerosReserva.get(i).setReserva(null);
-			listNumerosReserva.get(i).setStatus(statusService.findOne(1));
-			numeroCNGService.atualizar(listNumerosReserva.get(i));
-			listNumerosReserva.remove(i);
+		if(reserva.getUsuario().equals(usuario) || usuario.getPerfil().getIdPerfil().equals(1)) {
+			for (int i=0; i<listNumerosReserva.size(); i++) {
+				listNumerosReserva.get(i).setReserva(null);
+				listNumerosReserva.get(i).setStatus(statusService.findOne(1));
+				numeroCNGService.atualizar(listNumerosReserva.get(i));
+				listNumerosReserva.remove(i);
+			}
+			reservaService.excluir(reserva);
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Sem permissão para exclusão", null));
 		}
-		reservaService.excluir(reserva);
+		
+	}
+	
+	public void revalidarReserva() {
+		Timestamp data = new Timestamp(System.currentTimeMillis());
+		Usuario usuario = new Usuario();
+		SecurityController security = new SecurityController();
+		usuario = usuarioService.buscaPorUsername(security.currentUserName());
+		
+		if(reserva.getUsuario().equals(usuario) || usuario.getPerfil().getIdPerfil().equals(1)) {
+			for (int i=0; i<listNumerosReserva.size(); i++) {
+				listNumerosReserva.get(i).setDataHoraStatus(data);
+				numeroCNGService.atualizar(listNumerosReserva.get(i));
+			}
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Reserva validada!", null));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Sem permissão!", null));
+		}
 	}
 	
 	public NumeroCNGRepository getNumeroCNGRepository() {

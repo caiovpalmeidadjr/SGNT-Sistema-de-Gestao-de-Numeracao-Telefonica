@@ -1,5 +1,7 @@
 package br.com.sgnt.model;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +35,9 @@ public class NumeroCNG {
 	@ManyToOne
 	@JoinColumn(name = "ID_STAT")
 	private Status status;
+
+	@Column(name = "DATA_HORA_STATUS")
+	private Timestamp dataHoraStatus;
 
 	public Integer getIdNumeroCNG() {
 		return idNumeroCNG;
@@ -82,10 +87,19 @@ public class NumeroCNG {
 		this.status = status;
 	}
 
+	public Timestamp getDataHoraStatus() {
+		return dataHoraStatus;
+	}
+
+	public void setDataHoraStatus(Timestamp dataHoraStatus) {
+		this.dataHoraStatus = dataHoraStatus;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((dataHoraStatus == null) ? 0 : dataHoraStatus.hashCode());
 		result = prime * result + ((idNumeroCNG == null) ? 0 : idNumeroCNG.hashCode());
 		result = prime * result + ((mcduNumeroCNG == null) ? 0 : mcduNumeroCNG.hashCode());
 		result = prime * result + ((prefixoNumeroCNG == null) ? 0 : prefixoNumeroCNG.hashCode());
@@ -104,6 +118,11 @@ public class NumeroCNG {
 		if (getClass() != obj.getClass())
 			return false;
 		NumeroCNG other = (NumeroCNG) obj;
+		if (dataHoraStatus == null) {
+			if (other.dataHoraStatus != null)
+				return false;
+		} else if (!dataHoraStatus.equals(other.dataHoraStatus))
+			return false;
 		if (idNumeroCNG == null) {
 			if (other.idNumeroCNG != null)
 				return false;
@@ -141,7 +160,7 @@ public class NumeroCNG {
 	public String toString() {
 		return "NumeroCNG [idNumeroCNG=" + idNumeroCNG + ", prefixoNumeroCNG=" + prefixoNumeroCNG + ", serieNumeroCNG="
 				+ serieNumeroCNG + ", mcduNumeroCNG=" + mcduNumeroCNG + ", reserva=" + reserva + ", status=" + status
-				+ "]";
+				+ ", dataHoraStatus=" + dataHoraStatus + "]";
 	}
 
 }
