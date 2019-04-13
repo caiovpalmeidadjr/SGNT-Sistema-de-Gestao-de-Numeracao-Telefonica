@@ -69,7 +69,7 @@ public class EnviarEmail {
                     new javax.mail.Authenticator() {
                          protected PasswordAuthentication getPasswordAuthentication() 
                          {
-                               return new PasswordAuthentication("andreocoutinho@gmail.com", "pamadre3");
+                               return new PasswordAuthentication("sgntjava@gmail.com", "tccsgntjava");
                          }
                     });
 
@@ -79,13 +79,13 @@ public class EnviarEmail {
         try {
 
               Message message = new MimeMessage(session);
-              message.setFrom(new InternetAddress("seuemail@gmail.com")); //Remetente
+              message.setFrom(new InternetAddress("sgntjava@gmail.com")); //Remetente
 
               Address[] toUser = InternetAddress //Destinatário(s)
                          .parse("andreocoutinho@gmail.com");  
 
               message.setRecipients(Message.RecipientType.TO, toUser);
-              message.setSubject("Enviando email com JavaMail");//Assunto
+              message.setSubject("RESERVAS - SGNT");//Assunto
               message.setText(reservas);
               //Método para enviar a mensagem criada
               Transport.send(message);
