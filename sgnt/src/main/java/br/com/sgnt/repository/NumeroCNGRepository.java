@@ -25,4 +25,7 @@ public interface NumeroCNGRepository extends JpaRepository<NumeroCNG, Integer> {
 	@Query("select n from NumeroCNG n where n.reserva=:reserva")
 	public List<NumeroCNG> findReserva(@Param("reserva")Reserva reserva);
 	
+	@Query("select distinct n.reserva from NumeroCNG n where n.status=:status")
+	public List<Reserva> findReservasVencendo(@Param("status")Status status);
+	
 }

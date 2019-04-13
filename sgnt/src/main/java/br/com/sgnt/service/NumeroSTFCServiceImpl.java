@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.sgnt.model.NumeroSTFC;
 import br.com.sgnt.model.Reserva;
+import br.com.sgnt.model.Status;
 import br.com.sgnt.model.TipoNumero;
 import br.com.sgnt.repository.NumeroSTFCRepository;
 
@@ -55,5 +56,12 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 	public List<NumeroSTFC> findReserva(Reserva reserva, TipoNumero tipoNumero) {
 		return numeroSTFCrepository.findReservaTipo(reserva, tipoNumero);
 	}
+
+	@Override
+	public List<Reserva> findReservaVencendo(Status status) {
+		return numeroSTFCrepository.findReservasVencendo(status);
+	}
+	
+	
 	
 }

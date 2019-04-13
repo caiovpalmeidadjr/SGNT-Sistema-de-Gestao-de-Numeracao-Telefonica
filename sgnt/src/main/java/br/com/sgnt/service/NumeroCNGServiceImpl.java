@@ -61,5 +61,12 @@ public class NumeroCNGServiceImpl implements INumeroCNGService {
 	public List<NumeroCNG> findReserva(Reserva reserva) {
 		return numeroCNGRepository.findReserva(reserva);
 	}
+
+	@Override
+	public List<Reserva> findReservaVencendo(Status status) {
+		return numeroCNGRepository.findReservasVencendo(status);
+	}
+	
+	
 	
 }

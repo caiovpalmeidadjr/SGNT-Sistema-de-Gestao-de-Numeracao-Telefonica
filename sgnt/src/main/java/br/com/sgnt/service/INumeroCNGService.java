@@ -25,5 +25,7 @@ public interface INumeroCNGService {
 	public List<NumeroCNG> findReservado(Status status);
 	
 	public List<NumeroCNG> findReserva(Reserva reserva);
-		
+	
+	public List<Reserva> findReservaVencendo(Status status);
+	
 }
