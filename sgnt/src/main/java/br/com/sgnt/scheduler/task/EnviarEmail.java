@@ -176,5 +176,9 @@ public class EnviarEmail {
 		}
 	}
 	
+	public void verificaReservas() {
+		verificaReservasSTFC();
+		verificaReservasCNG();
+	}
 	
 }
