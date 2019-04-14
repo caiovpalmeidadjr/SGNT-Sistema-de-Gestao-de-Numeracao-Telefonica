@@ -18,6 +18,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import br.com.sgnt.model.Reserva;
@@ -26,9 +27,6 @@ import br.com.sgnt.service.INumeroSTFCService;
 import br.com.sgnt.service.IReservaService;
 import br.com.sgnt.service.IStatusService;
 
-
-@Named
-@ViewScoped
 @Component
 @EnableScheduling
 public class EnviarEmail {
@@ -176,6 +174,17 @@ public class EnviarEmail {
 		}
 	}
 	
+	/*
+	 * A B C D E F
+	 * A: Segundos (0 – 59).
+	 * B: Minutos (0 – 59).
+	 * C: Horas (0 – 23).
+	 * D: Dia (1 – 31).
+	 * E: Mês (1 – 12).
+	 * F: Dia da semana (0 – 6).
+	 * (* * * ignora os campos, qlq valor naqueles campos)*/
+	
+	@Scheduled(cron = "0 0 20 * * ?", zone = TIME_ZONE)
 	public void verificaReservas() {
 		verificaReservasSTFC();
 		verificaReservasCNG();
