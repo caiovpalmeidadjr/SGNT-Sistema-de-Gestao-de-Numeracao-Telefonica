@@ -15,9 +15,14 @@ import java.util.StringTokenizer;
 
 import javax.faces.context.FacesContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import br.com.sgnt.model.NumeroSTFC;
+import br.com.sgnt.service.IClienteService;
+import br.com.sgnt.service.INumeroSTFCService;
 
 @Component
 @EnableScheduling
@@ -29,6 +34,9 @@ public class AlterarStatusNumeracao {
 	
 	private static final String TIME_ZONE = "America/Sao_Paulo";
 	
+	@Autowired
+	private INumeroSTFCService stfcService;
+	
 	/*
 	 * A B C D E F
 	 * A: Segundos (0 – 59).
@@ -39,8 +47,10 @@ public class AlterarStatusNumeracao {
 	 * F: Dia da semana (0 – 6).
 	 * (* * * ignora os campos, qlq valor naqueles campos)*/
 
-	@Scheduled(cron = "0 43 15 * * *", zone = TIME_ZONE)
+	@Scheduled(cron = "0 33 14 * * *", zone = TIME_ZONE)
 	public void verificarStausNumeracaoSTFC() throws IOException{
+		
+		
 		
 		Properties props;
 		
@@ -88,7 +98,7 @@ public class AlterarStatusNumeracao {
 			
 			for(File fileEncontrado : arquivoRaiz.listFiles()) {
 				
-				//1 - encontrar arquivo com inicial stfc
+				//encontrar arquivo com inicial stfc
 				if(fileEncontrado.getName().contains("stfc")) {
 					
 					//escrevendo no arquivo de log
@@ -96,7 +106,7 @@ public class AlterarStatusNumeracao {
 					
 					System.out.println(arquivoRaiz+"\\"+fileEncontrado.getName() +"simmmm");
 					
-					//2 - ler arquivo 
+					//ler arquivo 
 					reader = new FileReader(arquivoRaiz+"\\"+fileEncontrado.getName()); // Localização do Arquivo
 					
 					leitor = new BufferedReader(reader);
@@ -115,6 +125,17 @@ public class AlterarStatusNumeracao {
 							prefixo = st.nextToken();
 							mcdu = st.nextToken();
 							status = st.nextToken();
+							
+							//para cada linha, verificar no banco o valor do status do numero com o status da linha passado e ai sim mudar caso seja possivel
+							NumeroSTFC numSTFCBuscado = stfcService.findNumberSTFC(cn, prefixo, mcdu, status, linha);
+							
+							if(numSTFCBuscado != null) {
+								//caso atenda a situação eu atualizo
+							}
+							
+							System.out.println("cn"+cn+" prefixo"+prefixo+" mcdu"+mcdu+" status"+status);
+							
+							//stfcService.atualizar(reader);
 						}
 					
 					}
@@ -126,8 +147,8 @@ public class AlterarStatusNumeracao {
 				
 				
 				//3 - ignorar cabeçalho
-				//4 - para cada linha, verificar no banco o valor do status do numero com o status da linha passado e ai sim mudar caso seja possivel
-				//5 - caso atenda a situação eu atualizo
+				
+				
 				//6 - caso contrario não faço nada, apenas escrevo no log
 				//7 - ler a proxima linha do arquivo
 				//8 - Fim do processo
