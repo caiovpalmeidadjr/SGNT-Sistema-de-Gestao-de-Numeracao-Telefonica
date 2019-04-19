@@ -78,7 +78,7 @@ public class Reaproveitamento {
 	 * F: Dia da semana (0 – 6).
 	 * (* * * ignora os campos, qlq valor naqueles campos)*/
 	
-	@Scheduled(cron = "0 0 20 * * ?", zone = TIME_ZONE)
+	@Scheduled(cron = "0 0 21 * * ?", zone = TIME_ZONE)
 	public void verificaReservas() {
 		reaproveitamentoSTFC();
 		reaproveitamentoCNG();

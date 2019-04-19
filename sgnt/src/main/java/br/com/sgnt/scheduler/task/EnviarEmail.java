@@ -99,6 +99,7 @@ public class EnviarEmail {
 	}
 	
 	public void verificaReservasSTFC() {
+		Timestamp data = new Timestamp(System.currentTimeMillis());
 		reservasSTFC = numeroSTFCService.findReservaVencendo(statusService.findOne(2));
 		int qtdeReserva = 0;
 		int qtdeCancelar = 0;
@@ -136,6 +137,7 @@ public class EnviarEmail {
 				for (int i=0; i<listNumeroSTFC.size(); i++) {
 					listNumeroSTFC.get(i).setReserva(null);
 					listNumeroSTFC.get(i).setStatus(statusService.findOne(1));
+					listNumeroSTFC.get(i).setDataHoraStatus(data);
 					numeroSTFCService.salvar(listNumeroSTFC.get(i));
 				}
 				cancelar = cancelar + reserva.getIdReserva() + " - " + reserva.getUsuario().getEmail() + "\n";
@@ -146,6 +148,7 @@ public class EnviarEmail {
 	}
 	
 	public void verificaReservasCNG() {
+		Timestamp data = new Timestamp(System.currentTimeMillis());
 		reservasCNG = numeroCNGService.findReservaVencendo(statusService.findOne(2));
 		int qtdeReserva = 0;
 		int qtdeCancelar = 0;
@@ -182,6 +185,7 @@ public class EnviarEmail {
 				for(int i=0; i<listNumeroCNG.size(); i++) {
 					listNumeroCNG.get(i).setReserva(null);
 					listNumeroCNG.get(i).setStatus(statusService.findOne(1));
+					listNumeroCNG.get(i).setDataHoraStatus(data);
 					numeroCNGService.atualizar(listNumeroCNG.get(i));
 					
 				}
