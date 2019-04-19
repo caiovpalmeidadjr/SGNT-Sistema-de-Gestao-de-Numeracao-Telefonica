@@ -47,4 +47,7 @@ public interface NumeroSTFCRepository extends JpaRepository<NumeroSTFC, Integer>
 	@Query("select distinct n.reserva from NumeroSTFC n where n.status=:status")
 	public List<Reserva> findReservasVencendo(@Param("status")Status status);
 	
+	@Query("select n from NumeroSTFC n where n.status=:status")
+	public List<NumeroSTFC> findNumeroStatus(@Param("status")Status status);
+	
 }

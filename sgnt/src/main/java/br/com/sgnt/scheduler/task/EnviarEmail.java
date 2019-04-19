@@ -21,6 +21,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import br.com.sgnt.model.NumeroCNG;
+import br.com.sgnt.model.NumeroSTFC;
 import br.com.sgnt.model.Reserva;
 import br.com.sgnt.service.INumeroCNGService;
 import br.com.sgnt.service.INumeroSTFCService;
@@ -47,6 +49,8 @@ public class EnviarEmail {
 	List<Reserva> reservasCNG;
 	List<Reserva> reservasNotificar = new ArrayList<Reserva>();
 	List<Reserva> reservasCancelar = new ArrayList<Reserva>();
+	List<NumeroSTFC> listNumeroSTFC;
+	List<NumeroCNG> listNumeroCNG;
 	private final long SEGUNDO = 1000;
 	private final long MINUTO = SEGUNDO * 60;
 	private final long HORA = MINUTO * 60;
@@ -125,10 +129,17 @@ public class EnviarEmail {
 		if(qtdeCancelar == 0) {
 			enviarEmail("Sem reservas para cancelar");
 		} else {
+			
 			String cancelar = "Reservas canceladas! \n";
 			for (Reserva reserva : reservasCancelar) {
+				listNumeroSTFC = numeroSTFCService.findReserva(reserva);
+				for (int i=0; i<listNumeroSTFC.size(); i++) {
+					listNumeroSTFC.get(i).setReserva(null);
+					listNumeroSTFC.get(i).setStatus(statusService.findOne(1));
+					numeroSTFCService.salvar(listNumeroSTFC.get(i));
+				}
 				cancelar = cancelar + reserva.getIdReserva() + " - " + reserva.getUsuario().getEmail() + "\n";
-				
+				reservaService.excluir(reserva);
 			}
 			enviarEmail(cancelar);
 		}
@@ -167,8 +178,15 @@ public class EnviarEmail {
 		} else {
 			String cancelar = "Reservas canceladas! \n";
 			for (Reserva reserva : reservasCancelar) {
+				listNumeroCNG = numeroCNGService.findReserva(reserva);
+				for(int i=0; i<listNumeroCNG.size(); i++) {
+					listNumeroCNG.get(i).setReserva(null);
+					listNumeroCNG.get(i).setStatus(statusService.findOne(1));
+					numeroCNGService.atualizar(listNumeroCNG.get(i));
+					
+				}
 				cancelar = cancelar + reserva.getIdReserva() + " - " + reserva.getUsuario().getEmail() + "\n";
-				
+				reservaService.excluir(reserva);
 			}
 			enviarEmail(cancelar);
 		}

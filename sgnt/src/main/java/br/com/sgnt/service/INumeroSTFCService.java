@@ -26,5 +26,7 @@ public interface INumeroSTFCService {
 	public List<Reserva> findReservaVencendo(Status status);
 
 	public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status, String linha);
+	
+	public List<NumeroSTFC> findNumeroStatus(Status status);
 
 }

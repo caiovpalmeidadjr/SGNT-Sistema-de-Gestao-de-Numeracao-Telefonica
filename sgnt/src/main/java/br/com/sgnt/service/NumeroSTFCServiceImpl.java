@@ -19,19 +19,19 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 
 	@Override
 	public void salvar(NumeroSTFC vo) {
-		// TODO Auto-generated method stub
+		numeroSTFCrepository.save(vo);
 
 	}
 
 	@Override
 	public void atualizar(NumeroSTFC vo) {
-		// TODO Auto-generated method stub
+		numeroSTFCrepository.save(vo);
 
 	}
 
 	@Override
 	public void excluir(NumeroSTFC vo) {
-		// TODO Auto-generated method stub
+		numeroSTFCrepository.delete(vo);
 
 	}
 
@@ -61,7 +61,16 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 	public List<Reserva> findReservaVencendo(Status status) {
 		return numeroSTFCrepository.findReservasVencendo(status);
 	}
-	
-	
+
+	@Override
+	public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status, String linha) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NumeroSTFC> findNumeroStatus(Status status) {
+		return numeroSTFCrepository.findNumeroStatus(status);
+	}
 	
 }
