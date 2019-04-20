@@ -61,6 +61,12 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 	public List<Reserva> findReservaVencendo(Status status) {
 		return numeroSTFCrepository.findReservasVencendo(status);
 	}
+
+	@Override
+	public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status) {
+		// TODO Auto-generated method stub
+		return numeroSTFCrepository.findNumberSTFC();
+	}
 	
 	
 	

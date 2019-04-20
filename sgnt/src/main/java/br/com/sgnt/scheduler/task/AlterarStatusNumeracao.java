@@ -127,7 +127,7 @@ public class AlterarStatusNumeracao {
 							status = st.nextToken();
 							
 							//para cada linha, verificar no banco o valor do status do numero com o status da linha passado e ai sim mudar caso seja possivel
-							NumeroSTFC numSTFCBuscado = stfcService.findNumberSTFC(cn, prefixo, mcdu, status, linha);
+							NumeroSTFC numSTFCBuscado = stfcService.findNumberSTFC(cn, prefixo, mcdu, status);
 							
 							if(numSTFCBuscado != null) {
 								//caso atenda a situação eu atualizo
