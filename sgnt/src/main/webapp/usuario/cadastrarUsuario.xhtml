@@ -170,7 +170,7 @@
 				</p:dataTable>
 				
 				<p:contextMenu for="usuarioDT">
-        			<p:menuitem value="Deletar" update="formUsuario, :formCadastro" action="#{usuarioController.deletarUsuario}"/>
+        			<p:menuitem value="Deletar" update="formUsuario, :formCadastro" action="#{usuarioController.deletarUsuario}" onstart="return window.confirm('Certeza?')" />
     			</p:contextMenu>
 				
 			</h:form>

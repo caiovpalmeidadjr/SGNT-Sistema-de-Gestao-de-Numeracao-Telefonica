@@ -61,7 +61,7 @@
 				<h:outputLabel value="Reserva"/><br/>
 				<p:inputText value="#{numeroSTFCController.idReserva}" style="width:80px"/><br/><br/>
 				<p:commandButton value="Listar Reserva" update="@form, @this" action="#{numeroSTFCController.carregaReservado(2)}"/>
-				<p:commandButton value="Excluir Reserva" update="@form, @this" action="#{numeroSTFCController.excluirReserva}" style="margin-left:10px;"/>
+				<p:commandButton value="Excluir Reserva" update="@form, @this" action="#{numeroSTFCController.excluirReserva}" style="margin-left:10px;" onstart="return window.confirm('Certeza?')"/>
 				<p:commandButton value="Validar Reserva" update="@form, @this" action="#{numeroSTFCController.revalidarReserva}" style="margin-left:10px;"/>
 				
 				<br/><br/>

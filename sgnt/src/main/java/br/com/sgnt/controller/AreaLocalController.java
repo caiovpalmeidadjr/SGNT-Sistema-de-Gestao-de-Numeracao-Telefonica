@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.sgnt.model.AreaLocal;
 import br.com.sgnt.repository.AreaLocalRepository;
+import br.com.sgnt.service.IAreaLocalService;
 
 //dizendo que o meu controller é um bean que se comunica com a tela
 @Named
@@ -18,18 +19,13 @@ import br.com.sgnt.repository.AreaLocalRepository;
 public class AreaLocalController {
 
 	@Autowired
-	private AreaLocalRepository areaLocalRepository;
+	private IAreaLocalService areaLocalService;
 	private AreaLocal areaLocal;
-
 	private List<AreaLocal> listCN;
 	private List<AreaLocal> listAreaLocal;
 	private Integer cnSelecionado;
 	private String area;
 	
-	public void teste() {
-		System.out.println(area);
-	}
-
 	public String getArea() {
 		return area;
 	}
@@ -40,21 +36,21 @@ public class AreaLocalController {
 
 	@PostConstruct
 	private void init() {
-		listCN = areaLocalRepository.listDistinctCN();
+		listCN = areaLocalService.listDistinctCN();
 		Collections.sort(listCN);
 	}
 
 	public void carregaAreaLocal() {
-		listAreaLocal = areaLocalRepository.listAreaLocalCN(cnSelecionado);
+		listAreaLocal = areaLocalService.listAreaLocalCN(cnSelecionado);
 		
 	}
-
-	public AreaLocalRepository getAreaLocalRepository() {
-		return areaLocalRepository;
+	
+	public IAreaLocalService getAreaLocalService() {
+		return areaLocalService;
 	}
 
-	public void setAreaLocalRepository(AreaLocalRepository areaLocalRepository) {
-		this.areaLocalRepository = areaLocalRepository;
+	public void setAreaLocalService(IAreaLocalService areaLocalService) {
+		this.areaLocalService = areaLocalService;
 	}
 
 	public AreaLocal getAreaLocal() {

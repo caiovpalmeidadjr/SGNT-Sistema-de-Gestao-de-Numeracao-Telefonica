@@ -17,4 +17,6 @@ public interface ITipoNumeroService {
 	public List<TipoNumero> listTiposNumeros(String query);
 	
 	public List<TipoNumero> listTiposNumeros();
+	
+	public TipoNumero pesquisaNome(String nome);
 }

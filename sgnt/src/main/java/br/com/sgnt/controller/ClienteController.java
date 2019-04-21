@@ -27,16 +27,6 @@ import br.com.viacep.EnderecoCEP;
 @ViewScoped
 public class ClienteController {
 
-	// pegando um objeto do clienteRepository para salvar o objeto da tela no banco
-	@Autowired
-	private ClienteRepository repository;
-
-	@Autowired
-	private ClienteCorporativoRepository clienteCorporativoRepository;
-
-	@Autowired
-	private ClienteResidencialRepository clienteResidencialRepository;
-
 	@Autowired
 	private IClienteService clienteService;
 
@@ -149,10 +139,11 @@ public class ClienteController {
 		clienteCorporativo = new ClienteCorporativo();
 		setAlteracao(false);
 	}
-
+	
+	
 	public void salvarCorporativo() {
 
-		Cliente c = clienteCorporativoRepository.buscarPorCNPJ(clienteCorporativo.getCnpj());
+		Cliente c = clienteService.buscarPorCNPJ(clienteCorporativo.getCnpj());
 		String cnpj = clienteCorporativo.getCnpj().replace(".", "").replace("/","").replace("-", "");
 		
 		if (c == null) {
@@ -165,7 +156,7 @@ public class ClienteController {
 			clienteCorporativo.setLogradouro(e.getLogradouro());
 			clienteCorporativo.setBairro(e.getBairro());
 			clienteCorporativo.setMunicipio(e.getLocalidade());
-			repository.save(clienteCorporativo);
+			clienteService.salvar(clienteCorporativo);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
 
@@ -182,10 +173,10 @@ public class ClienteController {
 		}
 
 	}
-
+	
 	public void salvarResidencial() {
 
-		Cliente c = clienteResidencialRepository.buscarPorCPF(clienteResidencial.getCpf());
+		Cliente c = clienteService.buscarPorCPF(clienteResidencial.getCpf());
 		String cpf = clienteResidencial.getCpf().replace(".", "").replace("-", "");
 		System.out.println(cpf);
 		
@@ -199,7 +190,7 @@ public class ClienteController {
 			clienteResidencial.setBairro(e.getBairro());
 			clienteResidencial.setLogradouro(e.getLogradouro());
 			clienteResidencial.setMunicipio(e.getLocalidade());
-			repository.save(clienteResidencial);
+			clienteService.salvar(clienteResidencial);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Cadastro efetuado com sucesso", "Cadastro com sucesso!"));
 
@@ -216,14 +207,14 @@ public class ClienteController {
 		}
 
 	}
-
+	
 	public void onRowEdit(RowEditEvent event) {
 		Cliente c = ((Cliente) event.getObject());
 		FacesMessage msg = new FacesMessage("Cliente alterado!", c.getNome());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		repository.save(c);
+		clienteService.salvar(c);
 	}
-
+	
 	public void onRowCancel(RowEditEvent event) {
 		Cliente c = ((Cliente) event.getObject());
 		FacesMessage msg = new FacesMessage("Alteração cancelada", c.getNome());

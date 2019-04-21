@@ -61,7 +61,7 @@
 				<h:outputLabel value="Reserva"/><br/>
 				<p:inputText value="#{numeroCNGController.idReserva}" style="width:80px"/><br/><br/>
 				<p:commandButton value="Listar Reserva" update="@form, @this" action="#{numeroCNGController.carregaReserva}"/>
-				<p:commandButton value="Excluir Reserva" update="@form, @this" action="#{numeroCNGController.excluirReserva}" style="margin-left:10px;"/>
+				<p:commandButton value="Excluir Reserva" update="@form, @this" action="#{numeroCNGController.excluirReserva}" style="margin-left:10px;" onstart="return window.confirm('Certeza?')"/>
 				<p:commandButton value="Revalidar Reserva" update="@form, @this" action="#{numeroCNGController.revalidarReserva}" style="margin-left:10px;"/>
 				
 				<br/><br/>

@@ -33,5 +33,9 @@ public interface IClienteService {
 	public List<ClienteCorporativo> listClientesCorporativos();
 
 	public List<ClienteResidencial> listClientesResidencial();
+	
+	public Cliente buscarPorCNPJ(String cnpj);
+	
+	public Cliente buscarPorCPF(String cpf);
 
 }

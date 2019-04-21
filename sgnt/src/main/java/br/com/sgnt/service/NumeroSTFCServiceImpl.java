@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.sgnt.model.AreaLocal;
 import br.com.sgnt.model.NumeroSTFC;
 import br.com.sgnt.model.Reserva;
 import br.com.sgnt.model.Status;
@@ -22,6 +23,13 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 		numeroSTFCrepository.save(vo);
 
 	}
+	
+	
+	@Override
+	public void salvarLista(List<NumeroSTFC> lista) {
+		numeroSTFCrepository.save(lista);
+	}
+
 
 	@Override
 	public void atualizar(NumeroSTFC vo) {
@@ -43,8 +51,7 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 
 	@Override
 	public List<NumeroSTFC> listNumerosSTFC() {
-		// TODO Auto-generated method stub
-		return null;
+		return numeroSTFCrepository.listNumero();
 	}
 
 	@Override
@@ -61,16 +68,37 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 	public List<Reserva> findReservaVencendo(Status status) {
 		return numeroSTFCrepository.findReservasVencendo(status);
 	}
-
+	/*
 	@Override
 	public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status) {
 		return numeroSTFCrepository.findNumberSTFC(cn, prefixo, mcdu, status);
 	}
-	
+	*/
 
 	@Override
 	public List<NumeroSTFC> findNumeroStatus(Status status) {
 		return numeroSTFCrepository.findNumeroStatus(status);
+	}
+
+	@Override
+	public List<NumeroSTFC> listNumeroTipo(TipoNumero tipo) {
+		return numeroSTFCrepository.listNumeroTipo(tipo);
+	}
+
+	@Override
+	public List<NumeroSTFC> listNumeroDisponivel(TipoNumero tipo, Status status) {
+		return numeroSTFCrepository.listNumeroDisponivel(tipo, status);
+	}
+
+	@Override
+	public List<NumeroSTFC> getListaAreaLocal(Integer prefixo) {
+		return numeroSTFCrepository.getListaAreaLocal(prefixo);
+	}
+
+
+	@Override
+	public List<Integer> listPrefixo(AreaLocal areaLocal, TipoNumero tipo) {
+		return numeroSTFCrepository.listPrefixo(areaLocal, tipo);
 	}
 	
 }

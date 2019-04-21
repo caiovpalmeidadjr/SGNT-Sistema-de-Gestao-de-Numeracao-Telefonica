@@ -2,6 +2,7 @@ package br.com.sgnt.service;
 
 import java.util.List;
 
+import br.com.sgnt.model.AreaLocal;
 import br.com.sgnt.model.NumeroSTFC;
 import br.com.sgnt.model.Reserva;
 import br.com.sgnt.model.Status;
@@ -10,7 +11,9 @@ import br.com.sgnt.model.TipoNumero;
 public interface INumeroSTFCService {
 
 	public void salvar(NumeroSTFC vo);
-
+	
+	public void salvarLista(List<NumeroSTFC> lista);
+	
 	public void atualizar(NumeroSTFC vo);
 
 	public void excluir(NumeroSTFC vo);
@@ -25,8 +28,15 @@ public interface INumeroSTFCService {
 
 	public List<Reserva> findReservaVencendo(Status status);
 
-	public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status);
+	//public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status);
 	
 	public List<NumeroSTFC> findNumeroStatus(Status status);
-
+	
+	public List<NumeroSTFC> listNumeroTipo(TipoNumero tipo);
+	
+	public List<NumeroSTFC> listNumeroDisponivel(TipoNumero tipo, Status status);
+	
+	public List<NumeroSTFC> getListaAreaLocal(Integer prefixo);
+	
+	public List<Integer> listPrefixo(AreaLocal areaLocal, TipoNumero tipo);
 }

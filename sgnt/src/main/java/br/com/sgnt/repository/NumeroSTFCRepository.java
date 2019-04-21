@@ -24,10 +24,10 @@ public interface NumeroSTFCRepository extends JpaRepository<NumeroSTFC, Integer>
 	public List<NumeroSTFC> getListaAreaLocal(@Param("prefixoNumeroSTFC")Integer prefixoNumeroSTFC);
 	
 	@Query("select n from NumeroSTFC n")
-	public List<NumeroSTFC> listNumeroCorporativo();
+	public List<NumeroSTFC> listNumero();
 	
 	@Query("select n from NumeroSTFC n where n.tipoNumero=:tipoNumero")
-	public List<NumeroSTFC> listNumero(@Param("tipoNumero")TipoNumero tipoNumero);
+	public List<NumeroSTFC> listNumeroTipo(@Param("tipoNumero")TipoNumero tipoNumero);
 	
 	@Query("select n from NumeroSTFC n where n.tipoNumero=:tipoNumero and n.status=:status")
 	public List<NumeroSTFC> listNumeroDisponivel(@Param("tipoNumero")TipoNumero tipoNumero, @Param("status")Status status);
@@ -46,10 +46,10 @@ public interface NumeroSTFCRepository extends JpaRepository<NumeroSTFC, Integer>
 	
 	@Query("select distinct n.reserva from NumeroSTFC n where n.status=:status")
 	public List<Reserva> findReservasVencendo(@Param("status")Status status);
-	
+	/*
 	@Query("select n from NumeroSTFC n where n.cn=:cn and n.prefixoNumeroSTFC=:prefixo and n.mcduNumeroSTFC=:mcdu and n.status=:status")
 	public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status);
-	
+	*/
 	@Query("select n from NumeroSTFC n where n.status=:status")
 	public List<NumeroSTFC> findNumeroStatus(@Param("status")Status status);
 	

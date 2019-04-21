@@ -17,17 +17,16 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
-	
+
 	@Autowired
 	private ClienteCorporativoRepository clienteCorporativoRepository;
-	
+
 	@Autowired
 	private ClienteResidencialRepository clienteResidencialRepository;
-	
+
 	@Override
 	public void salvar(Cliente cliente) {
 		clienteRepository.save(cliente);
-
 	}
 
 	@Override
@@ -69,37 +68,49 @@ public class ClienteServiceImpl implements IClienteService {
 	@Override
 	public void salvarClienteCorp(ClienteCorporativo vo) {
 		clienteCorporativoRepository.save(vo);
-		
+
 	}
 
 	@Override
 	public void atualizarClienteCorp(ClienteCorporativo vo) {
 		clienteCorporativoRepository.save(vo);
-		
+
 	}
 
 	@Override
 	public void excluirClienteCorp(ClienteCorporativo vo) {
 		clienteCorporativoRepository.delete(vo);
-		
+
 	}
 
 	@Override
 	public void salvarClienteResidencial(ClienteResidencial vo) {
 		clienteResidencialRepository.save(vo);
-		
+
 	}
 
 	@Override
 	public void atualizarClienteResidencial(ClienteResidencial vo) {
 		clienteResidencialRepository.save(vo);
-		
+
 	}
 
 	@Override
 	public void excluirClienteResidencial(ClienteResidencial vo) {
 		clienteResidencialRepository.delete(vo);
-		
+
 	}
+
+	@Override
+	public Cliente buscarPorCNPJ(String cnpj) {
+		return clienteCorporativoRepository.buscarPorCNPJ(cnpj);
+	}
+
+	@Override
+	public Cliente buscarPorCPF(String cpf) {
+		return clienteResidencialRepository.buscarPorCPF(cpf);
+	}
+	
+	
 
 }

@@ -16,20 +16,17 @@ public class TipoNumeroServiceImpl implements ITipoNumeroService {
 	
 	@Override
 	public void salvar(TipoNumero vo) {
-		// TODO Auto-generated method stub
-
+		tipoNumeroRepository.save(vo);
 	}
 
 	@Override
 	public void atualizar(TipoNumero vo) {
-		// TODO Auto-generated method stub
-
+		tipoNumeroRepository.save(vo);
 	}
 
 	@Override
 	public void excluir(TipoNumero vo) {
-		// TODO Auto-generated method stub
-
+		tipoNumeroRepository.delete(vo);
 	}
 	
 	@Override
@@ -48,5 +45,11 @@ public class TipoNumeroServiceImpl implements ITipoNumeroService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public TipoNumero pesquisaNome(String nome) {
+		return tipoNumeroRepository.pesquisaNome(nome);
+	}
+	
 
 }

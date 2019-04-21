@@ -30,9 +30,6 @@ public class UsuarioController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
-
-	@Autowired
 	private IUsuarioService usuarioService;
 	
 	@Autowired
@@ -157,7 +154,7 @@ public class UsuarioController implements Serializable {
 		Usuario permissaoUsuario = new Usuario();
 
 		try {
-			permissaoUsuario = usuarioRepository.buscaPorUsername(usuario.getUserName());
+			permissaoUsuario = usuarioService.buscaPorUsername(usuario.getUserName());
 
 			if (permissaoUsuario.getUserName().equals(usuario.getUserName())
 					&& permissaoUsuario.getSenha().equals(usuario.getSenha())) {

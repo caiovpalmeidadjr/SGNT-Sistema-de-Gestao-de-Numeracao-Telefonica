@@ -51,7 +51,7 @@ public class AlterarStatusNumeracao {
 	@Scheduled(cron = "0 33 14 * * *", zone = TIME_ZONE)
 	public void verificarStausNumeracaoSTFC() throws IOException{
 		
-		
+		/**
 		
 		Properties props;
 		
@@ -195,7 +195,7 @@ public class AlterarStatusNumeracao {
 		
 		System.out.println("executei as: " + LocalDateTime.now());
 		
-		
+		*/
 	}
 
 }

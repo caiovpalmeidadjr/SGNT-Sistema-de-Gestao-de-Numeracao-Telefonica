@@ -26,6 +26,7 @@ import br.com.sgnt.repository.NumeroSTFCRepository;
 import br.com.sgnt.repository.ReservaRepository;
 import br.com.sgnt.repository.StatusRepository;
 import br.com.sgnt.repository.TipoNumeroRepository;
+import br.com.sgnt.service.IAreaLocalService;
 import br.com.sgnt.service.INumeroSTFCService;
 import br.com.sgnt.service.IReservaService;
 import br.com.sgnt.service.IStatusService;
@@ -38,21 +39,14 @@ import br.com.sgnt.service.ReservaServiceImpl;
 @ViewScoped
 public class NumeroSTFCController implements Serializable {
 
-	@Autowired
-	private NumeroSTFCRepository numeroSTFCRepository;
 	private NumeroSTFC numeroSTFC = new NumeroSTFC();
 	private AreaLocalController areaLocalController;
 
-	@Autowired
-	private AreaLocalRepository areaLocalRepository;
 	private AreaLocal areaLocal = new AreaLocal();
 
-	@Autowired
-	private TipoNumeroRepository tipoNumerorepository;
+
 	private TipoNumero tipo = new TipoNumero();
 	
-	@Autowired
-	private StatusRepository statusRepository;
 	private Status status = new Status();
 	
 	@Autowired
@@ -69,6 +63,9 @@ public class NumeroSTFCController implements Serializable {
 	
 	@Autowired
 	private IReservaService reservaService;
+	
+	@Autowired
+	private IAreaLocalService areaLocalService;
 	
 	@Autowired
 	private ReservaRepository reservaRepository;
@@ -93,25 +90,24 @@ public class NumeroSTFCController implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		listCN = areaLocalRepository.listDistinctCN();
+		listCN = areaLocalService.listDistinctCN();
 		Collections.sort(listCN);
-		listNumeroSTFC = numeroSTFCRepository.listNumeroCorporativo();
-		listNumeroSTFCCorporativo = numeroSTFCRepository.listNumero(tipoService.findOne(1));
-		listNumeroSTFCResidencial = numeroSTFCRepository.listNumero(tipoService.findOne(2));
-		listNumeroSTFCCorporativoDisponivel = numeroSTFCRepository.listNumeroDisponivel(tipoService.findOne(1), statusService.findOne(1));
+		listNumeroSTFC = numeroSTFCService.listNumerosSTFC();
+		listNumeroSTFCCorporativo = numeroSTFCService.listNumeroTipo(tipoService.findOne(1));
+		listNumeroSTFCResidencial = numeroSTFCService.listNumeroTipo(tipoService.findOne(2));
+		listNumeroSTFCCorporativoDisponivel = numeroSTFCService.listNumeroDisponivel(tipoService.findOne(1), statusService.findOne(1));
 		System.out.println(statusService.findOne(1));
-		listNumeroSTFCResidencialDisponivel = numeroSTFCRepository.listNumeroDisponivel(tipoService.findOne(2), statusService.findOne(1));
-		//carregaListaNumeros();
+		listNumeroSTFCResidencialDisponivel = numeroSTFCService.listNumeroDisponivel(tipoService.findOne(2), statusService.findOne(1));
 	}
 
 	public void cadastrar(String nomeTipo) {
-		areaLocal = areaLocalRepository.areaLocalNome(area);
-		tipo = tipoNumerorepository.pesquisaNome(nomeTipo);
+		areaLocal = areaLocalService.areaLocalNome(area);
+		tipo = tipoService.pesquisaNome(nomeTipo);
 		Timestamp data = new Timestamp(System.currentTimeMillis());
 		numeroSTFC.setDataHoraStatus(data);
 		numeroSTFC.setTipoNumero(tipo);
 		numeroSTFC.setAreaLocal(areaLocal);
-		status = statusRepository.buscaPorNome("DISPONIVEL");
+		status = statusService.buscaPorNome("DISPONIVEL");
 		boolean confereAL = verificaAL();
 		if (confereAL == true) {
 			Integer prefixo = numeroSTFC.getPrefixoNumeroSTFC();
@@ -124,7 +120,7 @@ public class NumeroSTFCController implements Serializable {
 	}
 	
 	public boolean verificaAL() {
-		lista = numeroSTFCRepository.getListaAreaLocal(numeroSTFC.getPrefixoNumeroSTFC());
+		lista = numeroSTFCService.getListaAreaLocal(numeroSTFC.getPrefixoNumeroSTFC());
 
 		try {
 			if (numeroSTFC.getAreaLocal().getCnAreaLocal().equals(lista.get(0).getAreaLocal().getCnAreaLocal())) {
@@ -163,7 +159,7 @@ public class NumeroSTFCController implements Serializable {
 				numeroSTFC.setMcduNumeroSTFC(tempInicial);
 	
 				try {
-					numeroSTFCRepository.save(numeroSTFC);
+					numeroSTFCService.salvar(numeroSTFC);
 				} catch (Exception e) {
 					mcdu.add(tempInicial);
 				}
@@ -202,7 +198,7 @@ public class NumeroSTFCController implements Serializable {
 			listNumeroSTFCCorporativoDisponivel.remove(listNumeroCorporativoSelecionado.get(i));
 		}
 		
-		numeroSTFCRepository.save(listNumeroCorporativoSelecionado);
+		numeroSTFCService.salvarLista(listNumeroCorporativoSelecionado);
 		
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Reserva realizada", "Sucesso"));
@@ -229,7 +225,8 @@ public class NumeroSTFCController implements Serializable {
 			listNumeroSTFCResidencialDisponivel.remove(listNumeroResidencialSelecionado.get(i));
 		}
 		
-		numeroSTFCRepository.save(listNumeroResidencialSelecionado);
+		//numeroSTFCRepository.save(listNumeroResidencialSelecionado);
+		numeroSTFCService.salvarLista(listNumeroResidencialSelecionado);
 		
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Reserva realizada", "Sucesso"));
@@ -237,12 +234,12 @@ public class NumeroSTFCController implements Serializable {
 	}
 	
 	public void onCNChange() {
-		listAreaLocal = areaLocalRepository.listAreaLocalCN(cnSelecionado);
+		listAreaLocal = areaLocalService.listAreaLocalCN(cnSelecionado);
 	}
 
 	public void onAreaLocalChange() {
-		listPrefixoCorporativo = numeroSTFCRepository.listPrefixo(areaLocalRepository.areaLocalNome(area),tipoNumerorepository.findOne(1));
-		listPrefixoResidencial = numeroSTFCRepository.listPrefixo(areaLocalRepository.areaLocalNome(area),tipoNumerorepository.findOne(2));
+		listPrefixoCorporativo = numeroSTFCService.listPrefixo(areaLocalService.areaLocalNome(area),tipoService.findOne(1));
+		listPrefixoResidencial = numeroSTFCService.listPrefixo(areaLocalService.areaLocalNome(area),tipoService.findOne(2));
 
 	}
 	
@@ -269,7 +266,7 @@ public class NumeroSTFCController implements Serializable {
 				listNumeroReserva.get(i).setReserva(null);
 				listNumeroReserva.get(i).setStatus(statusService.findOne(1));
 				
-				numeroSTFCRepository.save(listNumeroReserva.get(i));
+				numeroSTFCService.salvar(listNumeroReserva.get(i));
 				listTemp.add(listNumeroReserva.get(i));
 			}
 			listNumeroReserva.removeAll(listTemp);
@@ -291,7 +288,7 @@ public class NumeroSTFCController implements Serializable {
 		if(reserva.getUsuario().equals(usuario) || usuario.getPerfil().getIdPerfil().equals(1)) {
 			for (int i=0; i<tam; i=i+1) {
 				listNumeroReserva.get(i).setDataHoraStatus(data);		
-				numeroSTFCRepository.save(listNumeroReserva.get(i));
+				numeroSTFCService.salvar(listNumeroReserva.get(i));
 			}
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Reserva validada!", null));
@@ -300,15 +297,6 @@ public class NumeroSTFCController implements Serializable {
 					"Sem permissão para exclusão", null));
 		}
 		
-	}
-	
-	
-	public NumeroSTFCRepository getNumeroSTFCRepository() {
-		return numeroSTFCRepository;
-	}
-
-	public void setNumeroSTFCRepository(NumeroSTFCRepository numeroSTFCRepository) {
-		this.numeroSTFCRepository = numeroSTFCRepository;
 	}
 
 	public NumeroSTFC getNumeroSTFC() {
@@ -325,14 +313,6 @@ public class NumeroSTFCController implements Serializable {
 
 	public void setAreaLocalController(AreaLocalController areaLocalController) {
 		this.areaLocalController = areaLocalController;
-	}
-
-	public AreaLocalRepository getAreaLocalRepository() {
-		return areaLocalRepository;
-	}
-
-	public void setAreaLocalRepository(AreaLocalRepository areaLocalRepository) {
-		this.areaLocalRepository = areaLocalRepository;
 	}
 
 	public AreaLocal getAreaLocal() {
@@ -391,14 +371,6 @@ public class NumeroSTFCController implements Serializable {
 		this.faixaFinal = faixaFinal;
 	}
 
-	public TipoNumeroRepository getTipoNumerorepository() {
-		return tipoNumerorepository;
-	}
-
-	public void setTipoNumerorepository(TipoNumeroRepository tipoNumerorepository) {
-		this.tipoNumerorepository = tipoNumerorepository;
-	}
-
 	public TipoNumero getTipo() {
 		return tipo;
 	}
@@ -429,14 +401,6 @@ public class NumeroSTFCController implements Serializable {
 
 	public void setListNumeroSTFCResidencial(List<NumeroSTFC> listNumeroSTFCResidencial) {
 		this.listNumeroSTFCResidencial = listNumeroSTFCResidencial;
-	}
-
-	public StatusRepository getStatusRepository() {
-		return statusRepository;
-	}
-
-	public void setStatusRepository(StatusRepository statusRepository) {
-		this.statusRepository = statusRepository;
 	}
 
 	public Status getStatus() {

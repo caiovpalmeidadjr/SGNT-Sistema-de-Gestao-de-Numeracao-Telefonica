@@ -26,9 +26,6 @@ import br.com.sgnt.service.IUsuarioService;
 public class NumeroCNGController {
 
 	@Autowired
-	private NumeroCNGRepository numeroCNGRepository;
-	
-	@Autowired
 	private INumeroCNGService numeroCNGService;
 	
 	@Autowired
@@ -86,7 +83,7 @@ public class NumeroCNGController {
 		reserva.setUsuario(usuario);
 		reserva = reservaService.salvar(reserva);
 		
-		NumeroCNG numeroBuscado = numeroCNGRepository.findNumero(numeroSelecionado.getPrefixoNumeroCNG(), numeroSelecionado.getSerieNumeroCNG(), numeroSelecionado.getMcduNumeroCNG());
+		NumeroCNG numeroBuscado = numeroCNGService.findNumero(numeroSelecionado.getPrefixoNumeroCNG(), numeroSelecionado.getSerieNumeroCNG(), numeroSelecionado.getMcduNumeroCNG());
 		
 		if(numeroBuscado != null) {
 			if(numeroBuscado.getStatus().getIdStatus().equals(1)) {
@@ -158,14 +155,6 @@ public class NumeroCNGController {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Sem permissão!", null));
 		}
-	}
-	
-	public NumeroCNGRepository getNumeroCNGRepository() {
-		return numeroCNGRepository;
-	}
-
-	public void setNumeroCNGRepository(NumeroCNGRepository numeroCNGRepository) {
-		this.numeroCNGRepository = numeroCNGRepository;
 	}
 
 	public NumeroCNG getNumeroCNG() {

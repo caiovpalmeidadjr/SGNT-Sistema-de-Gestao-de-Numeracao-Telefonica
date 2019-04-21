@@ -194,7 +194,7 @@
 		</p:dataTable>
 		
 		<p:contextMenu for="clienteDT">
-        	<p:menuitem value="Deletar" update="formDT, :frmCliente" action="#{clienteController.excluirSelecionadoCorporativo}"/>
+        	<p:menuitem value="Deletar" update="formDT, :frmCliente" action="#{clienteController.excluirSelecionadoCorporativo}" onstart="return window.confirm('Certeza?')"/>
     	</p:contextMenu>
     	
 		</h:form>	

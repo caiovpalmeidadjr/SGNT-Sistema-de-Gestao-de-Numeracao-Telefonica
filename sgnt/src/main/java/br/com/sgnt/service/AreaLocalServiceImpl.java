@@ -2,41 +2,57 @@ package br.com.sgnt.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sgnt.model.AreaLocal;
+import br.com.sgnt.repository.AreaLocalRepository;
 
 @Service
 public class AreaLocalServiceImpl implements IAreaLocalService{
-
+	
+	@Autowired
+	private AreaLocalRepository areaLocalRepository;
+	
 	@Override
 	public void salvar(AreaLocal vo) {
-		// TODO Auto-generated method stub
-		
+		areaLocalRepository.save(vo);
 	}
 
 	@Override
 	public void atualizar(AreaLocal vo) {
-		// TODO Auto-generated method stub
-		
+		areaLocalRepository.save(vo);
 	}
 
 	@Override
 	public void excluir(AreaLocal vo) {
-		// TODO Auto-generated method stub
-		
+		areaLocalRepository.delete(vo);
 	}
 
 	@Override
 	public List<AreaLocal> listAreas(String query) {
-		// TODO Auto-generated method stub
-		return null;
+		return areaLocalRepository.listAreaLocal();
 	}
 
 	@Override
 	public List<AreaLocal> listAreas() {
-		// TODO Auto-generated method stub
-		return null;
+		return areaLocalRepository.listAreaLocal();
 	}
 
+	@Override
+	public List<AreaLocal> listAreaLocalCN(Integer cn) {
+		return areaLocalRepository.listAreaLocalCN(cn);
+	}
+
+	@Override
+	public List<AreaLocal> listDistinctCN() {
+		return areaLocalRepository.listDistinctCN();
+	}
+
+	@Override
+	public AreaLocal areaLocalNome(String nome) {
+		return areaLocalRepository.areaLocalNome(nome);
+	}
+	
+	
 }
