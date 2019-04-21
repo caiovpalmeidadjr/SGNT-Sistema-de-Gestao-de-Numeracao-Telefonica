@@ -21,6 +21,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import br.com.sgnt.model.NumeroSTFC;
+import br.com.sgnt.model.Status;
 import br.com.sgnt.service.IClienteService;
 import br.com.sgnt.service.INumeroSTFCService;
 
@@ -130,7 +131,29 @@ public class AlterarStatusNumeracao {
 							NumeroSTFC numSTFCBuscado = stfcService.findNumberSTFC(cn, prefixo, mcdu, status);
 							
 							if(numSTFCBuscado != null) {
-								//caso atenda a situação eu atualizo
+								//Se status arquivo = "ATIVADO" E status banco = "RESERVADO"
+								//Altera Status no banco para "ATIVADO
+								if(status == "3" && numSTFCBuscado.getStatus().getIdStatus() == 2) {
+									Status stats = new Status();
+									stats.setIdStatus(3);
+									numSTFCBuscado.setStatus(stats);
+									stfcService.atualizar(numSTFCBuscado);
+								
+								//Se status arquivo = "DESATIVADO" E status banco = "ATIVADO"
+							    //Altera status no banco para "DESATIVADO"	
+								}else if (status == "4" && numSTFCBuscado.getStatus().getIdStatus() == 3) {
+									Status stats = new Status();
+									stats.setIdStatus(4);
+									numSTFCBuscado.setStatus(stats);
+									stfcService.atualizar(numSTFCBuscado);
+									
+								}else {
+									//Senão
+									//Não altera o status no banco e somente registra em log o numero, status do txt e status do banco
+									arquivoLog.write("INFO: Status invalido para ser modificado" + "\r\n");
+								
+								}
+									
 							}
 							
 							System.out.println("cn"+cn+" prefixo"+prefixo+" mcdu"+mcdu+" status"+status);

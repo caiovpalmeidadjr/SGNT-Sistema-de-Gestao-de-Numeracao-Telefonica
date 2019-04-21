@@ -64,8 +64,7 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 
 	@Override
 	public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status) {
-		// TODO Auto-generated method stub
-		return numeroSTFCrepository.findNumberSTFC();
+		return numeroSTFCrepository.findNumberSTFC(cn, prefixo, mcdu, status);
 	}
 	
 
