@@ -21,4 +21,6 @@ public interface IAreaLocalService {
 	public List<AreaLocal> listDistinctCN();
 	
 	public AreaLocal areaLocalNome(String nome);
+	
+	public AreaLocal findIdporSigla(String sigla);
 }

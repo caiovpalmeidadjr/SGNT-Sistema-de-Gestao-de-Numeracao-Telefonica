@@ -25,4 +25,7 @@ public interface AreaLocalRepository extends JpaRepository<AreaLocal, Integer> {
 	@Query("select a.nomeAreaLocal from AreaLocal a where a.cnAreaLocal=:cnAreaLocal and a.numAtendimentoAreaLocal=true order by a.nomeAreaLocal")
 	public List<AreaLocal> listAreaLocalCN(@Param("cnAreaLocal")Integer cnAreaLocal);
 	
+	@Query("select a from AreaLocal a where a.siglaAreaLocal=:siglaAreaLocal")
+	public AreaLocal findIdporSigla(@Param("siglaAreaLocal")String siglaAreaLocal);
+	
 }

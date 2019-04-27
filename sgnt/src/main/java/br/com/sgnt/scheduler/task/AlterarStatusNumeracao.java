@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.sgnt.model.NumeroSTFC;
 import br.com.sgnt.model.Status;
+import br.com.sgnt.service.IAreaLocalService;
 import br.com.sgnt.service.IClienteService;
 import br.com.sgnt.service.INumeroSTFCService;
 
@@ -38,6 +39,9 @@ public class AlterarStatusNumeracao {
 	@Autowired
 	private INumeroSTFCService stfcService;
 	
+	@Autowired
+	private IAreaLocalService areaLocalService;
+	
 	/*
 	 * A B C D E F
 	 * A: Segundos (0 – 59).
@@ -47,11 +51,10 @@ public class AlterarStatusNumeracao {
 	 * E: Mês (1 – 12).
 	 * F: Dia da semana (0 – 6).
 	 * (* * * ignora os campos, qlq valor naqueles campos)*/
-
-	@Scheduled(cron = "0 33 14 * * *", zone = TIME_ZONE)
+	
+	//@Scheduled(cron = "* 33 14 * * *", zone = TIME_ZONE)
+	@Scheduled(cron = "* 0/1 * * * *", zone = TIME_ZONE)
 	public void verificarStausNumeracaoSTFC() throws IOException{
-		
-		/**
 		
 		Properties props;
 		
@@ -67,6 +70,7 @@ public class AlterarStatusNumeracao {
 	    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
 	    
 	    String strDate = sdf.format(cal.getTime());
+
 	    
 		try {
 			
@@ -76,7 +80,7 @@ public class AlterarStatusNumeracao {
 	         
 	        StringTokenizer st = null;
 	        
-	        String cn;        
+	        String areaLocal;        
 	        String prefixo;   
 	        String mcdu;
 	        String status;
@@ -122,13 +126,13 @@ public class AlterarStatusNumeracao {
 						while(st.hasMoreTokens()) {
 							
 							//pegandos campos da linha e colocando em variaveis
-							cn = st.nextToken();
+							areaLocal = st.nextToken();
 							prefixo = st.nextToken();
 							mcdu = st.nextToken();
 							status = st.nextToken();
 							
 							//para cada linha, verificar no banco o valor do status do numero com o status da linha passado e ai sim mudar caso seja possivel
-							NumeroSTFC numSTFCBuscado = stfcService.findNumberSTFC(cn, prefixo, mcdu, status);
+							NumeroSTFC numSTFCBuscado = stfcService.findNumberSTFC(areaLocalService.findIdporSigla(areaLocal), Integer.parseInt(prefixo), Integer.parseInt(mcdu));
 							
 							if(numSTFCBuscado != null) {
 								//Se status arquivo = "ATIVADO" E status banco = "RESERVADO"
@@ -156,7 +160,7 @@ public class AlterarStatusNumeracao {
 									
 							}
 							
-							System.out.println("cn"+cn+" prefixo"+prefixo+" mcdu"+mcdu+" status"+status);
+							//System.out.println("cn"+cn+" prefixo"+prefixo+" mcdu"+mcdu+" status"+status);
 							
 							//stfcService.atualizar(reader);
 						}
@@ -195,7 +199,6 @@ public class AlterarStatusNumeracao {
 		
 		System.out.println("executei as: " + LocalDateTime.now());
 		
-		*/
 	}
 
 }

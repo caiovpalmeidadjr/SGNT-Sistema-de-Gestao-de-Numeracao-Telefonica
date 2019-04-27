@@ -53,6 +53,11 @@ public class AreaLocalServiceImpl implements IAreaLocalService{
 	public AreaLocal areaLocalNome(String nome) {
 		return areaLocalRepository.areaLocalNome(nome);
 	}
+
+	@Override
+	public AreaLocal findIdporSigla(String sigla) {
+		return areaLocalRepository.findIdporSigla(sigla);
+	}
 	
 	
 }

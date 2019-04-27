@@ -68,12 +68,13 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 	public List<Reserva> findReservaVencendo(Status status) {
 		return numeroSTFCrepository.findReservasVencendo(status);
 	}
-	/*
+	
+
 	@Override
-	public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status) {
-		return numeroSTFCrepository.findNumberSTFC(cn, prefixo, mcdu, status);
+	public NumeroSTFC findNumberSTFC(AreaLocal area, Integer prefixo, Integer mcdu) {
+		return numeroSTFCrepository.findNumberSTFC(area, prefixo, mcdu);
 	}
-	*/
+
 
 	@Override
 	public List<NumeroSTFC> findNumeroStatus(Status status) {

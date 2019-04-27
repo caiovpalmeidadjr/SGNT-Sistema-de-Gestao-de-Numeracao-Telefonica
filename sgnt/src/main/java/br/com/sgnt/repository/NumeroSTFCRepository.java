@@ -46,10 +46,10 @@ public interface NumeroSTFCRepository extends JpaRepository<NumeroSTFC, Integer>
 	
 	@Query("select distinct n.reserva from NumeroSTFC n where n.status=:status")
 	public List<Reserva> findReservasVencendo(@Param("status")Status status);
-	/*
-	@Query("select n from NumeroSTFC n where n.cn=:cn and n.prefixoNumeroSTFC=:prefixo and n.mcduNumeroSTFC=:mcdu and n.status=:status")
-	public NumeroSTFC findNumberSTFC(String cn, String prefixo, String mcdu, String status);
-	*/
+	
+	@Query("select n from NumeroSTFC n where n.areaLocal=:areaLocal and n.prefixoNumeroSTFC=:prefixoNumeroSTFC and n.mcduNumeroSTFC=:mcduNumeroSTFC")
+	public NumeroSTFC findNumberSTFC(@Param("areaLocal")AreaLocal areaLocal, @Param("prefixoNumeroSTFC")Integer prefixoNumeroSTFC, @Param("mcduNumeroSTFC")Integer mcduNumeroSTFC);
+	
 	@Query("select n from NumeroSTFC n where n.status=:status")
 	public List<NumeroSTFC> findNumeroStatus(@Param("status")Status status);
 	
