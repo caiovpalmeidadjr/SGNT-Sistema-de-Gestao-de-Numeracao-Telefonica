@@ -50,8 +50,8 @@ public class AlterarStatusNumeracao {
 	 * F: Dia da semana (0 – 6).
 	 * (* * * ignora os campos, qlq valor naqueles campos)*/
 	
-	//@Scheduled(cron = "* 33 14 * * *", zone = TIME_ZONE)
-	@Scheduled(cron = "* 0/1 * * * *", zone = TIME_ZONE)
+	@Scheduled(cron = "* 16 15 * * *", zone = TIME_ZONE)
+	//@Scheduled(cron = "* 0/1 * * * *", zone = TIME_ZONE)
 	public void verificarStausNumeracaoSTFC() throws IOException{
 		
 		Properties props;
@@ -143,10 +143,11 @@ public class AlterarStatusNumeracao {
 									numSTFCBuscado.setDataHoraStatus(new Timestamp(System.currentTimeMillis()));
 									
 									stfcService.atualizar(numSTFCBuscado);
+									arquivoLog.write("INFO: Atualizando Status para 3(ATIVADO) do STFC com ID: " + numSTFCBuscado.getIdNumeroSTFC() + "\r\n");
 								
 								//Se status arquivo = "DESATIVADO" E status banco = "ATIVADO"
 							    //Altera status no banco para "DESATIVADO"	
-								}else if (statusConvertido == 4 && numSTFCBuscado.getStatus().getIdStatus().byteValue() == 3) {
+								}else if (statusConvertido == 4 && numSTFCBuscado.getStatus().getIdStatus() == 3) {
 									Status novoStatus = new Status();
 									novoStatus.setIdStatus(4);
 									
@@ -154,6 +155,7 @@ public class AlterarStatusNumeracao {
 									numSTFCBuscado.setDataHoraStatus(new Timestamp(System.currentTimeMillis()));
 									
 									stfcService.atualizar(numSTFCBuscado);
+									arquivoLog.write("INFO: Atualizando Status para 4(DESATIVADO) do STFC com ID: " + numSTFCBuscado.getIdNumeroSTFC() + "\r\n");
 									
 								}else {
 									//Senão
@@ -186,7 +188,7 @@ public class AlterarStatusNumeracao {
 				//System.out.println(file.getName());
 			}
 			
-			
+			arquivoLog.write("INFO: Fim do Processo de Atualização" + "\r\n");
 			arquivoLog.close();
 			System.out.println(props.getProperty("prop.path.stfc"));
 			
@@ -199,9 +201,6 @@ public class AlterarStatusNumeracao {
 			e.printStackTrace();
 			
 		}
-		
-		
-		System.out.println("executei as: " + LocalDateTime.now());
 		
 	}
 
