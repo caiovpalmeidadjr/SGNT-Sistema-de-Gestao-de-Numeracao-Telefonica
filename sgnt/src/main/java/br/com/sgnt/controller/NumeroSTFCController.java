@@ -79,6 +79,9 @@ public class NumeroSTFCController implements Serializable {
 	private List<NumeroSTFC> listNumeroSTFCResidencial = new ArrayList<NumeroSTFC>();
 	private List<NumeroSTFC> listNumeroCorporativoSelecionado, listNumeroResidencialSelecionado;
 	private List<Integer> listPrefixoCorporativo, listPrefixoResidencial;
+	private List<NumeroSTFC> listNumeroRelatorio = new ArrayList<NumeroSTFC>();
+	private double qtdeDisponivel, qtdeAtivado, qtdeReservado, qtdeDesativado;
+	private double taxaUtilizacao;
 	private Integer cnSelecionado, idReserva;
 	private Integer prefixo, qtdeMCDUOk;
 	private String area;
@@ -298,7 +301,31 @@ public class NumeroSTFCController implements Serializable {
 		}
 		
 	}
-
+	
+	public void quantidadeRelatorio() {
+		areaLocal = areaLocalService.areaLocalNome(area);
+		listNumeroRelatorio = numeroSTFCService.listNumeroAreaLocal(areaLocal);
+		qtdeDisponivel = 0;
+		qtdeAtivado = 0;
+		qtdeReservado = 0;
+		qtdeDesativado = 0;
+		
+		for (NumeroSTFC numeroSTFC : listNumeroRelatorio) {
+			if(numeroSTFC.getStatus().getIdStatus().equals(1)) {
+				qtdeDisponivel++;
+			} else if (numeroSTFC.getStatus().getIdStatus().equals(2)) {
+				qtdeAtivado++;
+			} else if(numeroSTFC.getStatus().getIdStatus().equals(3)) {
+				qtdeReservado++;
+			} else if(numeroSTFC.getStatus().getIdStatus().equals(4)) {
+				qtdeDesativado++;
+			}
+		}
+		taxaUtilizacao = ((qtdeAtivado + qtdeReservado) / (qtdeDisponivel+qtdeAtivado+qtdeReservado+qtdeDesativado)) * 100;
+		//taxaUtilizacao = (qtdeDisponivel+qtdeAtivado+qtdeReservado+qtdeDesativado);
+		System.out.println(qtdeDisponivel + " - " + qtdeReservado + " - " + qtdeAtivado + " - " + qtdeDesativado );
+	}
+	
 	public NumeroSTFC getNumeroSTFC() {
 		return numeroSTFC;
 	}
@@ -522,5 +549,55 @@ public class NumeroSTFCController implements Serializable {
 	public void setListNumeroReserva(List<NumeroSTFC> listNumeroReserva) {
 		this.listNumeroReserva = listNumeroReserva;
 	}
+
+	public List<NumeroSTFC> getListNumeroRelatorio() {
+		return listNumeroRelatorio;
+	}
+
+	public void setListNumeroRelatorio(List<NumeroSTFC> listNumeroRelatorio) {
+		this.listNumeroRelatorio = listNumeroRelatorio;
+	}
+
+	public double getQtdeDisponivel() {
+		return qtdeDisponivel;
+	}
+
+	public void setQtdeDisponivel(double qtdeDisponivel) {
+		this.qtdeDisponivel = qtdeDisponivel;
+	}
+
+	public double getQtdeAtivado() {
+		return qtdeAtivado;
+	}
+
+	public void setQtdeAtivado(double qtdeAtivado) {
+		this.qtdeAtivado = qtdeAtivado;
+	}
+
+	public double getQtdeReservado() {
+		return qtdeReservado;
+	}
+
+	public void setQtdeReservado(double qtdeReservado) {
+		this.qtdeReservado = qtdeReservado;
+	}
+
+	public double getQtdeDesativado() {
+		return qtdeDesativado;
+	}
+
+	public void setQtdeDesativado(double qtdeDesativado) {
+		this.qtdeDesativado = qtdeDesativado;
+	}
+
+	public double getTaxaUtilizacao() {
+		return taxaUtilizacao;
+	}
+
+	public void setTaxaUtilizacao(double taxaUtilizacao) {
+		this.taxaUtilizacao = taxaUtilizacao;
+	}
+
+	
 	
 }

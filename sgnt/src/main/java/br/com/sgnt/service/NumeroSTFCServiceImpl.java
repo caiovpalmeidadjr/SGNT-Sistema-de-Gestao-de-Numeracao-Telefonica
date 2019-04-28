@@ -101,5 +101,12 @@ public class NumeroSTFCServiceImpl implements INumeroSTFCService {
 	public List<Integer> listPrefixo(AreaLocal areaLocal, TipoNumero tipo) {
 		return numeroSTFCrepository.listPrefixo(areaLocal, tipo);
 	}
+
+
+	@Override
+	public List<NumeroSTFC> listNumeroAreaLocal(AreaLocal areaLocal) {
+		return numeroSTFCrepository.listNumeroAreaLocal(areaLocal);
+	}
+	
 	
 }

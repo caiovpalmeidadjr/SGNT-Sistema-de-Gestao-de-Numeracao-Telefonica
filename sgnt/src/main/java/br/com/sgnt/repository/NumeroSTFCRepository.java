@@ -53,4 +53,7 @@ public interface NumeroSTFCRepository extends JpaRepository<NumeroSTFC, Integer>
 	@Query("select n from NumeroSTFC n where n.status=:status")
 	public List<NumeroSTFC> findNumeroStatus(@Param("status")Status status);
 	
+	@Query("select n from NumeroSTFC n where n.areaLocal=:areaLocal")
+	public List<NumeroSTFC> listNumeroAreaLocal(@Param("areaLocal")AreaLocal areaLocal);
+	
 }

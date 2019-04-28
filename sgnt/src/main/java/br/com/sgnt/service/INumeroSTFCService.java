@@ -39,4 +39,6 @@ public interface INumeroSTFCService {
 	public List<NumeroSTFC> getListaAreaLocal(Integer prefixo);
 	
 	public List<Integer> listPrefixo(AreaLocal areaLocal, TipoNumero tipo);
+	
+	public List<NumeroSTFC> listNumeroAreaLocal(AreaLocal areaLocal);
 }
