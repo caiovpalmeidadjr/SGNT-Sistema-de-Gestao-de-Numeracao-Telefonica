@@ -43,6 +43,9 @@ public class NumeroCNGController {
 	private List<NumeroCNG> listNumeroCNGDisponivel;
 	private List<NumeroCNG> listNumerosReserva;
 	
+	private double qtdeDisponivel, qtdeAtivado, qtdeReservado, qtdeDesativado;
+	private double taxaUtilizacao;
+	
 	private NumeroCNG numeroSelecionado;
 	
 	private Reserva reserva = new Reserva();
@@ -156,7 +159,30 @@ public class NumeroCNGController {
 					"Sem permissão!", null));
 		}
 	}
-
+	
+	public void quantidadeRelatorio() {
+		qtdeDisponivel = 0;
+		qtdeAtivado = 0;
+		qtdeReservado = 0;
+		qtdeDesativado = 0;
+		
+		for (NumeroCNG numeroCNG : listNumeroCNG) {
+			if(numeroCNG.getStatus().getIdStatus().equals(1)) {
+				qtdeDisponivel++;
+			} else if (numeroCNG.getStatus().getIdStatus().equals(2)) {
+				qtdeAtivado++;
+			} else if(numeroCNG.getStatus().getIdStatus().equals(3)) {
+				qtdeReservado++;
+			} else if(numeroCNG.getStatus().getIdStatus().equals(4)) {
+				qtdeDesativado++;
+			}
+			
+			taxaUtilizacao = ((qtdeAtivado + qtdeReservado) / (qtdeDisponivel+qtdeAtivado+qtdeReservado+qtdeDesativado)) * 100;
+			
+		}
+		
+	}
+	
 	public NumeroCNG getNumeroCNG() {
 		return numeroCNG;
 	}
@@ -212,6 +238,45 @@ public class NumeroCNGController {
 	public void setIdReserva(Integer idReserva) {
 		this.idReserva = idReserva;
 	}
-	
+
+	public double getQtdeDisponivel() {
+		return qtdeDisponivel;
+	}
+
+	public void setQtdeDisponivel(double qtdeDisponivel) {
+		this.qtdeDisponivel = qtdeDisponivel;
+	}
+
+	public double getQtdeAtivado() {
+		return qtdeAtivado;
+	}
+
+	public void setQtdeAtivado(double qtdeAtivado) {
+		this.qtdeAtivado = qtdeAtivado;
+	}
+
+	public double getQtdeReservado() {
+		return qtdeReservado;
+	}
+
+	public void setQtdeReservado(double qtdeReservado) {
+		this.qtdeReservado = qtdeReservado;
+	}
+
+	public double getQtdeDesativado() {
+		return qtdeDesativado;
+	}
+
+	public void setQtdeDesativado(double qtdeDesativado) {
+		this.qtdeDesativado = qtdeDesativado;
+	}
+
+	public double getTaxaUtilizacao() {
+		return taxaUtilizacao;
+	}
+
+	public void setTaxaUtilizacao(double taxaUtilizacao) {
+		this.taxaUtilizacao = taxaUtilizacao;
+	}
 	
 }

@@ -14,10 +14,10 @@
 		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"></link>
 	<!-- h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet-->
-	<title>SGNT - RELATORIO STFC</title>
+	<title>SGNT - RELATORIO CNG</title>
 </h:head>
 
-<h:body>
+<h:body onload="#{numeroCNGController.quantidadeRelatorio()}">
 	<sec:authorize access="hasAnyRole('ADM_TI', 'GERENTE_CONTA')">
 		ACESSO NEGADO
 	</sec:authorize>
@@ -39,7 +39,7 @@
 	<div class="subtopo" style="">
 		&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <b><p:clock
 				pattern="dd/MM/yyyy" /></b>
-		<div class="nomePagina">TAXA OCUPAÇÃO STFC</div>
+		<div class="nomePagina">TAXA OCUPAÇÃO CNG</div>
 	</div>
 	<br />
 
@@ -53,30 +53,7 @@
 	<div class="container">
 		<div
 				style="width: 300px; text-align: left; height: 100%; padding-top: 5px; padding-bottom: 50px; float: left;">
-		<h:form id="frmAreaLocal">
-			
-				<h:panelGrid id="pGridCN" columns="3" cellpadding="5" cellspacing="5">
-				<p:outputLabel for="cn" value="CN:" />
-				<p:selectOneMenu id="cn" value="#{numeroSTFCController.cnSelecionado}" required="true" >
-					<p:ajax listener="#{numeroSTFCController.onCNChange}" update="areaLocal"/>
-					<f:selectItem itemLabel="CN" noSelectionOption="true" />
-					<f:selectItems value="#{numeroSTFCController.listCN}" />
-				</p:selectOneMenu>
-				</h:panelGrid>
-				
-				<p:outputLabel for="areaLocal" value="Area Local: " /> <br/>
-				<p:selectOneMenu id="areaLocal" value="#{numeroSTFCController.area}" required="true">
-					<f:selectItems value="#{numeroSTFCController.listAreaLocal}" />
-				</p:selectOneMenu>
-				<br></br>
-				<p:commandButton value="Listar" action="#{numeroSTFCController.quantidadeRelatorio}" update="@this, :tabela" style="margin-bottom:15px;margin-top:10px"/>
-				
-				</h:form>
-				
-				</div>
-				
-				<div>
-				
+
 				<h:form id="tabela">
 				<table class="blueTable">
 					<thead>
@@ -90,11 +67,11 @@
 					</thead>
 						<tbody>
 							<tr>
-								<td> <h:outputText value="#{numeroSTFCController.qtdeDisponivel}"/> </td>
-								<td><h:outputText value="#{numeroSTFCController.qtdeReservado}"/></td>
-								<td><h:outputText value="#{numeroSTFCController.qtdeAtivado}"/></td>
-								<td><h:outputText value="#{numeroSTFCController.qtdeDesativado}"/></td>
-								<td><h:outputText value="#{numeroSTFCController.taxaUtilizacao}"/></td>
+								<td> <h:outputText value="#{numeroCNGController.qtdeDisponivel}"/> </td>
+								<td><h:outputText value="#{numeroCNGController.qtdeReservado}"/></td>
+								<td><h:outputText value="#{numeroCNGController.qtdeAtivado}"/></td>
+								<td><h:outputText value="#{numeroCNGController.qtdeDesativado}"/></td>
+								<td><h:outputText value="#{numeroCNGController.taxaUtilizacao}"/></td>
 							</tr>
 						</tbody>
 				</table>	
