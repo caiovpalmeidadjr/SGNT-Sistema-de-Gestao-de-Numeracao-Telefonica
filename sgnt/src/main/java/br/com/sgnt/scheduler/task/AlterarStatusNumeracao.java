@@ -7,13 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.StringTokenizer;
-
-import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -23,16 +22,15 @@ import org.springframework.stereotype.Component;
 import br.com.sgnt.model.NumeroSTFC;
 import br.com.sgnt.model.Status;
 import br.com.sgnt.service.IAreaLocalService;
-import br.com.sgnt.service.IClienteService;
 import br.com.sgnt.service.INumeroSTFCService;
 
 @Component
 @EnableScheduling
 public class AlterarStatusNumeracao {
 
-	private final long SEGUNDO = 1000;
-	private final long MINUTO = SEGUNDO * 60;
-	private final long HORA = MINUTO * 60;
+//	private final long SEGUNDO = 1000;
+//	private final long MINUTO = SEGUNDO * 60;
+//	private final long HORA = MINUTO * 60;
 	
 	private static final String TIME_ZONE = "America/Sao_Paulo";
 	
@@ -121,8 +119,6 @@ public class AlterarStatusNumeracao {
 						//delimitador parar dividir os campos
 						st = new StringTokenizer(linha,  ";");
 						
-						String dados = "";
-						
 						while(st.hasMoreTokens()) {
 							
 							//pegandos campos da linha e colocando em variaveis
@@ -131,24 +127,32 @@ public class AlterarStatusNumeracao {
 							mcdu = st.nextToken();
 							status = st.nextToken();
 							
+							int statusConvertido = Integer.parseInt(status);
+							
 							//para cada linha, verificar no banco o valor do status do numero com o status da linha passado e ai sim mudar caso seja possivel
 							NumeroSTFC numSTFCBuscado = stfcService.findNumberSTFC(areaLocalService.findIdporSigla(areaLocal), Integer.parseInt(prefixo), Integer.parseInt(mcdu));
 							
 							if(numSTFCBuscado != null) {
 								//Se status arquivo = "ATIVADO" E status banco = "RESERVADO"
 								//Altera Status no banco para "ATIVADO
-								if(status == "3" && numSTFCBuscado.getStatus().getIdStatus() == 2) {
-									Status stats = new Status();
-									stats.setIdStatus(3);
-									numSTFCBuscado.setStatus(stats);
+								if(statusConvertido == 3 && numSTFCBuscado.getStatus().getIdStatus() == 2) {
+									Status novoStatus = new Status();
+									novoStatus.setIdStatus(3);
+									
+									numSTFCBuscado.setStatus(novoStatus);
+									numSTFCBuscado.setDataHoraStatus(new Timestamp(System.currentTimeMillis()));
+									
 									stfcService.atualizar(numSTFCBuscado);
 								
 								//Se status arquivo = "DESATIVADO" E status banco = "ATIVADO"
 							    //Altera status no banco para "DESATIVADO"	
-								}else if (status == "4" && numSTFCBuscado.getStatus().getIdStatus() == 3) {
-									Status stats = new Status();
-									stats.setIdStatus(4);
-									numSTFCBuscado.setStatus(stats);
+								}else if (statusConvertido == 4 && numSTFCBuscado.getStatus().getIdStatus().byteValue() == 3) {
+									Status novoStatus = new Status();
+									novoStatus.setIdStatus(4);
+									
+									numSTFCBuscado.setStatus(novoStatus);
+									numSTFCBuscado.setDataHoraStatus(new Timestamp(System.currentTimeMillis()));
+									
 									stfcService.atualizar(numSTFCBuscado);
 									
 								}else {
