@@ -293,6 +293,8 @@ public class NumeroSTFCController implements Serializable {
 				listNumeroReserva.get(i).setDataHoraStatus(data);		
 				numeroSTFCService.salvar(listNumeroReserva.get(i));
 			}
+			reserva.setDataHoraReserva(data);
+			reservaService.salvar(reserva);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Reserva validada!", null));
 		} else {

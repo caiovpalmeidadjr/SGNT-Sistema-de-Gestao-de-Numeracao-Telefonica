@@ -128,35 +128,35 @@
 					<p:ajax event="rowEdit" listener="#{usuarioController.onRowEdit}" update=":formCadastro:message" />
 					<p:ajax event="rowEditCancel" listener="#{usuarioController.onRowCancel}" update=":formCadastro:message" />
 					
-					<p:column headerText="Matricula" filterBy="#{usuarioController.usuario.matricula}">
+					<p:column headerText="Matricula" filterBy="#{usuario.matricula}">
 						<p:cellEditor>
 							<f:facet name="output" > <h:outputText value="#{usuario.matricula}"/> </f:facet>
 							<f:facet name="input" > <p:inputText value="#{usuario.matricula}" /> </f:facet>
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column headerText="Nome" filterable="true" filterBy="#{usuarioController.usuario.nome}">
+					<p:column headerText="Nome" filterable="true" filterBy="#{usuario.nome}">
 						<p:cellEditor>
 							<f:facet name="output" > <h:outputText value="#{usuario.nome}"/> </f:facet>
 							<f:facet name="input" > <p:inputText value="#{usuario.nome}" /> </f:facet>
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column headerText="Email" filterable="true" filterBy="#{usuarioController.usuario.email}">
+					<p:column headerText="Email" filterable="true" filterBy="#{usuario.email}">
 						<p:cellEditor>
 							<f:facet name="output" > <h:outputText value="#{usuario.email}"/> </f:facet>
 							<f:facet name="input" > <p:inputText value="#{usuario.email}" /> </f:facet>
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column headerText="Username" filterable="true" filterBy="#{usuarioController.usuario.userName}">
+					<p:column headerText="Username" filterable="true" filterBy="#{usuario.userName}">
 						<p:cellEditor>
 							<f:facet name="output" > <h:outputText value="#{usuario.userName}"/> </f:facet>
 							<f:facet name="input" > <p:inputText value="#{usuario.userName}" /> </f:facet>
 						</p:cellEditor>
 					</p:column>
 					
-					<p:column headerText="Perfil" filterable="true" filterBy="#{usuarioController.usuario.perfil.nome}" style="widht: 70px">
+					<p:column headerText="Perfil" filterable="true" filterBy="#{usuario.perfil.nome}" style="widht: 70px">
 						<p:cellEditor>
 							<f:facet name="output" > <h:outputText value="#{usuario.perfil.nome}"/> </f:facet>
 							<f:facet name="input" > <p:inputText value="#{usuario.perfil.nome}" /> </f:facet>
