@@ -9,9 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 @Entity
 @Table(name = "TB_PERFIL")
-public class Perfil {
+public class Perfil implements GrantedAuthority{
 
 	@Id
 	@GeneratedValue
@@ -71,6 +73,12 @@ public class Perfil {
 	@Override
 	public String toString() {
 		return "Perfil [idPerfil=" + idPerfil + ", nome=" + nome + "]";
+	}
+
+	@Override
+	public String getAuthority() {
+		// TODO Auto-generated method stub
+		return this.nome;
 	}
 
 }
