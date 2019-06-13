@@ -196,6 +196,11 @@ public class UsuarioController implements Serializable {
 		Usuario u = ((Usuario) event.getObject());
 		FacesMessage msg = new FacesMessage("Usuário alterado!", u.getUserName());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		
+		Perfil perfil = new Perfil();
+		perfil = perfilService.findOne(idPerfil);
+		u.setPerfil(perfil);
+		
 		usuarioService.salvar(u);
 	}
 
