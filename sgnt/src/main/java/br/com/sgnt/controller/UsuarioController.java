@@ -2,6 +2,7 @@ package br.com.sgnt.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -36,10 +37,15 @@ public class UsuarioController implements Serializable {
 	private IPerfilService perfilService;
 	
 	private Perfil perfil = new Perfil();
+	
 	private Usuario usuario = new Usuario();
+	
 	private List<Usuario> listUsuario;
+	
 	private Usuario usuarioSelecionado = new Usuario();
+	
 	private boolean alteracao;
+	
 	private Integer idPerfil;
 
 	@PostConstruct
@@ -133,11 +139,20 @@ public class UsuarioController implements Serializable {
 			usuarioService.salvar(usuario);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuário cadastrado!", "Cadastro efetuado"));
-
-			if (!alteracao) {
-				listUsuario.add(usuario);
+			
+			List<Usuario> listaAtualizada = new ArrayList<Usuario>();
+			listaAtualizada = usuarioService.listUsuarios();
+			
+			if(listaAtualizada != null) {
+				setListUsuario(listaAtualizada);
 			}
+			
+//			if (!alteracao) {
+//				listUsuario.add(usuario);
+//			}
+			
 			setAlteracao(false);
+			
 			usuario = new Usuario();
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
