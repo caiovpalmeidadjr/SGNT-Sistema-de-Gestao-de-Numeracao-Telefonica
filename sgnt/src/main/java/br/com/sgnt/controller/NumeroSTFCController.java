@@ -202,7 +202,8 @@ public class NumeroSTFCController implements Serializable {
 		}
 		
 		numeroSTFCService.salvarLista(listNumeroCorporativoSelecionado);
-		
+		idReserva = reserva.getIdReserva();
+		reserva = new Reserva();
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Reserva realizada", "Sucesso"));
 		} catch (Exception e) {
@@ -230,7 +231,8 @@ public class NumeroSTFCController implements Serializable {
 		
 		//numeroSTFCRepository.save(listNumeroResidencialSelecionado);
 		numeroSTFCService.salvarLista(listNumeroResidencialSelecionado);
-		
+		idReserva = reserva.getIdReserva();
+		reserva = new Reserva();
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Reserva realizada", "Sucesso"));
 	
