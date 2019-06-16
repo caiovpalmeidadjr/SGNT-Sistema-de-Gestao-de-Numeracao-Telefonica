@@ -95,6 +95,9 @@ public class NumeroCNGController {
 				System.out.println(numeroBuscado.toString());
 				numeroBuscado.setReserva(reserva);
 				numeroCNGService.salvar(numeroBuscado);
+				listNumeroCNGDisponivel.remove(numeroSelecionado);
+				idReserva = reserva.getIdReserva();
+				reserva = new Reserva();
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"CNG reservado com sucesso!", "Reserva Efetuada"));
 			} else {
