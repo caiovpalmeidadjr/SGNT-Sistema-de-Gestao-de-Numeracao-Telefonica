@@ -65,19 +65,19 @@
 				<h:outputLabel id="lblMatricula" value="Matricula: " />
 				<br />
 				<p:inputText id="textMatricula"
-					value="#{usuarioController.usuario.matricula}" />
+					value="#{usuarioController.usuario.matricula}" required="true" validatorMessage="Preencha a matricula"/>
 				<br />
 
 				<h:outputLabel id="lblNome" value="Nome: " />
 				<br />
 				<p:inputText id="textNome"
-					value="#{usuarioController.usuario.nome}" />
+					value="#{usuarioController.usuario.nome}" required="true" validatorMessage="Preencha o nome"/>
 				<br />
 				
 				<h:outputLabel id="lblEmail" value="Email: " />
 				<br />
 				<p:inputText id="textEmail"
-					value="#{usuarioController.usuario.email}" />
+					value="#{usuarioController.usuario.email}" required="true" validatorMessage="Preencha o e-mail"/>
 				<br />
 				
 			</div>
@@ -90,13 +90,13 @@
 								<h:outputLabel id="lblUsername" value="Username: " />
 				<br />
 				<p:inputText id="textUsername"
-					value="#{usuarioController.usuario.userName}" />
+					value="#{usuarioController.usuario.userName}" required="true" validatorMessage="Preencha o username"/>
 				<br />
 
 				<h:outputLabel id="lblSenha" value="Senha Inicial: " />
 				<br />
 				<p:inputText id="textSenha"
-					value="#{usuarioController.usuario.senha}" />
+					value="#{usuarioController.usuario.senha}" required="true" validatorMessage="Preencha a senha"/>
 				<br />
 
 				<h:outputLabel id="lblPerfil" value="Perfil: " />
