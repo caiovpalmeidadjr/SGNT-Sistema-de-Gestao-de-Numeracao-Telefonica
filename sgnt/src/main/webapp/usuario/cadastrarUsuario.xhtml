@@ -156,6 +156,13 @@
 						</p:cellEditor>
 					</p:column>
 					
+					<p:column headerText="Senha" filterable="true" filterBy="#{usuario.senha}">
+						<p:cellEditor>
+							<f:facet name="output" > <h:outputText /> </f:facet>
+							<f:facet name="input" > <p:inputText type="password" value="#{usuario.senha}" /> </f:facet>
+						</p:cellEditor>
+					</p:column>
+					
 					<p:column headerText="Perfil" filterable="true" filterBy="#{usuario.perfil.nome}" style="widht: 70px">
 						<p:cellEditor>
 							<f:facet name="output" > <h:outputText value="#{usuario.perfil.nome}"/> </f:facet>
